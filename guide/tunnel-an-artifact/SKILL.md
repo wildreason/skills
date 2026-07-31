@@ -1,12 +1,14 @@
 ---
 name: tunnel-an-artifact
 description: >
-  Full capability guide for creating, editing, and administering tunnel artifacts
-  (mcp://artifact/doc/<id>, rendered at artifacts.wildreason.ai/d/<id>) — the content
-  lifecycle, binary/image handling with server-side optimize, the grant/visibility system,
-  and the required MCP-down disclosure discipline. Use whenever creating a new artifact,
-  inserting media, sharing or restricting access, or any tunnel artifact task — this is the
-  reference for doing it right the first time instead of rediscovering the gotchas.
+  Operating manual for tunnel artifacts (mcp://artifact/doc/<id>, rendered at
+  artifacts.wildreason.ai/d/<id>): sharing and access, versioning and undo, closing,
+  binary and image handling with server-side optimize, and the MCP-down disclosure
+  discipline. Use when GRANTING or REVOKING access, changing visibility, inserting or
+  optimizing media, reverting to an earlier version, closing an artifact, or diagnosing
+  an artifact that would not save. NOT for choosing how a document should look — that is the format
+  skills (sheet, doc, brief, essay, deck, log, report), which is a different decision
+  made at a different moment.
 ---
 
 # Tunnel an artifact
@@ -27,7 +29,7 @@ One canonical URL per artifact, edited in place forever:
 - **`edit`** — surgical CRDT replace (`old_string`→`new_string`). The cheap, fast, default choice
   for a small change — no full-body resend. Requires an *exact* match; see Gotchas.
 - **`append`** — safe-extend, never overwrites. Right tool for log-style/growing artifacts (see
-  the `tunnel-a-logger` skill for the full weekly-log pattern built on this).
+  the `tunnel-a-log` skill for the full weekly-log pattern built on this).
 - **`write`** — full-body replace via compare-and-swap (`base_version` from a prior `read`). Use
   when the whole document needs replacing and you have the version in hand.
 - **`promote`** — full-body replace without needing `base_version` (CRDT-merged), OR the

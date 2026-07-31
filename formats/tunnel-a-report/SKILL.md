@@ -116,7 +116,7 @@ The proven system (already live on both Vending-Bench artifacts — reuse it, do
   `<table>` for the leaderboard; inline `<svg>` for graphs (no external chart libs — keep it
   self-contained); a `<footer>` with sources + maintainer + date, always.
 - **Format:** one canonical URL per report, edited in place forever (tunnel `seed` once,
-  `edit`/`append`/`promote` after — see the `tunnel-a-logger` skill). Never re-seed; never ship an
+  `edit`/`append`/`promote` after — see the `tunnel-a-log` skill). Never re-seed; never ship an
   HTML file via the openlap `attach.files` route (content-addressed, no in-place update).
 
 ## Terminology — the fixed vocabulary
@@ -153,7 +153,7 @@ Pick these words and only these words. A synonym invented mid-report is a silent
 
 ## Process
 
-1. Draft or refactor as a tunnel HTML artifact per `tunnel-a-logger` — one canonical URL, edited
+1. Draft or refactor as a tunnel HTML artifact per `tunnel-a-log` — one canonical URL, edited
    in place.
 2. Cite, never re-derive. If a number isn't in a source report you can link, ask the owner for it
    or link out — don't compute it yourself.
