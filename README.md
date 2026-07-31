@@ -48,13 +48,22 @@ silently replace the canonical one on the surface an agent actually sees.
 ## Install
 
 ```
-git clone https://github.com/wildreason/skills.git
-cp -R skills/formats/* skills/guide/* ~/.claude/skills/
+git clone https://github.com/wildreason/skills.git && skills/tools/install.sh
 ```
 
-Note that `~/.claude/skills` may be a symlink into another tool's managed tree
-(openlap materializes backpack skills into `~/.openlap/skills`). Copy into it;
-do not clone over it.
+`install.sh` copies the skills where the harness reads them and writes a **pin**
+next to each one — `<name>.head.json` with `content_sha256`, `pulled_at` and
+`source: git:wildreason/skills@<sha>`. That format is openlap's, adopted rather
+than invented; a second pin format would be a defect.
+
+It also reports any pin it finds that another rail wrote, instead of replacing it
+quietly. The installer is the only thing that sees both rails, so that is where
+detection belongs. It reports; it does not gate.
+
+`~/.claude/skills` is often a symlink into another tool's managed tree (openlap
+materializes into `~/.openlap/skills`, a git repo with no remote). The installer
+copies *into* it. Never clone over it — a bare `git pull` there is a silent no-op
+and cloning fights whoever manages that tree.
 
 Once the files are there, selection is automatic — the harness surfaces each
 skill's description and the model picks. There is nothing to invoke.
