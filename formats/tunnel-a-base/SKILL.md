@@ -1,6 +1,6 @@
 ---
 name: tunnel-a-base
-description: THE ENTRY POINT for the tunnel-artifact house style, and the shared foundation every tunnel-a-<format> inherits — the token set, the type + build rules, and the restraint discipline that makes the family read as one system. Start here when you are hand-authoring an HTML body for `seed(type:"html")` and the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one your purpose earns (tunnel-a-sheet / -doc / -report / -log / -brief / -essay / -deck). It answers "where do I start", never "what shape is this" — once the shape is known, go to that format, which pulls these tokens in. Also read it to author a new format.
+description: THE ENTRY POINT for the tunnel-artifact house style, and the shared foundation every tunnel-a-<format> inherits — the token set, the type + build rules, and the restraint discipline that makes the family read as one system. Start here when the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one your purpose earns (tunnel-a-sheet / -doc / -report / -log / -brief / -essay / -deck). It answers WHICH shape; the format skill you land on answers how to build it, pulling these tokens in. Also read it to author a new format.
 user-invocable: false
 ---
 
