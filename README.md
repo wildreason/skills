@@ -68,6 +68,25 @@ and cloning fights whoever manages that tree.
 Once the files are there, selection is automatic — the harness surfaces each
 skill's description and the model picks. There is nothing to invoke.
 
+## Publish
+
+```
+tools/publish.sh
+```
+
+**Editing this repo changes nothing about what any agent loads.** Most boxes —
+including the author's own — read the copy in openlap's skill store, not a
+checkout. Until `publish.sh` runs, a fixed repo and an unfixed reader coexist:
+measured 2026-08-01, four hours after the colour reconcile went green here, two
+other boxes were still loading `green 24 / violet 18`.
+
+The script gates → installs → pushes → **pulls the store's bytes back down** →
+verifies `repo == delivered`, per file, and exits 1 on any mismatch. That last
+step is the point; the first four all print success against a store that took
+nothing. It installs before pushing because `openlap push --skill` reads
+`~/.claude/skills`, never this repo — pushing without that ships stale bytes,
+a mistake this repo has already made once.
+
 ## Gates
 
 Both run on the repo, both label every rule as **INVARIANT** or **PROXY**,
