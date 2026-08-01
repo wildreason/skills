@@ -34,6 +34,29 @@ SRC="git:wildreason/skills@${SHA}"
 mkdir -p "$DEST"
 installed=0
 foreign=0
+unshadowed=0
+
+# UPGRADE PATH -- the case a clean install never exercises, and the one every
+# real box is in.
+#
+# A prior release shipped alias symlinks (apple-html -> tunnel-a-doc, reporting
+# -> tunnel-a-report, ...). Copying new bodies over the top leaves those aliases
+# in place, still resolving, still ALPHABETICALLY FIRST -- and a harness that
+# de-duplicates skill directories keeps the first name. Measured: after an
+# upgrade, 5 of 5 canonical names were still shadowed. The install would have
+# delivered the reconciled tokens and NONE of the vocabulary fix, silently.
+#
+# So: remove any symlink in DEST that points at a directory this repo owns.
+# Only symlinks, only ones aimed at our names -- a real directory or a link to
+# something else is somebody else's and is left alone.
+for link in "$DEST"/*; do
+  [ -L "$link" ] || continue
+  target=$(basename "$(readlink "$link")")
+  [ -d "formats/$target" ] || [ -d "guide/$target" ] || continue
+  echo "  unshadow  $(basename "$link") -> $target (alias hid the canonical name)"
+  rm -f "$link"
+  unshadowed=$((unshadowed+1))
+done
 
 for dir in formats/*/ guide/*/; do
   name=$(basename "$dir")
