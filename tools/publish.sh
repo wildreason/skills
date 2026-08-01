@@ -65,6 +65,28 @@ for s in "${skills[@]}"; do
 done
 
 echo "== 4/5 pull (fetch back what the STORE actually holds) ======="
+#
+# THE SIDECAR DELETION IS LOAD-BEARING. Without it this step is a no-op and the
+# whole verify is theatre -- @quill caught this within minutes of the first
+# version shipping, which had exactly that hole.
+#
+# Step 2 (install) writes <name>.head.json with the REPO's content_sha256.
+# Step 3 pushes those same bytes. `openlap pull` then compares local sidecar to
+# store sha, sees them equal, prints "all current" and DOWNLOADS NOTHING -- there
+# is no --force. Step 5 would then compare the repo against the bytes install.sh
+# had just copied from that same repo. It would pass on a store that took
+# nothing, which is the one failure this script exists to catch.
+#
+# Removing the sidecar makes pull treat the skill as unknown and fetch for real.
+# The pins are rewritten by pull, so nothing is lost.
+#
+# (My own falsification arm missed this: I armed step 5's COMPARISON with an
+# injected divergence and never asked whether step 4 had fetched. Arming half a
+# mechanism reads as arming it.)
+for s in "${skills[@]}"; do
+  rm -f "$HOME/.claude/skills/$s.head.json"
+done
+echo "   sidecars removed -> pull must download rather than compare"
 openlap pull >/dev/null 2>&1 || { echo "pull failed -- cannot verify"; exit 1; }
 echo "   pulled"
 
