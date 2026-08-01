@@ -24,9 +24,12 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
-TOKENS="formats/tunnel-a-base/tokens.css"
+TOKENS="formats/tunnel-a-base/SKILL.md"
 EXEMPT="tools/token-exemptions.txt"
 [ -f "$TOKENS" ] || { echo "FATAL: $TOKENS missing -- cannot compute the allowlist"; exit 2; }
+# OLP-430: companions cannot reach the skill store, so tokens.css was ELIMINATED
+# rather than synchronised. The fenced block inside tunnel-a-base/SKILL.md IS the
+# token set, and is therefore also the allowlist the gate verifies against.
 
 allow=$(grep -ohE '#[0-9a-fA-F]{3,8}' "$TOKENS" | tr 'A-F' 'a-f' | sort -u)
 

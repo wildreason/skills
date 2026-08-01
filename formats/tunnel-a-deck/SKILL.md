@@ -10,7 +10,7 @@ A made argument, delivered section by section. The densest *prose* format (repor
 
 ## Inherits — tunnel-a-base
 
-Copy the tokens from `tunnel-a-base/tokens.css` and follow its type / build / restraint rules.
+Copy the token block from `tunnel-a-base` and follow its type / build / restraint rules.
 Deck's earned deltas from the calm baseline:
 
 - **Serif display headings** — `--serif` for the cover `h1` and section `h2`s; body stays system sans; `--mono` for eyebrows/labels/meta.
@@ -19,7 +19,7 @@ Deck's earned deltas from the calm baseline:
 - **One diagram** — at most one inline-SVG explanatory diagram (stroke `currentColor` / tokens), never decorative art.
 - **One motion** — a single scroll-reveal fade is permitted (reduced-motion-guarded); no chains, no parallax.
 
-One-loud-thing still holds **per section**: each section has a single emphasis, not five. Any inline palette below is **superseded by tokens.css** (migrate off-palette hex like `var(--blue)`/`var(--yellow)` to `--blue`/`--yellow`). Everything else base says holds.
+One-loud-thing still holds **per section**: each section has a single emphasis, not five. Any inline palette below is **superseded by the token block** (migrate off-palette hex like `var(--blue)`/`var(--yellow)` to `--blue`/`--yellow`). Everything else base says holds.
 
 ## Structure
 
@@ -36,7 +36,7 @@ Sections are separated by a `border-top:1px solid var(--hairline)`; the first ha
 ## Skeleton
 
 ```html
-<!-- paste tunnel-a-base/tokens.css here, then: -->
+<!-- paste tunnel-a-base's token block here, then: -->
 <style>
   body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);line-height:1.6}
   .wrap{max-width:64rem;margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem)}

@@ -23,8 +23,8 @@ away is quicker to choose than one that only sells itself. If two fit, take the
 calmer one — drifting up the density ladder is the common failure, drifting down
 is not.
 
-`tunnel-a-base` is the shared foundation: the token set (`tokens.css`), the type
-and build rules, the restraint discipline. Every format inherits it and declares
+`tunnel-a-base` is the shared foundation: the token set, the type and build
+rules, the restraint discipline. Every format inherits it and declares
 only its deltas. It is never picked on its own.
 
 `guide/tunnel-an-artifact` is the operating manual — sharing, access, versioning,
@@ -75,7 +75,7 @@ because an unlabelled green gets read a year later as proof of something it
 never checked.
 
 ```
-tools/check-tokens.sh    no colour outside tokens.css; no skill shadows a base token name
+tools/check-tokens.sh    no colour outside the token block; no skill shadows a base token name
 tools/check-names.py     no dangling names; exactly seven formats; the guide stays out of the pick lane
 ```
 
@@ -86,7 +86,13 @@ run means "none of ours collide" — never "no collisions exist".
 ## Layout
 
 ```
-formats/     the seven, plus tunnel-a-base (tokens.css) and tunnel-a-sheet (template.html)
+formats/     the seven, plus tunnel-a-base
 guide/       tunnel-an-artifact — the operating manual, not a format
 tools/       the gates
 ```
+
+**Every skill is exactly one `SKILL.md`.** There are no companion files: the token
+set lives as a fenced block inside `tunnel-a-base`, and the sheet template inside
+`tunnel-a-sheet`. That is deliberate — openlap's skill store cannot accept
+companion files (`OLP-430`), so a skill that needs one could never be distributed.
+Eliminating them beat keeping a second copy plus a rule to hold the two equal.

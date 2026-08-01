@@ -1,6 +1,6 @@
 ---
 name: tunnel-a-base
-description: The shared design foundation every tunnel-a-<format> inherits — the token set (tokens.css), the type + build rules, and the restraint discipline that makes the tunnel-artifact family read as one system. Not usually invoked alone; a format skill (tunnel-a-sheet / -doc / -report / -log / -brief / -essay / -deck) pulls it in. Read it to pick the right format for a purpose, or to author a new one.
+description: The shared design foundation every tunnel-a-<format> inherits — the token set, the type + build rules, and the restraint discipline that makes the tunnel-artifact family read as one system. Not usually invoked alone; a format skill (tunnel-a-sheet / -doc / -report / -log / -brief / -essay / -deck) pulls it in. Read it to pick the right format for a purpose, or to author a new one.
 user-invocable: false
 ---
 
@@ -30,7 +30,7 @@ Wrong-format smell test: must the reader **compare or absorb structured data**? 
 
 Every format skill opens with an **Inherits — tunnel-a-base** block and then documents *only its deltas*. The shared parts:
 
-1. **Tokens.** Copy `tunnel-a-base/tokens.css` verbatim into the artifact's `<style>`. Neutrals are always on; the data primaries (`--blue/--yellow/--red`) are opt-in and for **meaning only**. Do not invent tokens or hardcode hex — if a value isn't in tokens.css, it doesn't ship.
+1. **Tokens.** Copy the token block at the bottom of this skill verbatim into the artifact's `<style>`. Neutrals are always on; the data primaries (`--blue/--yellow/--red`) are opt-in and for **meaning only**. Do not invent tokens or hardcode hex — if a value isn't in the token block, it doesn't ship.
 2. **Type.** System sans (`--font`) for body; `--mono` for sigils and data only. A display **serif** (`--serif`) is a *named exception*, allowed only in the headings of `tunnel-an-essay`, `tunnel-a-deck`, and `tunnel-a-brief` — never in body, never in sheet/doc/report/log.
 3. **Build.** Self-contained and CSP-safe: no webfonts, no CDN, no external CSS/JS/images (inline or data-URI). Theme-aware (ship the light + dark + `data-theme` token blocks). Responsive (relative units; content column caps; wide blocks scroll inside their own `overflow-x:auto`).
 4. **Restraint** (the discipline that keeps the family calm):
@@ -55,3 +55,65 @@ If an artifact carries more chrome than its rung allows, it has drifted up the l
 ## Authoring a new format
 
 Add `tunnel-a-<purpose>/SKILL.md`, open with the Inherits block, declare deltas, and add its row to the table above. Keep the old-name alias symlink if you rename an existing one.
+
+## The token block
+
+This is the token set. There is no separate `tokens.css` file — this block IS the
+source, so it travels wherever this skill travels. Copy it verbatim; do not edit it
+here and do not maintain a second copy elsewhere.
+
+```css
+/* ============================================================================
+   tunnel-a-base — the shared token foundation for every tunnel-a-<format>.
+   Copy this block verbatim into any tunnel artifact. Do not invent tokens.
+
+   NEUTRALS are always on. The ink pill is the only "loud" element.
+   DATA PRIMARIES are opt-in and for MEANING ONLY (report verdicts, deck
+   emphasis, log status) — never decoration. Green is banned as a UI signal.
+   Ported from the Fellows modal system ("as calm as the front door").
+   ========================================================================== */
+:root{
+  /* surfaces + ink ramp — the whole neutral system */
+  --ground:#ffffff; --sheet:#ffffff; --thumb:#ffffff;
+  --ink:#12151a; --ink-soft:#5b6470; --ink-faint:#9aa1ab;
+  --hairline:#e9ebed; --field:#f5f6f8;
+  /* the ONE loud element */
+  --btn-bg:#12151a; --btn-fg:#ffffff; --ring:rgba(18,21,26,.10);
+  --sheet-border:transparent;
+  --shadow:0 1px 2px rgba(18,21,26,.05), 0 26px 64px -14px rgba(18,21,26,.22);
+  /* type: system stack for body, mono for sigils/data. A DISPLAY SERIF is a
+     named exception, allowed ONLY in essay/deck/brief headings (see --serif). */
+  --font:ui-sans-serif,-apple-system,"SF Pro Display","SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --serif:"Charter","Iowan Old Style","Palatino Linotype","Georgia","Times New Roman",serif;
+  /* DATA PRIMARIES — opt-in, meaning only. wildreason law: blue/yellow/red + black. NO green. */
+  --blue:#1d9bf0; --blue-ink:#0b6fb0; --blue-wash:#e8f5fd;
+  --yellow:#c6901a; --yellow-ink:#7a5a00; --yellow-wash:#fdf4e3;
+  --red:#c2566a; --red-ink:#9a2a2a; --red-wash:#fdecef;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --ground:#0b0c0e; --sheet:#191b1f; --thumb:#2c3038;
+    --ink:#f4f5f6; --ink-soft:#9ba2ac; --ink-faint:#6b7280;
+    --hairline:#262930; --field:#202329;
+    --btn-bg:#f4f5f6; --btn-fg:#16181c; --ring:rgba(244,245,246,.14);
+    --sheet-border:#262930;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 26px 64px -14px rgba(0,0,0,.6);
+    --blue:#7cc0f5; --blue-ink:#9dc9f7; --blue-wash:#172a38;
+    --yellow:#e0b657; --yellow-ink:#e6c884; --yellow-wash:#2a2214;
+    --red:#e0879a; --red-ink:#e8a3b0; --red-wash:#2c1a1f;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0b0c0e; --sheet:#191b1f; --thumb:#2c3038;
+  --ink:#f4f5f6; --ink-soft:#9ba2ac; --ink-faint:#6b7280;
+  --hairline:#262930; --field:#202329;
+  --btn-bg:#f4f5f6; --btn-fg:#16181c; --ring:rgba(244,245,246,.14);
+  --sheet-border:#262930;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 26px 64px -14px rgba(0,0,0,.6);
+  --blue:#7cc0f5; --blue-ink:#9dc9f7; --blue-wash:#172a38;
+  --yellow:#e0b657; --yellow-ink:#e6c884; --yellow-wash:#2a2214;
+  --red:#e0879a; --red-ink:#e8a3b0; --red-wash:#2c1a1f;
+}
+:root[data-theme="light"]{ color-scheme:light; }
+```

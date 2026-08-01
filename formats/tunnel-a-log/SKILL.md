@@ -11,7 +11,7 @@ description: >
 
 ## Inherits — tunnel-a-base
 
-Copy the tokens from `tunnel-a-base/tokens.css` and follow its type / build / restraint rules.
+Copy the token block from `tunnel-a-base` and follow its type / build / restraint rules.
 Log's earned deltas from the calm baseline:
 
 - **Filter chips + expandable rows + newest-on-top sections** — the structure a running record
@@ -20,7 +20,7 @@ Log's earned deltas from the calm baseline:
   border, no left-border stripe. The entry *cards* stay (structural); only the inner strip changes.
 - **Edited in place** — one artifact id, append via tunnel edit; never re-seed.
 
-Any inline palette below is **superseded by tokens.css**. Everything else base says
+Any inline palette below is **superseded by the token block**. Everything else base says
 (self-contained, theme-aware, one-loud-thing, green-banned) holds.
 
 # tunnel-a-log — the running-log format

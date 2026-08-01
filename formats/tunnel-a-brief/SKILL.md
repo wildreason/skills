@@ -11,7 +11,7 @@ description: >
 
 ## Inherits — tunnel-a-base
 
-Copy the tokens from `tunnel-a-base/tokens.css` and follow its type / build / restraint
+Copy the token block from `tunnel-a-base` and follow its type / build / restraint
 rules. Brief's earned deltas from the calm baseline:
 
 - **A display serif** (`--serif`) allowed in the headline only; body stays system sans.
@@ -20,7 +20,7 @@ rules. Brief's earned deltas from the calm baseline:
 - **Decision capture** — optional `[data-decide]` buttons via `seed_interactive`.
 
 It is a *note*, not a report or a deck: no tables, at most one section rule, no diagram.
-Any inline "primaries palette" below is **superseded by tokens.css**. Everything else base
+Any inline "primaries palette" below is **superseded by the token block**. Everything else base
 says (self-contained, theme-aware, green-banned) holds.
 
 # Release Brief
@@ -82,7 +82,7 @@ doc at a new URL).
 This is the locked look. Copy the block as-is; only add classes, don't restyle.
 
 ```css
-/* Paste tunnel-a-base/tokens.css first -- it defines --blue/--yellow/--red/--ink
+/* Paste tunnel-a-base's token block first -- it defines --blue/--yellow/--red/--ink
    and the neutral ramp. Do NOT redefine those names here: a second :root under the
    same names silently overrides the family for anyone who copies this block.
    Below are brief's OWN aliases only, pointing at base. */

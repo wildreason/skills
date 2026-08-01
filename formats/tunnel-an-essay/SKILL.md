@@ -6,7 +6,7 @@ user-invocable: false
 
 ## Inherits — tunnel-a-base
 
-Copy the tokens from `tunnel-a-base/tokens.css` and follow its type / build / restraint rules.
+Copy the token block from `tunnel-a-base` and follow its type / build / restraint rules.
 Essay is the family's **voiced reading rung**; its earned deltas from the calm baseline:
 
 - **A display serif in headings** — the one format built around serif. Prefer the system
@@ -16,7 +16,7 @@ Essay is the family's **voiced reading rung**; its earned deltas from the calm b
 - **Generous measure.** A pull-quote is a flat filled wash box (`--blue-wash` behind `--ink`, rounded, no border) — or plain indented emphasis. **Never a left-border stripe, never a gradient.** Match the calm of `tunnel-a-doc`; no tables, no verdict colour.
 
 `seed_interactive` mechanics (the `[data-decide]` bridge) still apply. Any inline palette below
-is **superseded by tokens.css**. Everything else base says (theme-aware, green-banned) holds.
+is **superseded by the token block**. Everything else base says (theme-aware, green-banned) holds.
 
 # tunnel-an-essay — the editorial long-form format
 

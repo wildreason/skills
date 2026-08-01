@@ -6,7 +6,7 @@ user-invocable: false
 
 ## Inherits — tunnel-a-base
 
-Copy the tokens from `tunnel-a-base/tokens.css` and follow its type / build / restraint rules.
+Copy the token block from `tunnel-a-base` and follow its type / build / restraint rules.
 Doc is the **calmest reading rung** — nearly the sheet, only longer. Its only deltas:
 
 - **A reading measure** — body capped ~62–68ch for line length.
@@ -14,7 +14,7 @@ Doc is the **calmest reading rung** — nearly the sheet, only longer. Its only 
 - Hairline rules between sections; **no cards, no tables, no data colour, no serif.**
 
 The "six colors" the legacy body describes below map to base neutrals + the one `--blue` link;
-treat any inline hex as **superseded by tokens.css**. Everything else base says holds.
+treat any inline hex as **superseded by the token block**. Everything else base says holds.
 
 # tunnel-a-doc — the plain-document format
 

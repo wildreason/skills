@@ -18,9 +18,9 @@ import sys
 DECL = re.compile(r'--([a-z0-9-]+)\s*:\s*([^;}\n]+)')
 
 root = pathlib.Path(__file__).resolve().parent.parent
-tokens = root / "formats/tunnel-a-base/tokens.css"
+tokens = root / "formats/tunnel-a-base/SKILL.md"   # the token block lives inside it
 if not tokens.exists():
-    print("FATAL: tokens.css missing -- cannot compute base names")
+    print("FATAL: tunnel-a-base/SKILL.md missing -- cannot compute base names")
     sys.exit(2)
 
 base_pairs, base_names = set(), set()

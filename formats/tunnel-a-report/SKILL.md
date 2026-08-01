@@ -11,7 +11,7 @@ description: >
 
 ## Inherits — tunnel-a-base
 
-Copy the tokens from `tunnel-a-base/tokens.css` and follow its type / build / restraint
+Copy the token block from `tunnel-a-base` and follow its type / build / restraint
 rules. Report is the **densest rung** of the family; its earned deltas from the calm baseline:
 
 - **Tables + verdict chips** — the data justifies bordered structure and semantic colour.
@@ -23,7 +23,7 @@ rules. Report is the **densest rung** of the family; its earned deltas from the 
 - Colour still means something — a chip is a verdict, never decoration. One loud thing per
   table still holds: the row's verdict, not the whole row.
 
-Any inline palette in the sections below is **superseded by tokens.css** — migrate hardcoded
+Any inline palette in the sections below is **superseded by the token block** — migrate hardcoded
 hex to the tokens. Everything else base says (self-contained, theme-aware, green-banned) holds.
 
 # tunnel-a-report — the results-report format
