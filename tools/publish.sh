@@ -112,6 +112,16 @@ if [ "$fail" -ne 0 ]; then
   echo "$fail skill(s) did NOT round-trip. The store does not hold what this repo holds."
   exit 1
 fi
+# Step 4's pull rewrites every sidecar WITHOUT a `source` field -- so publishing
+# used to erase the provenance install.sh had just stamped, and the next
+# install.sh then reported all nine as "pinned by another rail". That note is
+# what made a foreign writer look real earlier tonight; it was this flow talking
+# to itself. Re-stamp now that the bytes are PROVEN identical to the repo, so
+# nothing changes but the pin.
+echo "== 6/5 re-stamp provenance (pull writes sourceless pins) ====="
+./tools/install.sh >/dev/null 2>&1 || { echo "re-stamp failed"; exit 1; }
+echo "   pins carry source=git:wildreason/skills@$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"
+
 echo "---"
 echo "PASS all ${#skills[@]} skills round-tripped: repo == store == \$HOME/.claude/skills"
 echo "NOTE this proves delivery to THIS box. Another box gets these bytes on its"
