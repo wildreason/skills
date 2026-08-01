@@ -73,6 +73,51 @@ if grep -rniE '#00ba7c|--c-green' formats guide --include='*.md' --include='*.ht
   fail=$((fail+1))
 fi
 
+# PROXY: a colour PRESCRIBED BY NAME, in a table cell.
+#
+# Found by ART-073-070 — building from a skill instead of grepping it.
+# tunnel-a-report's verdict taxonomy read `| SHIPPED | green |` and
+# `| DECIDED | violet |` while the SAME FILE banned green twice. Every check
+# above compares HEX, so a colour named in words was structurally invisible:
+# the file measured 0 off-token literals and still taught green.
+#
+# Scoped to a lone table cell on purpose. The word "green" appears
+# legitimately in prose that FORBIDS it ("green is BANNED"), and a rule that
+# cannot tell a prohibition from a prescription would fire on the ban itself.
+# A taxonomy row is the prescription form: `| VERDICT | colour | meaning |`.
+#
+# PROXY, not invariant: a colour named in a sentence rather than a cell still
+# slips it, and the list below is the palette-less names we have hit, not a
+# closed set. It buys the table form, which is where the defect lived.
+# INVARIANT (same shape as the hex rule, one ceiling lower): set difference over
+# rgb()/rgba()/hsl() literals. The header above already declared this gap --
+# "a different green (rgb(0,186,124), hsl) would pass" -- and ART-073-070 found a
+# live one escaping through it: tunnel-a-log carried
+# `--c-violet-soft:rgba(124,58,237,0.10)`, a violet with no token behind it,
+# invisible to a hex-only difference. A documented ceiling with a violation
+# sitting under it is worth closing rather than re-declaring.
+# Whitespace is stripped before comparing so formatting is not a false positive.
+allow_fn=$(grep -ohE '(rgba?|hsla?)\([^)]*\)' "$TOKENS" | tr -d ' ' | tr 'A-F' 'a-f' | sort -u)
+for f in $(find formats guide -name SKILL.md -o -name '*.html' -o -name '*.css' | grep -v "$TOKENS" | sort); do
+  fnhits=""
+  while read -r fn; do
+    [ -z "$fn" ] && continue
+    echo "$allow_fn" | grep -qxF "$fn" || fnhits="$fnhits $fn"
+  done <<< "$(grep -ohE '(rgba?|hsla?)\([^)]*\)' "$f" | tr -d ' ' | tr 'A-F' 'a-f' | sort -u)"
+  if [ -n "$fnhits" ]; then
+    echo "FAIL $f: colour function(s) not in the token block:$fnhits"
+    fail=$((fail+1))
+  fi
+done
+
+badnames='green|violet|purple|orange|pink|teal|cyan|magenta|lime|indigo|brown'
+if grep -rniE "\| *($badnames) *\|" formats guide --include='*.md' >/dev/null 2>&1; then
+  echo "FAIL colour prescribed by NAME with no token behind it:"
+  grep -rniE "\| *($badnames) *\|" formats guide --include='*.md' | sed 's/^/     /'
+  echo "     (use a token: --blue / --yellow / --red, or ink for a settled verdict)"
+  fail=$((fail+1))
+fi
+
 if [ "$fail" -eq 0 ]; then
   echo "PASS no off-token colour in formats/ or guide/ (INVARIANT scoped to this repo; green check is a PROXY)"
   exit 0

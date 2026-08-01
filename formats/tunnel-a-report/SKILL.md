@@ -139,16 +139,20 @@ Pick these words and only these words. A synonym invented mid-report is a silent
 | **monitored** | a figure pulled from live monitoring/glass *during* a run — provisional, may revise | treating it as equal to a verified number |
 | **verified** (as a report-ready tier) | re-derived from the persisted, digest-gated record *after* the run — publishable | letting a `monitored` figure sit as a headline number in a published report |
 
-**Verdict taxonomy** (map to the palette above; extend only by adding a row here first):
+**Verdict taxonomy** (map to the palette above; extend only by adding a row here first).
+Every row names a TOKEN, not a colour word — this table used to say `green` and
+`violet` while the palette three paragraphs above banned green and no violet token
+exists. It read clean to a hex check and still taught the banned colour, because
+`green` is a word. A verdict has no colour of its own; it has a token.
 
-| Verdict | Color | Use for |
+| Verdict | Token | Use for |
 |---|---|---|
-| SHIPPED | green | landed, two-hand verified, done |
-| FINDING | blue | a verified fact worth recording, not itself a ship |
-| GATE | yellow | a pre-fire catch — something checked before it could go wrong |
-| HOLD | red | blocked on a formal verdict; do not round up to SHIPPED |
-| DECIDED | violet | a scope/design call made, not an empirical result |
-| VOID | gray | discarded — harness broke, not a real trial |
+| SHIPPED | `--ink` | landed, two-hand verified, done — settled reads as ink, never green |
+| FINDING | `--blue` | a verified fact worth recording, not itself a ship |
+| GATE | `--yellow` | a pre-fire catch — something checked before it could go wrong |
+| HOLD | `--red` | blocked on a formal verdict; do not round up to SHIPPED |
+| DECIDED | `--ink` | a scope/design call made, not an empirical result — also settled |
+| VOID | `--ink-faint` | discarded — harness broke, not a real trial |
 | CLEAN / DECAY / UNDERSHOT / etc. | (per-report) | run-outcome pills specific to one report's result space — define them once in that report's legend, keep them stable across every entry after |
 
 ## Process
