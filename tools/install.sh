@@ -64,10 +64,25 @@ for dir in formats/*/ guide/*/; do
 
   if [ -f "$pin" ]; then
     existing=$(grep -o '"source"[[:space:]]*:[[:space:]]*"[^"]*"' "$pin" 2>/dev/null | sed 's/.*"\([^"]*\)"$/\1/' || true)
-    if [ -z "$existing" ]; then
-      echo "  note  $name has a pin with NO source -- another rail wrote it. Overwriting with $SRC."
-      foreign=$((foreign+1))
-    elif [ "${existing%@*}" != "${SRC%@*}" ]; then
+    #
+    # ABSENT IS NOT FOREIGN. This branch used to fire on a MISSING source, which
+    # meant it fired on every plain `openlap pull`, on every box, forever --
+    # openlap's own sidecar struct (cmd/openlap-cli/cmd_pull.go: skillHead) has
+    # NO source field at all:
+    #
+    #   {version, content_sha256, scripts_hash, pulled_at, grant_status}
+    #
+    # So a sourceless pin is the CANONICAL writer doing its ordinary job. The
+    # detector's positive class contained routine operation, which is why nine
+    # firings read as noise for hours -- correctly. @quill's catch, and their
+    # framing: a signal that fires on the normal path carries no information.
+    #
+    # I had it exactly backwards an hour earlier and called a sourceless pin a
+    # "true positive -- a detector that had only ever cried wolf just caught a
+    # real one." It was the wolf-free case.
+    #
+    # Now: only a source we do not recognise is reported. Absent is silent.
+    if [ -n "$existing" ] && [ "${existing%@*}" != "${SRC%@*}" ]; then
       echo "  note  $name is pinned to '$existing', not this repo. Overwriting."
       foreign=$((foreign+1))
     fi
