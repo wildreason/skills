@@ -139,6 +139,24 @@ def main():
                 key = f"{rel}:rgb({triple[0]},{triple[1]},{triple[2]})"
                 if key in exempt:
                     continue
+                # SHADOW CARVE-OUT, narrow on purpose.
+                #
+                # Pure black/white inside a shadow declaration is depth, not
+                # palette: it darkens whatever is beneath it, so it is
+                # theme-independent by nature and no token defines it.
+                #
+                # Found by running this gate on an OUTPUT artifact rather than
+                # on skill text (ART-073-070). The per-file exemptions are keyed
+                # to REPO paths, so a seeded artifact carrying the template's
+                # own --shadow fired four times and the gate was unrunnable on
+                # the thing it most needs to check.
+                #
+                # KEYED ON THE DECLARATION, NOT THE COLOUR. "black at low alpha
+                # is fine" would re-permit the rgba(0,0,0,.04) code-chip FILLS
+                # that were moved to var(--field) precisely because a fill must
+                # be theme-aware. A scrim still needs a written exemption.
+                if triple in ((0, 0, 0), (255, 255, 255)) and "shadow" in line.lower():
+                    continue
                 v1.append((rel, lineno, f"{fn}({', '.join(parts[:3])}...)", f"#{triple[0]:02x}{triple[1]:02x}{triple[2]:02x} is not a token colour"))
 
             if is_tokens:
