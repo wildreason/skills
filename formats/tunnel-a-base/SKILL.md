@@ -54,7 +54,17 @@ If an artifact carries more chrome than its rung allows, it has drifted up the l
 
 ## Authoring a new format
 
-Add `tunnel-a-<purpose>/SKILL.md`, open with the Inherits block, declare deltas, and add its row to the table above. Keep the old-name alias symlink if you rename an existing one.
+Add `tunnel-a-<purpose>/SKILL.md`, open with the Inherits block, declare deltas, and add its row to the table above.
+
+**Never keep an old-name alias symlink when you rename.** This file used to say the
+opposite, and that instruction was the ART-071 defect: the harness de-duplicates
+symlinked skill dirs and keeps the ALPHABETICALLY FIRST name, so eight aliases had
+silently replaced five of the seven canonical names on the dispatch surface —
+`apple-html` instead of `tunnel-a-doc`, `minimal-sheet` instead of `-sheet`,
+`reporting` instead of `-report`, `release-brief` instead of `-brief`,
+`seedinteractive` instead of `tunnel-an-essay`. A fresh agent could not learn the
+vocabulary because the words were not on the surface. Retire the old name in the
+same commit; a rename that leaves the old word reachable has not renamed anything.
 
 ## The token block
 
