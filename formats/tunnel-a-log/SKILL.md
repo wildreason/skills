@@ -98,7 +98,7 @@ a dedicated artifact and keep the log entry a 4-line summary + the link.
 ## The template
 
 Fill the `{{PLACEHOLDERS}}`. The CSS is proven — leave it. Configure verdicts in the two marked
-spots (the `:root` color tokens already include blue/green/yellow/red/violet to draw from; map
+spots (the `:root` accents are blue/yellow/red plus the ink neutrals to draw from; map
 each verdict to a `.v-*` badge + a `.chip[data-f="*"]` and a `data-verdict="*"` on each entry).
 
 ```html
@@ -115,11 +115,11 @@ each verdict to a `.v-*` badge + a `.chip[data-f="*"]` and a `data-verdict="*"` 
 :root{
   --c-primary:var(--ink); --c-secondary:var(--ink-soft); --c-tertiary:var(--ink-faint); --c-quaternary:var(--ink-faint);
   --c-bg:var(--ground); --c-surface:var(--sheet); --c-fill:var(--hairline);
-  --c-stroke:rgba(15,20,25,0.09); --c-stroke-soft:rgba(15,20,25,0.06); --c-stroke-3:rgba(15,20,25,0.22);
+  --c-stroke:rgba(18,21,26,0.09); --c-stroke-soft:rgba(18,21,26,0.06); --c-stroke-3:rgba(18,21,26,0.22);
   --c-blue:#1d9bf0;  --c-blue-soft:rgba(29,155,240,0.12);
-  --c-yellow:var(--yellow);--c-yellow-soft:rgba(255,173,31,0.14);
-  --c-red:var(--red);   --c-red-soft:rgba(192,57,43,0.08);
-  --c-violet:var(--blue);--c-violet-soft:rgba(124,58,237,0.10);
+  --c-yellow:var(--yellow);--c-yellow-soft:rgba(198,144,26,0.14);
+  --c-red:var(--red);   --c-red-soft:rgba(194,86,106,0.08);
+  --c-violet:var(--blue);--c-violet-soft:rgba(29,155,240,0.10);
   --f-display:'Instrument Serif',serif;
   --f-body:'Inter',system-ui,-apple-system,sans-serif;
   --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
@@ -135,9 +135,9 @@ h1{font-family:var(--f-display);font-weight:400;font-size:58px;
 h1 em{font-style:italic;color:var(--c-secondary)}
 .lede{color:var(--c-secondary);font-size:17px;max-width:740px;margin:0 0 28px}
 .lede strong{color:var(--c-primary);font-weight:600}
-.lede code{font-family:var(--f-mono);font-size:13px;background:rgba(0,0,0,0.04);padding:1px 5px;border-radius:4px}
+.lede code{font-family:var(--f-mono);font-size:13px;background:var(--field);padding:1px 5px;border-radius:4px}
 pre.spec{font-family:var(--f-mono);font-size:11px;line-height:1.8;color:var(--c-tertiary);
-  margin:22px 0 36px;border-left:2px solid rgba(15,20,25,0.08);padding:2px 0 2px 16px;
+  margin:22px 0 36px;border-left:2px solid rgba(18,21,26,0.08);padding:2px 0 2px 16px;
   max-width:740px;white-space:pre-wrap}
 pre.spec strong{color:var(--c-primary);font-weight:500}
 h2.week{font-family:var(--f-display);font-weight:400;font-size:32px;letter-spacing:-0.012em;
@@ -163,10 +163,10 @@ h2.week .count{font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;
 .hint{font-family:var(--f-mono);font-size:10px;color:var(--c-quaternary);margin:0 0 24px}
 .entry{background:var(--c-surface);border:1px solid var(--c-stroke);border-radius:14px;
   margin:14px 0;overflow:hidden;
-  box-shadow:0 1px 2px rgba(15,20,25,0.03),0 8px 24px -8px rgba(15,20,25,0.08)}
+  box-shadow:0 1px 2px rgba(18,21,26,0.03),0 8px 24px -8px rgba(18,21,26,0.08)}
 .entry.hide{display:none}
 .entry-head{display:flex;align-items:flex-start;gap:16px;padding:20px 26px;cursor:pointer}
-.entry-head:hover{background:rgba(15,20,25,0.012)}
+.entry-head:hover{background:rgba(18,21,26,0.012)}
 .vbadge{flex:0 0 auto;font-family:var(--f-mono);font-size:10px;font-weight:600;
   letter-spacing:0.08em;text-transform:uppercase;padding:5px 11px;border-radius:6px;margin-top:2px}
 /* --- VERDICT BADGES: one rule per verdict --- */
@@ -189,7 +189,7 @@ h2.week .count{font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;
   color:var(--c-tertiary);margin:20px 0 6px}
 .entry-body p{margin:0 0 10px;max-width:820px;color:var(--c-secondary)}
 .entry-body p strong{color:var(--c-primary);font-weight:600}
-.entry-body code{font-family:var(--f-mono);font-size:12.5px;background:rgba(0,0,0,0.04);
+.entry-body code{font-family:var(--f-mono);font-size:12.5px;background:var(--field);
   padding:1px 5px;border-radius:4px}
 .entry-body ul{margin:0 0 10px;padding-left:18px;max-width:820px;color:var(--c-secondary)}
 .entry-body li{margin:0 0 6px}
@@ -290,20 +290,22 @@ To change the verdict set, edit three coordinated places — same pattern as add
    closing `<div class="verdict-line KEY">` (add a `.verdict-line.KEY` left-border color rule if
    you want it tinted; default is yellow).
 
-Five tokens are pre-wired to colors (blue/green/yellow/red/violet). Map verdict → token by feel:
-red = reject/critical, yellow = held/caution, blue = build/active, green = done/shipped,
-violet = watch/standing.
+Three accent tokens are pre-wired, plus the ink neutrals. Map verdict → token by feel:
+red = reject/critical, yellow = held/caution, blue = build/active, ink = done/shipped,
+ink-soft = watch/standing. There is no green and no violet: base bans green as a UI
+signal, and `--c-violet` in the `:root` above resolves to blue — a done thing reads as
+ink, not as a colour of its own.
 
 ---
 
 ## Adapting to other log types (examples)
 
 - **Discovery / competitor log** (the original): DROP · PARK · SPIKE · WATCH, weekly sections.
-- **Incident log:** OPEN(red) · MITIGATED(yellow) · RESOLVED(green), sections by month; entry body
+- **Incident log:** OPEN(red) · MITIGATED(yellow) · RESOLVED(ink), sections by month; entry body
   = symptom / cause / fix.
-- **Release log:** SHIPPED(green) · ROLLED_BACK(red), sections by version line; entry body = scope /
+- **Release log:** SHIPPED(ink) · ROLLED_BACK(red), sections by version line; entry body = scope /
   verify / receipt link.
-- **Research log:** OPEN(blue) · ANSWERED(green) · PARKED(yellow), sections by topic; entry links to
+- **Research log:** OPEN(blue) · ANSWERED(ink) · PARKED(yellow), sections by topic; entry links to
   the full artifact, body = 4-line summary.
 
 Keep the cadence-section + verdict-entry shape; only the words and the verdict palette change.

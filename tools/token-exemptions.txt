@@ -1,0 +1,45 @@
+# Written exemptions. Format: "<file>:<token> <reason>"
+#
+# AN EXEMPTION IS A WRITTEN DECISION. A line with no reason is not an exemption
+# and both gates ignore it. Adding one is a deliberate act, not a way to make a
+# red run go green -- if you cannot state why the colour is outside the palette,
+# it belongs in the palette.
+#
+# Key shapes:
+#   check-tokens.sh   <file>:<lowercase hex>
+#   check-colour.py   <file>:rgb(<r>,<g>,<b>)      (alpha is not part of the key)
+#                     <file>:name:<word>           (rule 2, table cell)
+#                     <file>:list:<word>           (rule 3, palette enumeration)
+
+# ---- Depth is not palette -------------------------------------------------
+# A shadow is not a colour the family chooses; it is the absence of light under
+# a raised surface. Pure black at low alpha is the neutral for that, it is
+# theme-independent by nature (it darkens whatever is beneath it), and no token
+# defines it because tokens name surfaces, ink and accents. Deliberately NOT
+# generalised into the rule: rgba(0,0,0,...) as a code-chip BACKGROUND was a
+# real defect and was fixed to var(--field) instead of exempted here -- a fill
+# must be theme-aware, and 4% black on a dark ground is invisible.
+
+formats/tunnel-a-base/SKILL.md:rgb(0,0,0)   --shadow, light and dark blocks: the family's one shadow definition.
+formats/tunnel-a-sheet/SKILL.md:rgb(0,0,0)  --shadow, verbatim inline of the base token block, which base instructs.
+formats/tunnel-a-doc/SKILL.md:rgb(0,0,0)    two box-shadows on raised cards + one 10% backdrop scrim (a scrim is depth, same class).
+
+# ---- A known false positive, exempted rather than hidden --------------------
+# tunnel-a-sheet:38 reads "*Busy report: four semantic accents (green/red/amber/
+# blue) all shouting at once.*" -- a COUNTER-EXAMPLE. The file is warning against
+# the very thing rule 4(c) accuses it of. Same class as tunnel-a-doc's "diff
+# red/green", which the 3-name bound spares; this one has four names and no
+# syntactic tell, so no bound saves it.
+#
+# THE COST IS REAL AND STATED: this key is file-wide, so a genuine green
+# prescription added to tunnel-a-sheet later will also be silenced. Line-scoped
+# keys were rejected because line numbers drift and a stale key fails OPEN.
+# Rule 4 is a PROXY partly because of this line.
+
+formats/tunnel-a-sheet/SKILL.md:prescribe:green  counter-example: the line warns AGAINST four shouting accents.
+
+# tunnel-a-log and tunnel-an-essay are deliberately ABSENT. They held the only
+# pure-black FILLS (code chips at 4%), which were fixed to var(--field) rather
+# than exempted, and they carry no shadow of their own. An exemption for a file
+# with nothing to exempt reads as coverage and is worse than no line at all --
+# this list had both entries for a few minutes and the reasons were false.

@@ -143,12 +143,12 @@ Pick these words and only these words. A synonym invented mid-report is a silent
 
 | Verdict | Color | Use for |
 |---|---|---|
-| SHIPPED | green | landed, two-hand verified, done |
-| FINDING | blue | a verified fact worth recording, not itself a ship |
-| GATE | yellow | a pre-fire catch — something checked before it could go wrong |
-| HOLD | red | blocked on a formal verdict; do not round up to SHIPPED |
-| DECIDED | violet | a scope/design call made, not an empirical result |
-| VOID | gray | discarded — harness broke, not a real trial |
+| SHIPPED | `var(--ink)` | landed, two-hand verified, done |
+| FINDING | `var(--blue)` | a verified fact worth recording, not itself a ship |
+| GATE | `var(--yellow)` | a pre-fire catch — something checked before it could go wrong |
+| HOLD | `var(--red)` | blocked on a formal verdict; do not round up to SHIPPED |
+| DECIDED | `var(--ink-soft)` | a scope/design call made, not an empirical result |
+| VOID | `var(--ink-faint)` | discarded — harness broke, not a real trial |
 | CLEAN / DECAY / UNDERSHOT / etc. | (per-report) | run-outcome pills specific to one report's result space — define them once in that report's legend, keep them stable across every entry after |
 
 ## Process

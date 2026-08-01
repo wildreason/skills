@@ -66,6 +66,13 @@ done
 # So: a `--name:value` pair is fine iff that exact pair exists in tokens.css.
 if ! python3 tools/_shadow_check.py; then fail=$((fail+1)); fi
 
+# ART-073-090: hex is ONE SYNTAX, NOT COLOUR. This gate went green on a tree
+# carrying 21 distinct rgba() including violet in two skills whose hex violet had
+# been deleted hours earlier, and on two taxonomy rows teaching green BY NAME.
+# check-colour.py closes rgb/rgba/hsl (INVARIANT) and prescriptive colour names
+# (PROXY). Run it here so one command is the whole colour gate.
+if ! python3 tools/check-colour.py; then fail=$((fail+1)); fi
+
 # PROXY: named green literals only. A green expressed differently slips this.
 if grep -rniE '#00ba7c|--c-green' formats guide --include='*.md' --include='*.html' --include='*.css' -l >/dev/null 2>&1; then
   echo "FAIL green is banned as a UI signal (base):"

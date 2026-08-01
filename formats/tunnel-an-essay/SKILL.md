@@ -44,15 +44,15 @@ Apply when: writing the `markdown:` arg to `seed(type:"html", ...)`, writing a l
   --c-bg:         var(--ground);                    /* parchment, never pure white */
   --c-surface:    var(--sheet);                    /* cards on parchment */
   --c-fill:       var(--hairline);                    /* table headers, soft chips */
-  --c-stroke:     rgba(15,20,25,0.09);
-  --c-stroke-soft:rgba(15,20,25,0.06);
-  --c-stroke-3:   rgba(15,20,25,0.22);
+  --c-stroke:     rgba(18,21,26,0.09);
+  --c-stroke-soft:rgba(18,21,26,0.06);
+  --c-stroke-3:   rgba(18,21,26,0.22);
 
   /* ACCENTS — semantic only, never decorative */
   --c-blue:       #1d9bf0;  --c-blue-soft:   rgba(29,155,240,0.12);
-  --c-yellow:     var(--yellow);  --c-yellow-soft: rgba(255,173,31,0.14);
-  --c-red:        var(--red);  --c-red-soft:    rgba(192,57,43,0.08);
-  --c-violet:     var(--blue);  --c-violet-soft: rgba(124,58,237,0.10);
+  --c-yellow:     var(--yellow);  --c-yellow-soft: rgba(198,144,26,0.14);
+  --c-red:        var(--red);  --c-red-soft:    rgba(194,86,106,0.08);
+  --c-violet:     var(--blue);  --c-violet-soft: rgba(29,155,240,0.10);
 
   /* TYPE */
   --f-display: 'Instrument Serif', serif;
@@ -118,7 +118,7 @@ h1 em{font-style:italic;color:var(--c-secondary)}
 .lede{color:var(--c-secondary);font-size:17px;max-width:740px;margin:0 0 30px}
 .lede strong{color:var(--c-primary);font-weight:600}
 .lede code{font-family:var(--f-mono);font-size:13px;
-  background:rgba(0,0,0,0.04);padding:1px 5px;border-radius:4px}
+  background:var(--field);padding:1px 5px;border-radius:4px}
 h2{font-family:var(--f-display);font-weight:400;font-size:32px;
   letter-spacing:-0.012em;margin:60px 0 14px}
 h3{font-size:18px;font-weight:600;margin:22px 0 8px}
@@ -126,11 +126,11 @@ h4{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
   color:var(--c-tertiary);margin:16px 0 6px}
 p{margin:0 0 12px;max-width:820px}
 code{font-family:var(--f-mono);font-size:13px;
-  background:rgba(0,0,0,0.04);padding:1px 5px;border-radius:4px}
+  background:var(--field);padding:1px 5px;border-radius:4px}
 
 pre.spec{font-family:var(--f-mono);font-size:11px;line-height:1.8;
   color:var(--c-tertiary);margin:24px 0 48px;
-  border-left:2px solid rgba(15,20,25,0.08);
+  border-left:2px solid rgba(18,21,26,0.08);
   padding:2px 0 2px 16px;max-width:740px;white-space:pre-wrap}
 pre.spec strong{color:var(--c-primary);font-weight:500}
 
@@ -146,7 +146,7 @@ footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--c-stroke);
 ```css
 .card{background:var(--c-surface);border:1px solid var(--c-stroke);
   border-radius:14px;padding:22px 28px;margin:14px 0;
-  box-shadow:0 1px 2px rgba(15,20,25,0.03), 0 8px 24px -8px rgba(15,20,25,0.08)}
+  box-shadow:0 1px 2px rgba(18,21,26,0.03), 0 8px 24px -8px rgba(18,21,26,0.08)}
 ```
 
 ### Accent-stripe card (semantic top border)
@@ -159,7 +159,7 @@ footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--c-stroke);
 .card-accent.sep::before {background:linear-gradient(90deg,var(--c-blue),var(--c-violet))}
 ```
 
-Use yellow→red for **questions / open ambiguities**, green→blue for **consolidation / convergence**, blue→violet for **separation / divergence**. One stripe ≠ "decorative color"; stripes carry the rhetorical role.
+Use yellow→red for **questions / open ambiguities**, blue→ink for **consolidation / convergence**, ink→blue for **separation / divergence**. One stripe ≠ "decorative color"; stripes carry the rhetorical role.
 
 ### Thesis callout (left-bar quote)
 
@@ -212,11 +212,11 @@ Wrap tokens in `<span class="k|s|c|b|p">` manually inside `<pre>`. No JS highlig
 
 1. **Background is `var(--ground)` parchment, never pure white.** White is reserved for cards.
 2. **Ink hierarchy is black → gray-secondary → gray-tertiary → gray-quaternary.** No mid-tone "almost-black".
-3. **Color is semantic, not decorative.** Blue = stable / thesis. Green = consolidation / done. Yellow = open question. Red = problem / blocker. Violet = separation / new branch. Don't reach for accents to "make it pretty".
+3. **Color is semantic, not decorative.** Blue = stable / thesis. Ink = consolidation / done. Yellow = open question. Red = problem / blocker. Ink-soft = separation / new branch. Don't reach for accents to "make it pretty".
 4. **Italic `em` inside `h1`** is the signature display move. Use it for the "answer half" of a two-part headline (`Four states. <em>One ink.</em>`).
 5. **Eyebrow is mono uppercase** with `letter-spacing: 0.14em`. Never sentence-case.
 6. **Max content width caps**: `.lede` 740, `p` 820, `pre.spec` 740, footer 1100. Don't run prose to viewport edge.
-7. **Soft shadow only on cards**: `0 1px 2px rgba(15,20,25,0.03), 0 8px 24px -8px rgba(15,20,25,0.08)`. No hard drop-shadows.
+7. **Soft shadow only on cards**: `0 1px 2px rgba(18,21,26,0.03), 0 8px 24px -8px rgba(18,21,26,0.08)`. No hard drop-shadows.
 8. **Radius scale**: 4 (chips/code), 8 (pre), 10-14 (cards), 16 (sidebars), 50% (avatars). No arbitrary values.
 9. **Footer is mono** with id + tagline split between two flex children.
 10. **Banned vocabulary in body copy**: "doc", "document", "living document". Use **artifact**. (Mirrors ART-033 four-rule contract.)
@@ -226,14 +226,14 @@ Wrap tokens in `<span class="k|s|c|b|p">` manually inside `<pre>`. No JS highlig
 
 - Don't import a CSS framework. Tokens are inline in `<style>`. Self-contained, ~3-5KB.
 - Don't use `Inter` for display headings — Instrument Serif carries them. Don't use Instrument Serif for body — Inter does.
-- Don't introduce new accent colors. The five (blue/green/yellow/red/violet) cover every semantic role we've needed.
+- Don't introduce new accent colors. Three accents (blue, yellow, red) plus the ink neutrals cover every semantic role we've needed. Green is banned as a UI signal and violet has no token.
 - Don't add JS unless you're inside `seed_interactive` and need the bridge. Editorial artifacts are static HTML.
 - Don't use emoji glyphs for state. Pseudo-element rings/discs (see sidebar-compact.html `.lead-*` family) carry state without color.
 
 ## Reference exemplars
 
 - `~/wildreason/openlap/sidebar-compact.html` — atom-system spike; ink-only; `.lead-*` glyph family with breathe animation.
-- `mcp://artifact/doc/QXajFuYQJZlajw7-` (ART-033 v2) — long-form editorial; full accent palette deployed semantically (`.ambig` yellow→red, `.decision.cons` green→blue, `.decision.sep` blue→violet).
+- `mcp://artifact/doc/QXajFuYQJZlajw7-` (ART-033 v2) — long-form editorial; PRE-RECONCILE EXAMPLE — it predates the token law and used green and violet for `.decision.cons` / `.decision.sep`. Read it for structure, not for colour; both roles now map to blue and ink.
 
 When in doubt, open one of those and copy structure. The system is small enough to hold in head; the exemplars are the canonical reference.
 
