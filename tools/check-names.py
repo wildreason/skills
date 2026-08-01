@@ -64,7 +64,15 @@ if bodies != FORMATS:
                  f"(count {len(bodies)}, expected 7). Adding a name must be deliberate: "
                  f"edit FORMATS in this file in the same commit.")
 
-# 3. PROXY -- the guide must not fire at author time
+# 3. PROXY -- the guide must not fire at author time.
+#
+# SCOPE, stated because a green here is easy to over-read: this loop walks
+# guide/ ONLY, so it governs tunnel-an-artifact and nothing else. It does NOT
+# look at tunnel-a-base, which now carries author-time language DELIBERATELY --
+# quill's ruling that base is the family's entry point ("where do I start"),
+# the one question no shape skill answers. Do not "fix" base by adding it here;
+# that would flag the intended design. If a fourth non-format ever appears,
+# decide explicitly which lane it is in rather than inheriting this loop.
 for guide in (root / "guide").iterdir():
     skill = guide / "SKILL.md"
     if not skill.exists():

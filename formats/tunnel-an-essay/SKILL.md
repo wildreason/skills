@@ -1,6 +1,6 @@
 ---
 name: tunnel-an-essay
-description: The editorial long-form format for tunnel artifacts — a narrative, memo, manifesto, retro, or design pitch meant to be read top to bottom. Reading-first with a display-serif voice (the Instrument Serif + JetBrains Mono editorial system). Invoke when the job is a made argument or a considered piece of writing, not data (report), a record (log), or a decision (sheet). Also covers hand-authoring the HTML body for `seed(type:"html")` / `seed_interactive`. Inherits tunnel-a-base.
+description: The editorial long-form format for tunnel artifacts — a narrative, memo, manifesto, retro, or design pitch meant to be read top to bottom. Reading-first with a display-serif voice (the Instrument Serif + JetBrains Mono editorial system). Invoke when the job is a made argument or a considered piece of writing, not data (report), a record (log), or a decision (sheet). Inherits tunnel-a-base.
 user-invocable: false
 ---
 
