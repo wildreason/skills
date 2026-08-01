@@ -76,6 +76,28 @@ for dir in formats/*/ guide/*/; do
   rm -rf "${DEST:?}/${name}"
   cp -R "$dir" "$DEST/$name"
 
+  # REFUSE a symlink inside a skill, rather than hashing around it.
+  #
+  # The sha below uses `-type f`, which does NOT follow symlinks -- so a
+  # symlinked file inside a skill would be silently ABSENT from the pin while
+  # the pin still claimed to cover the skill. That is the exact defect class
+  # that cost four wrong readings on 2026-08-01: `find -type f` called a full
+  # tree empty, `diff` called a link a fork, `[ -d ]` called a link a real
+  # directory, and a sha of a link against its own target proved a tautology.
+  # A content_sha256 that under-covers is worse than none, because provenance
+  # is what everyone reasons from afterwards.
+  #
+  # Refusing is correct rather than merely safe: ART-075 made every skill ONE
+  # FILE so it can travel (the store has no companion ingress, OLP-430). A
+  # symlink inside a skill dir already violates that contract, so there is
+  # nothing to preserve -- fail loud and fix the tree.
+  if [ -n "$(find "$DEST/$name" -type l -print -quit)" ]; then
+    echo "  FATAL $name contains a symlink -- skills are single files (ART-075) and"
+    echo "        a -type f content sha would silently omit it:"
+    find "$DEST/$name" -type l -exec ls -ld {} \; | sed 's/^/          /'
+    exit 1
+  fi
+
   sha=$(find "$DEST/$name" -type f -exec shasum -a 256 {} + | sort | shasum -a 256 | cut -d' ' -f1)
   cat > "$pin" <<JSON
 {
