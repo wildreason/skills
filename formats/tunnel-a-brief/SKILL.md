@@ -1,12 +1,6 @@
 ---
 name: tunnel-a-brief
-description: >
-  The branded-note format for tunnel artifacts — a launch note, feature announcement,
-  ship note, or status one-pager, optionally capturing a decision (`seed_interactive`
-  buttons). One warm on-brand page, not a deck. Invoke for "write the release brief /
-  launch note / announcement," a status one-pager, or "make a beautiful artifact
-  explaining X." Inherits tunnel-a-base. Reference exemplar:
-  artifacts.wildreason.ai/d/802sMJtgyVOCf0kZ (tunl v1.15.0 brief).
+description: 'The branded-note format for tunnel artifacts — a launch note, feature announcement, ship note, or status one-pager, optionally capturing a decision (`seed_interactive` buttons). One warm on-brand page, not a deck. Invoke for "write the release brief / launch note / announcement," a status one-pager, or "make a beautiful artifact explaining X." Inherits tunnel-a-base. Reference exemplar: artifacts.wildreason.ai/d/802sMJtgyVOCf0kZ (tunl v1.15.0 brief).'
 ---
 
 ## Inherits — tunnel-a-base

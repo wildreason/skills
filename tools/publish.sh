@@ -45,6 +45,13 @@ if ! python3 tools/check-names.py >/dev/null 2>&1; then
   python3 tools/check-names.py
   exit 1
 fi
+# TUNN-018: openlap's store reads the description LINE only, so a YAML block
+# scalar (`description: >`) is stored as ">" and agents pick skills blind.
+if ! python3 tools/check-descriptions.py >/dev/null 2>&1; then
+  echo "REFUSING TO PUBLISH: check-descriptions.py is RED."
+  python3 tools/check-descriptions.py
+  exit 1
+fi
 echo "   gates green"
 
 skills=()

@@ -1,12 +1,6 @@
 ---
 name: tunnel-a-report
-description: >
-  The results-report format for tunnel artifacts — a publish-ready benchmark / findings /
-  leaderboard write-up someone can trust in ten seconds and verify. Data-dense: tables,
-  metrics, and verdict chips — the one format where semantic colour is earned. Invoke when
-  the job is a results report, findings log, benchmark or eval write-up, or leaderboard.
-  Inherits tunnel-a-base; grounded in Papers With Code / METR / Anthropic system-card
-  conventions and the Vending-Bench Findings Log.
+description: "The results-report format for tunnel artifacts — a publish-ready benchmark / findings / leaderboard write-up someone can trust in ten seconds and verify. Data-dense: tables, metrics, and verdict chips — the one format where semantic colour is earned. Invoke when the job is a results report, findings log, benchmark or eval write-up, or leaderboard. Inherits tunnel-a-base; grounded in Papers With Code / METR / Anthropic system-card conventions and the Vending-Bench Findings Log."
 ---
 
 ## Inherits — tunnel-a-base
