@@ -1,12 +1,6 @@
 ---
 name: tunnel-a-log
-description: >
-  The running-log format for tunnel artifacts — a self-contained, EDITABLE-in-place log with
-  filterable verdict entries, expand/collapse rows, and newest-on-top sections. Invoke to START
-  a log or ADD an entry: weekly log, decision log, discovery log, incident log, release log,
-  research log, "track this over time," "make a log for X," "add an entry to the log." One
-  canonical URL forever — updates in place via tunnel edit/append, no re-upload. Inherits
-  tunnel-a-base.
+description: 'The running-log format for tunnel artifacts — a self-contained, EDITABLE-in-place log with filterable verdict entries, expand/collapse rows, and newest-on-top sections. Invoke to START a log or ADD an entry: weekly log, decision log, discovery log, incident log, release log, research log, "track this over time," "make a log for X," "add an entry to the log." One canonical URL forever — updates in place via tunnel edit/append, no re-upload. Inherits tunnel-a-base.'
 ---
 
 ## Inherits — tunnel-a-base

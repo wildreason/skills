@@ -1,14 +1,6 @@
 ---
 name: tunnel-an-artifact
-description: >
-  Operating manual for tunnel artifacts (mcp://artifact/doc/<id>, rendered at
-  artifacts.wildreason.ai/d/<id>): sharing and access, versioning and undo, closing,
-  binary and image handling with server-side optimize, and the MCP-down disclosure
-  discipline. Use when GRANTING or REVOKING access, changing visibility, inserting or
-  optimizing media, reverting to an earlier version, closing an artifact, or diagnosing
-  an artifact that would not save. NOT for choosing how a document should look — that is the format
-  skills (sheet, doc, brief, essay, deck, log, report), which is a different decision
-  made at a different moment.
+description: "Operating manual for tunnel artifacts (mcp://artifact/doc/<id>, rendered at artifacts.wildreason.ai/d/<id>): sharing and access, versioning and undo, closing, binary and image handling with server-side optimize, and the MCP-down disclosure discipline. Use when GRANTING or REVOKING access, changing visibility, inserting or optimizing media, reverting to an earlier version, closing an artifact, or diagnosing an artifact that would not save. NOT for choosing how a document should look — that is the format skills (sheet, doc, brief, essay, deck, log, report), which is a different decision made at a different moment."
 ---
 
 # Tunnel an artifact
