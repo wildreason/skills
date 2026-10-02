@@ -34,7 +34,8 @@ One canonical URL per artifact, edited in place forever:
   when the whole document needs replacing and you have the version in hand.
 - **`promote`** — full-body replace without needing `base_version` (CRDT-merged), OR the
   workspace-bridge write path (`workspace`+`path`, re-reads a file from a synced workspace and
-  pushes fresh bytes). Also the tool for **binary optimize** — see below.
+  pushes fresh bytes). Also the tool for **binary optimize** — see below. Creating with it takes
+  `visibility: "private"` too (see Visibility below).
 - **`read`** — full current content + version + hash + `who`-adjacent metadata.
 - **`diff`** — added/removed lines + `decisions {set, cleared}` since a version, for
   interactive/decision-carrying artifacts.
@@ -93,7 +94,16 @@ Do not inline a data-URI as a workaround unless the artifact truly needs to be s
 
 - Default is **public** (link-share model) — anyone with the URL can read, no auth. This is by
   design, not a bug; most artifacts (reports, dashboards, logs) want this.
-- **`seed({visibility:"private"})`** creates a private artifact from the start (`ART-050`).
+- **Every creating tool takes `visibility`** — `seed`, `seed_interactive`, `promote` and `ingest`
+  (`TUNN-014`; `seed` since `ART-050`). `"private"` is set in the same write as the content, so the
+  artifact is never served public first. The response states the effective `visibility`; check it.
+  Anything but `"public"`/`"private"` is an error and nothing is written.
+- **A misspelled or unknown argument is refused by name** on those four tools (`unknown_argument`,
+  e.g. `visibilty`), never silently dropped. That drop is how a "private" request used to publish
+  public.
+- **Updating with `uri`** (`promote`/`ingest`) keeps the artifact's visibility. Passing
+  `visibility` there changes it, owner-only like `set_visibility`, and private is applied before
+  the new body is served.
 - **`set_visibility`** flips an existing artifact private↔public. Owner-only (reuses the same
   ownership check as `grant`/`revoke`/`close`) — a write-grantee can edit content but cannot
   change exposure. Leak-safe: a non-reader hitting a private doc gets a plain 404, never a
