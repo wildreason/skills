@@ -45,7 +45,13 @@ if ! python3 tools/check-names.py >/dev/null 2>&1; then
   python3 tools/check-names.py
   exit 1
 fi
+if ! python3 tools/check-templates.py >/dev/null 2>&1; then
+  echo "REFUSING TO PUBLISH: check-templates.py is RED."
+  python3 tools/check-templates.py
+  exit 1
+fi
 echo "   gates green"
+echo "   (templates/ reach tunnel only through tools/publish-templates.sh --upload)"
 
 skills=()
 for d in formats/*/ guide/*/; do

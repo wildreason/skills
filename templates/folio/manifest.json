@@ -1,0 +1,30 @@
+{
+  "name": "folio",
+  "shape": "folio",
+  "summary": "The major-presentation page for the few sessions that earn it: hero, map, load-bearing items, ranking, risks, asks, appendix. Illustrated, and audited before anyone sees it.",
+  "intents": ["major presentation", "sprint kickoff", "mission kickoff", "launch review", "journey audit", "board read", "investor read"],
+  "not_for": ["status update", "single decision", "results report", "running log"],
+  "content_types": ["html"],
+  "slots": [
+    {"name": "title", "says": "the page title", "required": true},
+    {"name": "chasing", "says": "one sentence: what we are chasing", "required": true},
+    {"name": "hero_art", "says": "the hero plate's image source (inline data: or same-host)", "required": true},
+    {"name": "map", "says": "every item on one diagram", "required": true},
+    {"name": "items", "says": "the load-bearing items, one short story each", "required": true},
+    {"name": "ranking", "says": "the ranking or schedule, with the cut line", "required": true},
+    {"name": "risks", "says": "three risks at most", "required": true},
+    {"name": "asks", "says": "decisions needed, each with an owner and a default", "required": true},
+    {"name": "appendix", "says": "the full inventory, searchable", "required": true}
+  ],
+  "finish_line": [
+    {"id": "title", "kind": "title", "says": "it has a title"},
+    {"id": "under_900kb", "kind": "max_bytes", "max": 900000, "says": "under 900,000 bytes, so the room viewer's 1 MB cut never lands"},
+    {"id": "no_font_stylesheet", "kind": "no_external", "texts": ["stylesheet"], "says": "no external stylesheet: fonts are inline @font-face"},
+    {"id": "themes", "kind": "source_contains", "texts": ["prefers-color-scheme", "prefers-reduced-motion"], "says": "light and dark themes, and motion guarded by reduced-motion"},
+    {"id": "order", "kind": "in_order", "texts": ["Risks", "Asks", "Appendix"], "says": "risks, then asks, then the appendix last"},
+    {"id": "no_emoji", "kind": "no_emoji", "says": "no emoji"},
+    {"id": "filled", "kind": "no_slots", "says": "every slot filled"},
+    {"id": "claims_audit", "kind": "manual", "says": "claims audited by fennec or adversary, not the builder, and recorded before the team sees it"},
+    {"id": "screens", "kind": "manual", "says": "looked at 390, 768 and 1440 wide, light and dark"}
+  ]
+}

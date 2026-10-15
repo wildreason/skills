@@ -1,0 +1,33 @@
+{
+  "name": "brief",
+  "shape": "brief",
+  "summary": "One warm on-brand page for a launch note, feature announcement, ship note or status one-pager: what shipped, how it fits, what is coming.",
+  "intents": ["release brief", "launch note", "feature announcement", "ship note", "status one-pager", "what we built", "release notes"],
+  "not_for": ["multi-section case", "benchmark results", "running log"],
+  "content_types": ["html"],
+  "slots": [
+    {"name": "title", "says": "product and version", "required": true},
+    {"name": "outcome", "says": "the outcome, in human words", "required": true},
+    {"name": "lede", "says": "one expanding sentence", "required": true},
+    {"name": "building", "says": "the endeavour, in plain language", "required": true},
+    {"name": "shipped", "says": "what this release changes", "required": true},
+    {"name": "before", "says": "how it was"},
+    {"name": "after", "says": "how it is now"},
+    {"name": "next", "says": "the next step", "required": true},
+    {"name": "payoff", "says": "what the reader will come to see", "required": true},
+    {"name": "foot", "says": "product, version, surface, who prepared it", "required": true}
+  ],
+  "finish_line": [
+    {"id": "title", "kind": "title", "says": "it has a title"},
+    {"id": "one_outcome", "kind": "count", "selector": "h1", "min": 1, "max": 1, "says": "one H1: the outcome"},
+    {"id": "sections", "kind": "heading", "level": 2, "min": 3, "says": "at least three H2 sections"},
+    {"id": "flow", "kind": "in_order", "texts": ["What shipped", "What is coming"], "says": "what shipped comes before what is coming"},
+    {"id": "one_screen", "kind": "words", "max": 900, "says": "one screen of ideas: 900 visible words at most"},
+    {"id": "self_contained", "kind": "no_external", "texts": ["stylesheet", "script"], "says": "no stylesheet or script from another host"},
+    {"id": "no_emoji", "kind": "no_emoji", "says": "no emoji"},
+    {"id": "filled", "kind": "no_slots", "says": "every slot filled"},
+    {"id": "primaries", "kind": "manual", "says": "primaries only (blue, yellow, red, black on white), colour carries meaning"},
+    {"id": "served", "kind": "manual", "says": "the render is checked live and the artifact is attached in the channel"}
+  ],
+  "example": "https://artifacts.wildreason.ai/d/802sMJtgyVOCf0kZ"
+}

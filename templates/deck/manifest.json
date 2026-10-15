@@ -1,0 +1,34 @@
+{
+  "name": "deck",
+  "shape": "deck",
+  "summary": "A case argued section by section: a cover, numbered sections, at most one diagram, and a one-line close.",
+  "intents": ["pitch deck", "strategy memo", "recommendation", "make the case", "board narrative", "investor narrative", "capital allocation", "presentation"],
+  "not_for": ["numbers to look up", "results report", "running log"],
+  "content_types": ["html"],
+  "slots": [
+    {"name": "title", "says": "the page title", "required": true},
+    {"name": "context", "says": "context and scope, for the cover eyebrow", "required": true},
+    {"name": "claim", "says": "the one big claim", "required": true},
+    {"name": "thesis", "says": "the thesis in two sentences", "required": true},
+    {"name": "topic_1", "says": "section 01's topic", "required": true},
+    {"name": "point_1", "says": "section 01's claim", "required": true},
+    {"name": "support_1", "says": "what supports it", "required": true},
+    {"name": "topic_2", "says": "section 02's topic", "required": true},
+    {"name": "point_2", "says": "section 02's claim", "required": true},
+    {"name": "support_2", "says": "what supports it", "required": true},
+    {"name": "close", "says": "the whole argument in one sentence", "required": true},
+    {"name": "meta", "says": "author, date, one-line thesis", "required": true}
+  ],
+  "finish_line": [
+    {"id": "title", "kind": "title", "says": "it has a title"},
+    {"id": "cover", "kind": "count", "selector": ".cover", "min": 1, "max": 1, "says": "one cover"},
+    {"id": "one_claim", "kind": "count", "selector": "h1", "min": 1, "max": 1, "says": "one H1: the big claim"},
+    {"id": "sections", "kind": "count", "selector": ".num", "min": 2, "says": "at least two numbered sections"},
+    {"id": "close", "kind": "count", "selector": ".close", "min": 1, "max": 1, "says": "ends on a one-line close"},
+    {"id": "one_diagram", "kind": "count", "selector": "svg", "max": 1, "says": "at most one diagram"},
+    {"id": "footer", "kind": "count", "selector": "footer", "min": 1, "says": "a footer names the author and date"},
+    {"id": "no_emoji", "kind": "no_emoji", "says": "no emoji"},
+    {"id": "filled", "kind": "no_slots", "says": "every slot filled"},
+    {"id": "one_claim_each", "kind": "manual", "says": "each section argues one claim and supports it"}
+  ]
+}

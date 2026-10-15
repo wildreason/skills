@@ -1,0 +1,7 @@
+# {{title}}
+
+{{lede}}
+
+## {{section}}
+
+{{body}}

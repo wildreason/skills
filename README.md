@@ -87,15 +87,32 @@ nothing. It installs before pushing because `openlap push --skill` reads
 `~/.claude/skills`, never this repo — pushing without that ships stale bytes,
 a mistake this repo has already made once.
 
+### Templates reach tunnel separately
+
+```
+tools/publish-templates.sh            gate only, sends nothing
+tools/publish-templates.sh --upload   needs TUNL_TEMPLATE_PUBLISH_TOKEN
+```
+
+`templates/<name>/` is what tunnel's `templates` tool serves (TUNN-033), so any
+agent finds a template with no skill installed: `manifest.json` (when to use it,
+the slots, the finish line) and the skeleton beside it as `skeleton.html` or
+`skeleton.md`. `--upload` posts all of them in one batch (tunnel writes none if
+one is refused), then reads each back and compares it with this repo. A changed
+template gets the next version (`brief@1` -> `brief@2`); old versions stay, so a
+doc made under `brief@1` is still checked against `brief@1`. `publish.sh` gates
+the templates but never uploads them. Uploading is a write to prod.
+
 ## Gates
 
-Both run on the repo, both label every rule as **INVARIANT** or **PROXY**,
+All three run on the repo, both label every rule as **INVARIANT** or **PROXY**,
 because an unlabelled green gets read a year later as proof of something it
 never checked.
 
 ```
 tools/check-tokens.sh    no colour outside the token block; no skill shadows a base token name
 tools/check-names.py     no dangling names; exactly seven formats; the guide stays out of the pick lane
+tools/check-templates.py  each template parses as tunnel would parse it (PROXY: tunnel re-checks on upload)
 ```
 
 **Scope limit, and it is structural.** These read *this repo*. The set of skills
@@ -107,7 +124,8 @@ run means "none of ours collide" — never "no collisions exist".
 ```
 formats/     the seven, plus tunnel-a-base
 guide/       tunnel-an-artifact — the operating manual, not a format
-tools/       the gates
+templates/   one folder per template tunnel serves: manifest.json + skeleton
+tools/       the gates and the publish scripts
 ```
 
 **Every skill is exactly one `SKILL.md`.** There are no companion files: the token

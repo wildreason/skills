@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<style>
+:root{--ground:#f4efe5;--ink:#12151a;--soft:#4a4f57;--faint:#8a8f97;--stroke:rgba(18,21,26,.09);
+--display:'Instrument Serif',Georgia,serif;--body:Inter,system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace}
+body{margin:0;background:var(--ground);color:var(--ink);font:15px/1.6 var(--body)}
+.wrap{max-width:1100px;margin:0 auto;padding:56px 20px 120px}
+.eyebrow{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+h1{font:400 clamp(36px,7vw,58px)/1.03 var(--display);letter-spacing:-.02em;margin:0 0 18px}
+h1 em{color:var(--soft)}
+h2{font:400 32px var(--display);margin:56px 0 14px}
+.lede{color:var(--soft);font-size:17px;max-width:740px}
+p{max-width:820px}
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--stroke);color:var(--faint);font:12px var(--mono);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">{{eyebrow}}</p>
+<h1>{{headline}}<br><em>{{answer}}</em></h1>
+<p class="lede">{{lede}}</p>
+<h2>{{section_1}}</h2>
+<p>{{body_1}}</p>
+<h2>{{section_2}}</h2>
+<p>{{body_2}}</p>
+<footer><span>{{byline}}</span><span>{{tagline}}</span></footer>
+</div></body></html>

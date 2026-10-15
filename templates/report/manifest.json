@@ -1,0 +1,33 @@
+{
+  "name": "report",
+  "shape": "report",
+  "summary": "A results report someone can trust in ten seconds and verify: headline result, limitations as a first-class section, and every number's source.",
+  "intents": ["results report", "benchmark", "findings", "leaderboard", "eval write-up", "verdicts", "metrics"],
+  "not_for": ["narrative", "pitch", "announcement"],
+  "content_types": ["html", "markdown"],
+  "slots": [
+    {"name": "title", "says": "what this reports", "required": true},
+    {"name": "lede", "says": "what this is, in one sentence", "required": true},
+    {"name": "metric", "says": "the metric the table ranks by", "required": true},
+    {"name": "row_1", "says": "a config or item", "required": true},
+    {"name": "value_1", "says": "its number", "required": true},
+    {"name": "row_2", "says": "a config or item", "required": true},
+    {"name": "value_2", "says": "its number", "required": true},
+    {"name": "total", "says": "the column's total, if it has one", "required": true},
+    {"name": "verdict", "says": "one bolded verdict line, after the evidence", "required": true},
+    {"name": "limitations", "says": "what was not tested, what this does not prove, what gate is open", "required": true},
+    {"name": "sources", "says": "every number's source: digest, link, lap id, metric id; who verified; last updated", "required": true}
+  ],
+  "finish_line": [
+    {"id": "title", "kind": "title", "says": "it has a title"},
+    {"id": "result_table", "kind": "count", "selector": "table", "min": 1, "says": "the headline result is a table"},
+    {"id": "totals", "kind": "table_totals", "says": "every Total row equals the sum of its column"},
+    {"id": "limitations", "kind": "heading", "text": "Limitations", "min": 1, "says": "Limitations is its own section"},
+    {"id": "sources", "kind": "heading", "text": "Source", "min": 1, "says": "a Sources section names where every number came from"},
+    {"id": "order", "kind": "in_order", "texts": ["Limitations", "Source"], "says": "limitations come before the sources, at the end"},
+    {"id": "no_hype", "kind": "banned_words", "texts": ["breakthrough", "SOTA", "state of the art", "game-changing"], "says": "no hype words"},
+    {"id": "no_emoji", "kind": "no_emoji", "says": "no emoji"},
+    {"id": "filled", "kind": "no_slots", "says": "every slot filled"},
+    {"id": "traced", "kind": "manual", "says": "every number traces to its source of record, and monitored figures are not headline numbers"}
+  ]
+}

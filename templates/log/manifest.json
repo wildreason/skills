@@ -1,0 +1,31 @@
+{
+  "name": "log",
+  "shape": "log",
+  "summary": "A running log under one URL forever: time sections newest on top, entries with a verdict badge, edited in place.",
+  "intents": ["weekly log", "decision log", "incident log", "release log", "research log", "discovery log", "track over time", "add an entry"],
+  "not_for": ["one-shot page", "pitch"],
+  "content_types": ["html"],
+  "slots": [
+    {"name": "title", "says": "log title and cadence", "required": true},
+    {"name": "eyebrow", "says": "what the log covers", "required": true},
+    {"name": "lede", "says": "what goes in, and the verdicts used", "required": true},
+    {"name": "period", "says": "the newest time section, e.g. Week of 2026-10-12", "required": true},
+    {"name": "verdict", "says": "this entry's verdict word", "required": true},
+    {"name": "verdict_key", "says": "the verdict as a lower-case key", "required": true},
+    {"name": "entry_title", "says": "the entry's title", "required": true},
+    {"name": "entry_meta", "says": "source, count, date", "required": true},
+    {"name": "entry_body", "says": "four lines at most; link out for more", "required": true},
+    {"name": "verdict_line", "says": "the entry's one-line verdict", "required": true},
+    {"name": "updated", "says": "last-updated date", "required": true}
+  ],
+  "finish_line": [
+    {"id": "title", "kind": "title", "says": "it has a title"},
+    {"id": "sections", "kind": "count", "selector": "h2.week", "min": 1, "says": "at least one time section"},
+    {"id": "entries", "kind": "count", "selector": ".entry[data-verdict]", "min": 1, "says": "at least one entry, each tagged with its verdict"},
+    {"id": "badges", "kind": "count", "selector": ".vbadge", "min": 1, "says": "entries carry a verdict badge"},
+    {"id": "verdict_lines", "kind": "count", "selector": ".verdict-line", "min": 1, "says": "entries end on a verdict line"},
+    {"id": "no_emoji", "kind": "no_emoji", "says": "no emoji"},
+    {"id": "filled", "kind": "no_slots", "says": "every slot filled"},
+    {"id": "newest_on_top", "kind": "manual", "says": "the newest time section is on top, and the log is edited in place, never re-seeded"}
+  ]
+}

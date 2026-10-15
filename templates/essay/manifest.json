@@ -1,0 +1,32 @@
+{
+  "name": "essay",
+  "shape": "essay",
+  "summary": "Editorial long-form read top to bottom: a narrative, memo, manifesto, retro or design pitch, in a display-serif voice.",
+  "intents": ["narrative", "memo", "manifesto", "retro", "retrospective", "design pitch", "made argument", "long-form writing"],
+  "not_for": ["data", "record", "lookup", "results"],
+  "content_types": ["html"],
+  "slots": [
+    {"name": "title", "says": "the page title", "required": true},
+    {"name": "eyebrow", "says": "context, section, date", "required": true},
+    {"name": "headline", "says": "one sentence", "required": true},
+    {"name": "answer", "says": "the italic answer half of the headline", "required": true},
+    {"name": "lede", "says": "the paragraph that frames the rest", "required": true},
+    {"name": "section_1", "says": "the first section's heading", "required": true},
+    {"name": "body_1", "says": "its prose", "required": true},
+    {"name": "section_2", "says": "the second section's heading", "required": true},
+    {"name": "body_2", "says": "its prose", "required": true},
+    {"name": "byline", "says": "artifact id, author, date", "required": true},
+    {"name": "tagline", "says": "one line", "required": true}
+  ],
+  "finish_line": [
+    {"id": "title", "kind": "title", "says": "it has a title"},
+    {"id": "one_headline", "kind": "count", "selector": "h1", "min": 1, "max": 1, "says": "one H1 headline"},
+    {"id": "sections", "kind": "heading", "level": 2, "min": 2, "says": "at least two H2 sections"},
+    {"id": "eyebrow", "kind": "count", "selector": ".eyebrow", "min": 1, "says": "an eyebrow names the context"},
+    {"id": "footer", "kind": "count", "selector": "footer", "min": 1, "max": 1, "says": "one footer with the id and a tagline"},
+    {"id": "vocabulary", "kind": "banned_words", "texts": ["living document", "document", "documents", "doc", "docs"], "says": "body copy says artifact, never doc or document"},
+    {"id": "no_emoji", "kind": "no_emoji", "says": "no emoji"},
+    {"id": "filled", "kind": "no_slots", "says": "every slot filled"},
+    {"id": "semantic_colour", "kind": "manual", "says": "parchment ground, colour is semantic and never decoration"}
+  ]
+}

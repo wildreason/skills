@@ -1,0 +1,25 @@
+{
+  "name": "sheet",
+  "shape": "sheet",
+  "summary": "One calm white sheet for one thing at a time: a decision, a confirmation, a short note or receipt, with at most one primary action.",
+  "intents": ["single decision", "confirmation", "short note", "receipt", "quiet announcement", "small form", "invite", "share access"],
+  "not_for": ["dense data", "results table", "running log", "long pitch"],
+  "content_types": ["html"],
+  "slots": [
+    {"name": "title", "says": "the one thing, as a sentence", "required": true},
+    {"name": "body", "says": "a few lines; say less", "required": true},
+    {"name": "action", "says": "the one primary action's label", "required": true},
+    {"name": "action_href", "says": "where the action goes"}
+  ],
+  "finish_line": [
+    {"id": "title", "kind": "title", "says": "it has a title"},
+    {"id": "one_sheet", "kind": "count", "selector": ".sheet", "min": 1, "max": 1, "says": "exactly one container: the sheet"},
+    {"id": "one_action", "kind": "count", "selector": ".btn-primary", "max": 1, "says": "at most one primary action"},
+    {"id": "no_tables", "kind": "count", "selector": "table", "max": 0, "says": "no tables: if the reader must compare data, it is a report"},
+    {"id": "short", "kind": "words", "max": 200, "says": "a few lines: 200 visible words at most"},
+    {"id": "self_contained", "kind": "no_external", "texts": ["stylesheet", "script"], "says": "no stylesheet or script from another host"},
+    {"id": "no_emoji", "kind": "no_emoji", "says": "no emoji"},
+    {"id": "filled", "kind": "no_slots", "says": "every slot filled"},
+    {"id": "no_decoration", "kind": "manual", "says": "no colour as decoration: greys, white and one ink"}
+  ]
+}
