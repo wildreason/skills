@@ -9,7 +9,13 @@
     "launch post",
     "journalistic piece",
     "make the case for a risk",
-    "a story"
+    "a story",
+    "launch note",
+    "ship note",
+    "announcement",
+    "pitch deck",
+    "pitch",
+    "ship"
   ],
   "not_for": [
     "a long multi-chapter piece (use rendition)",
@@ -97,7 +103,7 @@
     },
     {
       "name": "ladder",
-      "says": "5 rising steps: <li><span class=\"n\">1</span><b>step</b><p>what happens</p><em>what it costs</em></li>",
+      "says": "5 rising steps: <li class=\"rung\"><span class=\"n\">1</span><b>step</b><p>what happens</p><em>what it costs</em></li>",
       "required": true
     },
     {
@@ -169,7 +175,7 @@
       "id": "three_steps",
       "says": "three story steps",
       "kind": "count",
-      "selector": ".story li",
+      "selector": "li.step",
       "min": 3,
       "max": 3
     },
@@ -177,7 +183,7 @@
       "id": "ladder",
       "says": "a five-step ladder",
       "kind": "count",
-      "selector": ".ladder li",
+      "selector": "li.rung",
       "min": 5,
       "max": 5
     },

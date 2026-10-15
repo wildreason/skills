@@ -11,7 +11,9 @@ so a manifest that would be refused is caught here, before a publish.
 PROXY, not the authority. Tunnel validates the whole batch again on
 POST /api/templates and writes none of it if one manifest fails. This copy of
 the rules can drift from tunnel's; when they disagree, tunnel is right and this
-file is the one to fix. It does not check count selectors (tunnel does).
+file is the one to fix. Count selectors are parsed with tunnel's grammar
+(compoundRe in internal/templates/check.go): tag, .class, [attr] or
+[attr=value], combined, comma-separated -- no descendant or child combinators.
 """
 import json
 import pathlib
@@ -33,6 +35,12 @@ NAME_RE = re.compile(r"^[a-z0-9-]+(/[a-z0-9-]+)?$")
 SLOT_RE = re.compile(r"\{\{([A-Za-z0-9_.-]+)\}\}")
 LEFT_RE = re.compile(r"\{\{[^{}\n]{1,80}\}\}")
 TEST_RE = re.compile(r"^[a-z0-9_-]{1,40}$")
+# tunnel's compoundRe, verbatim. ".sources li" is refused there; it was here too late.
+COMPOUND_RE = re.compile(r'^([a-z][a-z0-9]*)?((?:\.[A-Za-z0-9_-]+)*)(?:\[([a-z][a-z0-9_-]*)(?:="?([^"\]]*)"?)?\])?$')
+
+
+def selector_ok(sel):
+    return all(p.strip() and COMPOUND_RE.match(p.strip()) for p in sel.split(","))
 
 
 def problems(m):
@@ -104,6 +112,8 @@ def problems(m):
             bad(f"test {tid!r}: {kind} needs min or max")
         if kind == "count" and not t.get("selector"):
             bad(f"test {tid!r}: count needs a selector")
+        if t.get("selector") and not selector_ok(t["selector"]):
+            bad(f"test {tid!r}: selector {t['selector']!r}: use tag, .class, [attr] or [attr=value], combined, comma-separated")
         if kind == "heading" and not 0 <= t.get("level", 0) <= 6:
             bad(f"test {tid!r}: level is 1..6, or 0 for any")
         if kind == "in_order" and len(texts) < 2:

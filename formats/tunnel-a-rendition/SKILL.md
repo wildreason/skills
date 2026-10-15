@@ -25,7 +25,7 @@ Inherits **tunnel-a-base**. Template: `templates(name:"rendition")`.
    - An aside (`aside.aside`) for a definition or a side note the main line
      can do without.
 5. **What it means**: the coda, one bold line and why.
-6. **Sources**: one `<li>` each.
+6. **Sources**: one `<li class="src">` each (the finish line counts them).
 
 The finish line wants at least 1200 words and at least three chapters. The
 section headings stay in order: In this piece, Setup, What it means, Sources.

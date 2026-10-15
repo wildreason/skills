@@ -19,7 +19,8 @@ Inherits **tunnel-a-base**. Template: `templates(name:"story")`.
 4. **Evidence**: a figure with a finding title, a source (or "illustrative"),
    and a takeaway. Any chart kind from tunnel-a-base.
 5. **How far the fall goes**: a ladder of exactly five rising steps, each
-   `<li><span class="n">1</span><b>step</b><p>what happens</p><em>what it costs</em></li>`.
+   `<li class="rung"><span class="n">1</span><b>step</b><p>what happens</p><em>what it costs</em></li>`
+   (the finish line counts `li.rung`).
    Later steps darken on their own.
 6. **What we know so far**: claim / status dot / evidence rows, with the legend.
 

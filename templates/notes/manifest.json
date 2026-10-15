@@ -14,7 +14,9 @@
   "not_for": [
     "a decision to make",
     "numbers to check",
-    "a story to tell"
+    "a story to tell",
+    "launch note",
+    "ship note"
   ],
   "content_types": [
     "html"
