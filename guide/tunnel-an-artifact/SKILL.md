@@ -28,8 +28,7 @@ One canonical URL per artifact, edited in place forever:
   (default `"public"`, see Visibility below).
 - **`edit`** — surgical CRDT replace (`old_string`→`new_string`). The cheap, fast, default choice
   for a small change — no full-body resend. Requires an *exact* match; see Gotchas.
-- **`append`** — safe-extend, never overwrites. Right tool for log-style/growing artifacts (see
-  the `tunnel-a-log` skill for the full weekly-log pattern built on this).
+- **`append`** — safe-extend, never overwrites. Right tool for log-style/growing artifacts.
 - **`write`** — full-body replace via compare-and-swap (`base_version` from a prior `read`). Use
   when the whole document needs replacing and you have the version in hand.
 - **`promote`** — full-body replace without needing `base_version` (CRDT-merged), OR the

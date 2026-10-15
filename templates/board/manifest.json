@@ -1,0 +1,126 @@
+{
+  "name": "board",
+  "shape": "board",
+  "summary": "Every option on one wall, clustered, with votes, a favourite and dropped ideas, before anyone chooses.",
+  "intents": [
+    "options wall",
+    "brainstorm",
+    "compare approaches",
+    "path map",
+    "storyboard",
+    "affinity map",
+    "ideas board",
+    "explore options"
+  ],
+  "not_for": [
+    "making the decision (hand the favourite to a brief)",
+    "a status update",
+    "numbers"
+  ],
+  "content_types": [
+    "html"
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "says": "page title",
+      "required": true
+    },
+    {
+      "name": "variant",
+      "says": "options, path map, storyboard or affinity map",
+      "required": true
+    },
+    {
+      "name": "headline",
+      "says": "H1: the question the wall answers, as a finding",
+      "required": true
+    },
+    {
+      "name": "lede",
+      "says": "one line on how to read the wall",
+      "required": true
+    },
+    {
+      "name": "clusters",
+      "says": "clusters as a JSON array; inside JSON, write </ as <\\/: [{\"name\":\"\",\"items\":[{\"id\":\"a1\",\"title\":\"\",\"body\":\"one line\",\"votes\":3,\"fav\":true,\"drop\":false}]}]; at most 4 clusters",
+      "required": true
+    },
+    {
+      "name": "links",
+      "says": "paths as a JSON array; inside JSON, write </ as <\\/ of [fromId,toId] pairs, or []",
+      "required": true
+    },
+    {
+      "name": "favourite_path",
+      "says": "one takeaway naming the favourite path",
+      "required": true
+    }
+  ],
+  "finish_line": [
+    {
+      "id": "title",
+      "says": "it has a title",
+      "kind": "title"
+    },
+    {
+      "id": "one_h1",
+      "says": "one H1, and it states the finding",
+      "kind": "count",
+      "selector": "h1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "filled",
+      "says": "every slot filled",
+      "kind": "no_slots"
+    },
+    {
+      "id": "kit",
+      "says": "links the tunnel kit, so it renders in every viewer",
+      "kind": "source_contains",
+      "texts": [
+        "https://artifacts.wildreason.ai/kit/v1/kit.css",
+        "https://artifacts.wildreason.ai/kit/v1/kit.js"
+      ]
+    },
+    {
+      "id": "self_contained",
+      "says": "no stylesheet or script from another host (the kit is ours)",
+      "kind": "no_external",
+      "texts": [
+        "stylesheet",
+        "script"
+      ]
+    },
+    {
+      "id": "no_emoji",
+      "says": "no emoji",
+      "kind": "no_emoji"
+    },
+    {
+      "id": "wall",
+      "says": "the board block is there",
+      "kind": "count",
+      "selector": "[data-vt=board]",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "no_decision",
+      "says": "the board doesn't decide; the winner goes to a brief",
+      "kind": "manual"
+    },
+    {
+      "id": "one_fav",
+      "says": "at most one favourite path",
+      "kind": "manual"
+    },
+    {
+      "id": "fits",
+      "says": "works at 400px wide and in dark mode",
+      "kind": "manual"
+    }
+  ]
+}

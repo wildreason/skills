@@ -1,0 +1,254 @@
+{
+  "name": "rendition",
+  "shape": "rendition",
+  "summary": "A fuller long-form story in chapters: headline and standfirst, contents, setup, three chapters with a pull quote, a figure and an aside, what it means, and sources.",
+  "intents": [
+    "long-form story",
+    "feature story",
+    "deep dive",
+    "case study",
+    "narrative report",
+    "the full story",
+    "retrospective",
+    "rendition"
+  ],
+  "not_for": [
+    "one idea on one page (use story)",
+    "a decision memo",
+    "a status update"
+  ],
+  "content_types": [
+    "html"
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "says": "page title",
+      "required": true
+    },
+    {
+      "name": "kicker",
+      "says": "eyebrow: section or series",
+      "required": true
+    },
+    {
+      "name": "headline",
+      "says": "H1: the story's claim, as a sentence",
+      "required": true
+    },
+    {
+      "name": "standfirst",
+      "says": "two or three sentences: what this piece shows and why it matters",
+      "required": true
+    },
+    {
+      "name": "byline",
+      "says": "author",
+      "required": true
+    },
+    {
+      "name": "date",
+      "says": "date",
+      "required": true
+    },
+    {
+      "name": "read_time",
+      "says": "reading time, e.g. 9 min read",
+      "required": true
+    },
+    {
+      "name": "contents",
+      "says": "one <li> per chapter, matching the chapter titles",
+      "required": true
+    },
+    {
+      "name": "setup",
+      "says": "every actor, thing and number as <dt>Name</dt><dd>what it is</dd>",
+      "required": true
+    },
+    {
+      "name": "chapter_1",
+      "says": "chapter 1 title, as a finding",
+      "required": true
+    },
+    {
+      "name": "chapter_1_body",
+      "says": "chapter 1 as <p> paragraphs",
+      "required": true
+    },
+    {
+      "name": "pull_quote",
+      "says": "one line worth remembering",
+      "required": true
+    },
+    {
+      "name": "pull_cite",
+      "says": "who said it, or where it is from",
+      "required": true
+    },
+    {
+      "name": "chapter_2",
+      "says": "chapter 2 title, as a finding",
+      "required": true
+    },
+    {
+      "name": "chapter_2_body",
+      "says": "chapter 2 as <p> paragraphs",
+      "required": true
+    },
+    {
+      "name": "figure_finding",
+      "says": "the figure's finding",
+      "required": true
+    },
+    {
+      "name": "chart_kind",
+      "says": "bars, waterfall, variance or line",
+      "required": true
+    },
+    {
+      "name": "chart",
+      "says": "chart data as JSON: bars {\"data\":[{\"label\",\"value\",\"hi\"}],\"unit\"}; waterfall {\"data\":[{\"label\",\"value\",\"total\"}],\"costs\"}; variance {\"data\":[{\"label\",\"actual\",\"plan\"}],\"costs\"}; line {\"labels\":[],\"series\":[{\"name\",\"values\",\"hi\",\"dashed\"}],\"threshold\":{\"value\",\"label\"}}",
+      "required": true
+    },
+    {
+      "name": "figure_source",
+      "says": "source, or say it is illustrative",
+      "required": true
+    },
+    {
+      "name": "figure_takeaway",
+      "says": "one line",
+      "required": true
+    },
+    {
+      "name": "chapter_3",
+      "says": "chapter 3 title, as a finding",
+      "required": true
+    },
+    {
+      "name": "chapter_3_body",
+      "says": "chapter 3 as <p> paragraphs",
+      "required": true
+    },
+    {
+      "name": "aside_label",
+      "says": "aside label, e.g. a definition or a side note",
+      "required": true
+    },
+    {
+      "name": "aside",
+      "says": "the aside as <p>",
+      "required": true
+    },
+    {
+      "name": "coda",
+      "says": "what it all means, in one bold line",
+      "required": true
+    },
+    {
+      "name": "coda_why",
+      "says": "one or two lines of why",
+      "required": true
+    },
+    {
+      "name": "sources",
+      "says": "one <li> per source",
+      "required": true
+    }
+  ],
+  "finish_line": [
+    {
+      "id": "title",
+      "says": "it has a title",
+      "kind": "title"
+    },
+    {
+      "id": "one_h1",
+      "says": "one H1, and it states the finding",
+      "kind": "count",
+      "selector": "h1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "filled",
+      "says": "every slot filled",
+      "kind": "no_slots"
+    },
+    {
+      "id": "kit",
+      "says": "links the tunnel kit, so it renders in every viewer",
+      "kind": "source_contains",
+      "texts": [
+        "https://artifacts.wildreason.ai/kit/v1/kit.css",
+        "https://artifacts.wildreason.ai/kit/v1/kit.js"
+      ]
+    },
+    {
+      "id": "self_contained",
+      "says": "no stylesheet or script from another host (the kit is ours)",
+      "kind": "no_external",
+      "texts": [
+        "stylesheet",
+        "script"
+      ]
+    },
+    {
+      "id": "no_emoji",
+      "says": "no emoji",
+      "kind": "no_emoji"
+    },
+    {
+      "id": "long",
+      "says": "a fuller piece: 1200 visible words at least",
+      "kind": "words",
+      "min": 1200
+    },
+    {
+      "id": "flow",
+      "says": "contents, setup, the chapters, what it means, sources",
+      "kind": "in_order",
+      "texts": [
+        "In this piece",
+        "Setup",
+        "What it means",
+        "Sources"
+      ]
+    },
+    {
+      "id": "chapters",
+      "says": "three chapters or more",
+      "kind": "count",
+      "selector": ".chapter",
+      "min": 3
+    },
+    {
+      "id": "sources_listed",
+      "says": "sources listed",
+      "kind": "count",
+      "selector": ".sources li",
+      "min": 1
+    },
+    {
+      "id": "titles_tell",
+      "says": "read top to bottom, the titles alone tell the story; the first is the answer",
+      "kind": "manual"
+    },
+    {
+      "id": "setup_complete",
+      "says": "Setup defines every actor, thing, number and rule before it is used",
+      "kind": "manual"
+    },
+    {
+      "id": "honest",
+      "says": "estimates, simulations and illustrative numbers are marked next to the number",
+      "kind": "manual"
+    },
+    {
+      "id": "fits",
+      "says": "works at 400px wide and in dark mode",
+      "kind": "manual"
+    }
+  ]
+}

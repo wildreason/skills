@@ -1,0 +1,201 @@
+{
+  "name": "numbers",
+  "shape": "numbers",
+  "summary": "What the money or metrics say, consulting style: a finding with its key number, up to four KPI tiles, one chart per finding, and the line items.",
+  "intents": [
+    "cost review",
+    "budget vs actual",
+    "spend review",
+    "runway",
+    "KPI review",
+    "metrics",
+    "financial update",
+    "variance analysis",
+    "numbers"
+  ],
+  "not_for": [
+    "a story",
+    "a decision with few numbers",
+    "notes"
+  ],
+  "content_types": [
+    "html"
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "says": "page title",
+      "required": true
+    },
+    {
+      "name": "scope",
+      "says": "period, e.g. a quarter",
+      "required": true
+    },
+    {
+      "name": "unit",
+      "says": "unit, e.g. $K",
+      "required": true
+    },
+    {
+      "name": "finding",
+      "says": "H1: the finding with the key number",
+      "required": true
+    },
+    {
+      "name": "lede",
+      "says": "answer first in one line",
+      "required": true
+    },
+    {
+      "name": "kpis",
+      "says": "up to 4 tiles: <div class=\"kpi\"><b>value</b><span>label</span></div>; the one that matters gets class \"kpi a\"",
+      "required": true
+    },
+    {
+      "name": "finding_1",
+      "says": "finding 1 as a sentence",
+      "required": true
+    },
+    {
+      "name": "chart_1_kind",
+      "says": "bars, waterfall, variance or line",
+      "required": true
+    },
+    {
+      "name": "chart_1",
+      "says": "chart data as JSON: bars {\"data\":[{\"label\",\"value\",\"hi\"}],\"unit\"}; waterfall {\"data\":[{\"label\",\"value\",\"total\"}],\"costs\"}; variance {\"data\":[{\"label\",\"actual\",\"plan\"}],\"costs\"}; line {\"labels\":[],\"series\":[{\"name\",\"values\",\"hi\",\"dashed\"}],\"threshold\":{\"value\",\"label\"}}",
+      "required": true
+    },
+    {
+      "name": "source_1",
+      "says": "unit, period and source",
+      "required": true
+    },
+    {
+      "name": "takeaway_1",
+      "says": "one line",
+      "required": true
+    },
+    {
+      "name": "finding_2",
+      "says": "finding 2 as a sentence",
+      "required": true
+    },
+    {
+      "name": "chart_2_kind",
+      "says": "bars, waterfall, variance or line",
+      "required": true
+    },
+    {
+      "name": "chart_2",
+      "says": "chart data as JSON: bars {\"data\":[{\"label\",\"value\",\"hi\"}],\"unit\"}; waterfall {\"data\":[{\"label\",\"value\",\"total\"}],\"costs\"}; variance {\"data\":[{\"label\",\"actual\",\"plan\"}],\"costs\"}; line {\"labels\":[],\"series\":[{\"name\",\"values\",\"hi\",\"dashed\"}],\"threshold\":{\"value\",\"label\"}}",
+      "required": true
+    },
+    {
+      "name": "source_2",
+      "says": "unit, period and source",
+      "required": true
+    },
+    {
+      "name": "takeaway_2",
+      "says": "one line",
+      "required": true
+    },
+    {
+      "name": "lines",
+      "says": "line items as a JSON array; inside JSON, write </ as <\\/: [{\"label\":\"\",\"plan\":0,\"actual\":0,\"trend\":[1,2,3]}]",
+      "required": true
+    },
+    {
+      "name": "costs",
+      "says": "true if over plan is bad (spend), false if under plan is bad (revenue)",
+      "required": true
+    }
+  ],
+  "finish_line": [
+    {
+      "id": "title",
+      "says": "it has a title",
+      "kind": "title"
+    },
+    {
+      "id": "one_h1",
+      "says": "one H1, and it states the finding",
+      "kind": "count",
+      "selector": "h1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "filled",
+      "says": "every slot filled",
+      "kind": "no_slots"
+    },
+    {
+      "id": "kit",
+      "says": "links the tunnel kit, so it renders in every viewer",
+      "kind": "source_contains",
+      "texts": [
+        "https://artifacts.wildreason.ai/kit/v1/kit.css",
+        "https://artifacts.wildreason.ai/kit/v1/kit.js"
+      ]
+    },
+    {
+      "id": "self_contained",
+      "says": "no stylesheet or script from another host (the kit is ours)",
+      "kind": "no_external",
+      "texts": [
+        "stylesheet",
+        "script"
+      ]
+    },
+    {
+      "id": "no_emoji",
+      "says": "no emoji",
+      "kind": "no_emoji"
+    },
+    {
+      "id": "length",
+      "says": "900 visible words at most",
+      "kind": "words",
+      "max": 900
+    },
+    {
+      "id": "kpi_cap",
+      "says": "four KPI tiles at most",
+      "kind": "count",
+      "selector": ".kpi",
+      "max": 4
+    },
+    {
+      "id": "findings",
+      "says": "every chart has a finding title",
+      "kind": "count",
+      "selector": ".finding",
+      "min": 2
+    },
+    {
+      "id": "takeaways",
+      "says": "a takeaway under every chart",
+      "kind": "count",
+      "selector": ".takeaway",
+      "min": 2
+    },
+    {
+      "id": "charts",
+      "says": "every chart: bars from zero, direct labels, unit, source line, takeaway",
+      "kind": "manual"
+    },
+    {
+      "id": "honest",
+      "says": "estimates, simulations and illustrative numbers are marked next to the number",
+      "kind": "manual"
+    },
+    {
+      "id": "number_rules",
+      "says": "units always; negatives in parentheses; one rounding level; variance as amount and percent",
+      "kind": "manual"
+    }
+  ]
+}

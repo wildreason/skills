@@ -18,7 +18,7 @@ import pathlib
 import re
 import sys
 
-SHAPES = ["sheet", "doc", "brief", "essay", "deck", "log", "report", "folio"]
+SHAPES = ["notes", "brief", "timeline", "board", "numbers", "story", "rendition"]
 FIELDS = {"name", "shape", "summary", "intents", "not_for", "content_types",
           "slots", "finish_line", "example", "skeleton"}
 SLOT_FIELDS = {"name", "says", "required"}

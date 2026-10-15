@@ -6,26 +6,25 @@ foundation they all inherit.
 
 ## Say the word, get the format
 
-Seven words. They do not change. The styling inside them will.
+Seven words, picked by the reader's job, not the topic.
 
-| Say | For | Not for |
+| Say | The reader needs to... | Not for |
 |---|---|---|
-| `sheet` | one thing at a time — a decision, a receipt, a short note | anything dense |
-| `doc` | prose rendered legibly — a readme, a reference, a how-to | data, persuasion |
-| `brief` | a launch note, ship note, or status one-pager | a multi-section case |
-| `essay` | a made argument, read top to bottom | a record, a lookup |
-| `deck` | a case argued section by section, cover to close | numbers to look up |
-| `log` | entries appended over time, one URL forever | a one-shot page |
-| `report` | results, verdicts, tables to trust in ten seconds | a narrative |
+| `notes` | capture many small things and find the important ones again | a decision |
+| `brief` | get the answer and make a decision | exploring options |
+| `timeline` | see what happens when, and what is stuck | money and metrics |
+| `board` | see every option at once before choosing | making the choice |
+| `numbers` | understand what the money or metrics say | a story |
+| `story` | care about one idea and remember it | a long account |
+| `rendition` | read a fuller story, chapter by chapter | one idea on one page |
 
 The "Not for" column is the fast reject. A format that tells you when to walk
-away is quicker to choose than one that only sells itself. If two fit, take the
-calmer one — drifting up the density ladder is the common failure, drifting down
-is not.
+away is quicker to choose than one that only sells itself.
 
-`tunnel-a-base` is the shared foundation: the token set, the type and build
-rules, the restraint discipline. Every format inherits it and declares
-only its deltas. It is never picked on its own.
+`tunnel-a-base` is the entry point and the shared kit: the copper palette, the
+fonts, the page rules (finding titles, answer first, Setup, one accent, a source
+and a takeaway under every figure) and the chart blocks. Every format inherits
+it and declares only its shape.
 
 `guide/tunnel-an-artifact` is the operating manual — sharing, access, versioning,
 closing, media. It is **not** a format and is deliberately outside `formats/`, so
@@ -38,7 +37,7 @@ it changes, so an eighth name has to be a decision someone makes on purpose in a
 commit — not something that accumulates.
 
 The reason is not tidiness. These words are the interface: someone learns to say
-"make it a deck" and that has to keep meaning one thing. Styling underneath is
+"make it a brief" and that has to keep meaning one thing. Styling underneath is
 expected to keep improving; the word is the part that holds still.
 
 One word, one thing. No aliases — a second name for the same body is a second
@@ -105,7 +104,7 @@ the templates but never uploads them. Uploading is a write to prod.
 
 ## Gates
 
-All three run on the repo, both label every rule as **INVARIANT** or **PROXY**,
+All four run on the repo and label every rule as **INVARIANT** or **PROXY**,
 because an unlabelled green gets read a year later as proof of something it
 never checked.
 
@@ -113,23 +112,44 @@ never checked.
 tools/check-tokens.sh    no colour outside the token block; no skill shadows a base token name
 tools/check-names.py     no dangling names; exactly seven formats; the guide stays out of the pick lane
 tools/check-templates.py  each template parses as tunnel would parse it (PROXY: tunnel re-checks on upload)
+tools/check-kit.py       tunnel-a-base's CSS block is kit/v1/kit.css; neither can break its inlined tag
 ```
 
 **Scope limit, and it is structural.** These read *this repo*. The set of skills
 an agent actually sees is assembled from repos nobody owns together, so a green
 run means "none of ours collide" — never "no collisions exist".
 
+## The kit
+
+```
+kit/v1/kit.css   the copper look; also the fenced block at the end of tunnel-a-base
+kit/v1/kit.js    chart helpers and page blocks (data-vt="bars|waterfall|...")
+```
+
+Tunnel embeds these two files, serves them at
+`https://artifacts.wildreason.ai/kit/v1/`, and inlines them when it serves an
+HTML body, so a page renders where outside stylesheets are blocked. Every
+template links the kit by those exact URLs. **v1 never changes once published**;
+a new look is `kit/v2/`, and tunnel's copy changes in the same release.
+`tools/check-kit.py` holds the base block equal to `kit/v1/kit.css`;
+`--served` also compares tunnel's served bytes (a read-only GET).
+
 ## Layout
 
 ```
 formats/     the seven, plus tunnel-a-base
-guide/       tunnel-an-artifact — the operating manual, not a format
+guide/       tunnel-an-artifact -- the operating manual, not a format
 templates/   one folder per template tunnel serves: manifest.json + skeleton
+kit/         the kit tunnel serves and inlines (kit.css, kit.js), one dir per version
 tools/       the gates and the publish scripts
 ```
 
-**Every skill is exactly one `SKILL.md`.** There are no companion files: the token
-set lives as a fenced block inside `tunnel-a-base`, and the sheet template inside
-`tunnel-a-sheet`. That is deliberate — openlap's skill store cannot accept
-companion files (`OLP-430`), so a skill that needs one could never be distributed.
-Eliminating them beat keeping a second copy plus a rule to hold the two equal.
+**Every skill is exactly one `SKILL.md`.** There are no companion files: the
+kit's CSS lives as a fenced block inside `tunnel-a-base`. That is deliberate --
+openlap's skill store cannot accept companion files (`OLP-430`), so a skill that
+needs one could never be distributed. `kit/` is not a skill; it is what tunnel
+serves.
+
+`install.sh` also removes the retired formats (`sheet`, `doc`, `report`, `log`,
+`deck`, `essay`, `folio`) where it finds them, so the old words leave the
+surface with the new ones arriving.

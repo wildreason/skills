@@ -1,0 +1,120 @@
+{
+  "name": "notes",
+  "shape": "notes",
+  "summary": "Many small ideas captured as tiles you can filter by tag; pinned tiles are the ones that should change a decision.",
+  "intents": [
+    "meeting notes",
+    "call notes",
+    "research digest",
+    "interview notes",
+    "customer notes",
+    "findings to find again",
+    "notes"
+  ],
+  "not_for": [
+    "a decision to make",
+    "numbers to check",
+    "a story to tell"
+  ],
+  "content_types": [
+    "html"
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "says": "page title",
+      "required": true
+    },
+    {
+      "name": "scope",
+      "says": "what the notes cover, e.g. a week or a project",
+      "required": true
+    },
+    {
+      "name": "headline",
+      "says": "H1: the most important thing the notes say",
+      "required": true
+    },
+    {
+      "name": "lede",
+      "says": "one line: how many sources and what pinned means here",
+      "required": true
+    },
+    {
+      "name": "notes",
+      "says": "notes as a JSON array; inside JSON, write </ as <\\/: [{\"tag\":\"one word\",\"title\":\"the point as a finding\",\"body\":\"1-2 lines\",\"quote\":\"optional\",\"who\":\"\",\"date\":\"\",\"pin\":true}]; 3-6 distinct tags",
+      "required": true
+    }
+  ],
+  "finish_line": [
+    {
+      "id": "title",
+      "says": "it has a title",
+      "kind": "title"
+    },
+    {
+      "id": "one_h1",
+      "says": "one H1, and it states the finding",
+      "kind": "count",
+      "selector": "h1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "filled",
+      "says": "every slot filled",
+      "kind": "no_slots"
+    },
+    {
+      "id": "kit",
+      "says": "links the tunnel kit, so it renders in every viewer",
+      "kind": "source_contains",
+      "texts": [
+        "https://artifacts.wildreason.ai/kit/v1/kit.css",
+        "https://artifacts.wildreason.ai/kit/v1/kit.js"
+      ]
+    },
+    {
+      "id": "self_contained",
+      "says": "no stylesheet or script from another host (the kit is ours)",
+      "kind": "no_external",
+      "texts": [
+        "stylesheet",
+        "script"
+      ]
+    },
+    {
+      "id": "no_emoji",
+      "says": "no emoji",
+      "kind": "no_emoji"
+    },
+    {
+      "id": "tiles",
+      "says": "the notes block is there",
+      "kind": "count",
+      "selector": "[data-vt=notes]",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "tile_titles",
+      "says": "every tile title states a point, not a topic",
+      "kind": "manual"
+    },
+    {
+      "id": "pins",
+      "says": "pins only on what should change a decision",
+      "kind": "manual"
+    },
+    {
+      "id": "one_accent",
+      "says": "one accent, used only for what matters and meaning the same thing everywhere",
+      "kind": "manual"
+    },
+    {
+      "id": "fits",
+      "says": "works at 400px wide and in dark mode",
+      "kind": "manual"
+    }
+  ]
+}

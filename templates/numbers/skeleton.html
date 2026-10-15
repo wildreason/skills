@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{title}}</title>
+<link rel="stylesheet" href="https://artifacts.wildreason.ai/kit/v1/kit.css">
+</head><body>
+<div class="wrap">
+<header class="head"><span class="eyebrow">Numbers · {{scope}} · {{unit}}</span>
+<h1>{{finding}}</h1><p class="lede">{{lede}}</p></header>
+<section><div class="kpis">{{kpis}}</div></section>
+<section><p class="finding">{{finding_1}}</p>
+<figure class="fig"><div data-vt="{{chart_1_kind}}"><script type="application/json">{{chart_1}}</script></div>
+<figcaption class="source">{{source_1}}</figcaption></figure>
+<p class="takeaway">{{takeaway_1}}</p></section>
+<section><p class="finding">{{finding_2}}</p>
+<figure class="fig"><div data-vt="{{chart_2_kind}}"><script type="application/json">{{chart_2}}</script></div>
+<figcaption class="source">{{source_2}}</figcaption></figure>
+<p class="takeaway">{{takeaway_2}}</p></section>
+<section><h2>Line items</h2>
+<div data-vt="lineitems"><script type="application/json">{"lines":{{lines}},"costs":{{costs}}}</script></div>
+<p class="note">Negatives in parentheses. Variance is actual minus plan.</p></section>
+</div>
+<script src="https://artifacts.wildreason.ai/kit/v1/kit.js"></script>
+</body></html>

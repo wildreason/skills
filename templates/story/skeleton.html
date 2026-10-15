@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{title}}</title>
+<link rel="stylesheet" href="https://artifacts.wildreason.ai/kit/v1/kit.css">
+</head><body>
+<div class="wrap">
+<header class="head"><span class="eyebrow">Story</span>
+<h1>{{one_liner}}</h1><p class="lede">{{scene}}</p></header>
+<section><h2>Setup</h2><dl class="setup">{{setup}}</dl></section>
+<section><h2>The catch</h2><ol class="story">
+<li><span class="tm">{{time_1}}</span><span>{{step_1}}</span></li>
+<li><span class="tm">{{time_2}}</span><span>{{step_2}}</span></li>
+<li><span class="tm">{{time_3}}</span><span>{{consequence}}</span></li>
+</ol></section>
+<section><p class="finding">{{evidence_finding}}</p>
+<figure class="fig"><div data-vt="{{chart_kind}}"><script type="application/json">{{chart}}</script></div>
+<figcaption class="source">{{evidence_source}}</figcaption></figure>
+<p class="takeaway">{{evidence_takeaway}}</p></section>
+<section><h2>How far the fall goes</h2><ol class="ladder">{{ladder}}</ol></section>
+<section><h2>What we know so far</h2>
+<div class="tw"><table><thead><tr><th>Claim</th><th>Status</th><th>Evidence</th></tr></thead><tbody>{{claims}}</tbody></table></div>
+<p class="note">Legend: <span class="dot p"></span> proven · <span class="dot h"></span> partial · <span class="dot f"></span> failing · <span class="dot n"></span> not yet run</p>
+</section>
+</div>
+<script src="https://artifacts.wildreason.ai/kit/v1/kit.js"></script>
+</body></html>

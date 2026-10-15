@@ -1,0 +1,205 @@
+{
+  "name": "story",
+  "shape": "story",
+  "summary": "One idea that lands and sticks: a visceral one-liner, the setup, the catch in three timed steps, the evidence, how far it falls, and what we know.",
+  "intents": [
+    "explainer",
+    "technical explainer",
+    "why this matters",
+    "launch post",
+    "journalistic piece",
+    "make the case for a risk",
+    "a story"
+  ],
+  "not_for": [
+    "a long multi-chapter piece (use rendition)",
+    "a status update",
+    "a decision memo"
+  ],
+  "content_types": [
+    "html"
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "says": "page title",
+      "required": true
+    },
+    {
+      "name": "one_liner",
+      "says": "H1: a visceral one-liner",
+      "required": true
+    },
+    {
+      "name": "scene",
+      "says": "the scene in two sentences, with named characters",
+      "required": true
+    },
+    {
+      "name": "setup",
+      "says": "every character, thing and number as <dt>Name</dt><dd>what it is</dd>",
+      "required": true
+    },
+    {
+      "name": "time_1",
+      "says": "timestamp of step 1",
+      "required": true
+    },
+    {
+      "name": "step_1",
+      "says": "what happens first",
+      "required": true
+    },
+    {
+      "name": "time_2",
+      "says": "timestamp of step 2",
+      "required": true
+    },
+    {
+      "name": "step_2",
+      "says": "what happens next",
+      "required": true
+    },
+    {
+      "name": "time_3",
+      "says": "timestamp of the consequence",
+      "required": true
+    },
+    {
+      "name": "consequence",
+      "says": "the consequence; put the punch in <b>",
+      "required": true
+    },
+    {
+      "name": "evidence_finding",
+      "says": "the evidence as a finding",
+      "required": true
+    },
+    {
+      "name": "chart_kind",
+      "says": "bars, waterfall, variance or line",
+      "required": true
+    },
+    {
+      "name": "chart",
+      "says": "chart data as JSON: bars {\"data\":[{\"label\",\"value\",\"hi\"}],\"unit\"}; waterfall {\"data\":[{\"label\",\"value\",\"total\"}],\"costs\"}; variance {\"data\":[{\"label\",\"actual\",\"plan\"}],\"costs\"}; line {\"labels\":[],\"series\":[{\"name\",\"values\",\"hi\",\"dashed\"}],\"threshold\":{\"value\",\"label\"}}",
+      "required": true
+    },
+    {
+      "name": "evidence_source",
+      "says": "source, or say it is illustrative",
+      "required": true
+    },
+    {
+      "name": "evidence_takeaway",
+      "says": "one line",
+      "required": true
+    },
+    {
+      "name": "ladder",
+      "says": "5 rising steps: <li><span class=\"n\">1</span><b>step</b><p>what happens</p><em>what it costs</em></li>",
+      "required": true
+    },
+    {
+      "name": "claims",
+      "says": "rows: <tr><td>claim</td><td><span class=\"dot p|h|f|n\"></span> status</td><td>evidence</td></tr>",
+      "required": true
+    }
+  ],
+  "finish_line": [
+    {
+      "id": "title",
+      "says": "it has a title",
+      "kind": "title"
+    },
+    {
+      "id": "one_h1",
+      "says": "one H1, and it states the finding",
+      "kind": "count",
+      "selector": "h1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "filled",
+      "says": "every slot filled",
+      "kind": "no_slots"
+    },
+    {
+      "id": "kit",
+      "says": "links the tunnel kit, so it renders in every viewer",
+      "kind": "source_contains",
+      "texts": [
+        "https://artifacts.wildreason.ai/kit/v1/kit.css",
+        "https://artifacts.wildreason.ai/kit/v1/kit.js"
+      ]
+    },
+    {
+      "id": "self_contained",
+      "says": "no stylesheet or script from another host (the kit is ours)",
+      "kind": "no_external",
+      "texts": [
+        "stylesheet",
+        "script"
+      ]
+    },
+    {
+      "id": "no_emoji",
+      "says": "no emoji",
+      "kind": "no_emoji"
+    },
+    {
+      "id": "length",
+      "says": "1500 visible words at most",
+      "kind": "words",
+      "max": 1500
+    },
+    {
+      "id": "flow",
+      "says": "setup, catch, ladder, what we know, in that order",
+      "kind": "in_order",
+      "texts": [
+        "Setup",
+        "The catch",
+        "How far the fall goes",
+        "What we know so far"
+      ]
+    },
+    {
+      "id": "three_steps",
+      "says": "three story steps",
+      "kind": "count",
+      "selector": ".story li",
+      "min": 3,
+      "max": 3
+    },
+    {
+      "id": "ladder",
+      "says": "a five-step ladder",
+      "kind": "count",
+      "selector": ".ladder li",
+      "min": 5,
+      "max": 5
+    },
+    {
+      "id": "setup_complete",
+      "says": "Setup defines every actor, thing, number and rule before it is used",
+      "kind": "manual"
+    },
+    {
+      "id": "same_names",
+      "says": "the same names throughout, one word per thing",
+      "kind": "manual"
+    },
+    {
+      "id": "honest",
+      "says": "estimates, simulations and illustrative numbers are marked next to the number",
+      "kind": "manual"
+    },
+    {
+      "id": "fits",
+      "says": "works at 400px wide and in dark mode",
+      "kind": "manual"
+    }
+  ]
+}

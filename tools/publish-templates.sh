@@ -38,6 +38,10 @@ if ! python3 tools/check-templates.py; then
   echo "REFUSING TO PUBLISH: check-templates.py is RED."
   exit 1
 fi
+if ! python3 tools/check-kit.py; then
+  echo "REFUSING TO PUBLISH: check-kit.py is RED. The templates link a kit this repo does not hold."
+  exit 1
+fi
 
 if [ "${1:-}" != "--upload" ]; then
   echo "---"
