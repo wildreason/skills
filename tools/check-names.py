@@ -34,8 +34,8 @@ import pathlib
 import re
 import sys
 
-FORMATS = {"tunnel-a-sheet", "tunnel-a-doc", "tunnel-a-brief", "tunnel-an-essay",
-           "tunnel-a-deck", "tunnel-a-log", "tunnel-a-report"}
+FORMATS = {"tunnel-a-notes", "tunnel-a-brief", "tunnel-a-timeline", "tunnel-a-board",
+           "tunnel-a-numbers", "tunnel-a-story", "tunnel-a-rendition"}
 AUTHOR_TIME_VERBS = ["creating", "create ", "make ", "write ", "writing",
                      "publish", "turn into", "author "]
 

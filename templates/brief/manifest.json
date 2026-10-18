@@ -1,0 +1,213 @@
+{
+  "name": "brief",
+  "shape": "brief",
+  "summary": "Answer first, then why: one recommendation, three reasons, the options compared and the decision needed, on two screens.",
+  "intents": [
+    "decision memo",
+    "proposal",
+    "one-pager",
+    "recommendation",
+    "decision brief",
+    "go or no-go",
+    "approve a plan",
+    "choose between options",
+    "launch decision"
+  ],
+  "not_for": [
+    "exploring options before choosing",
+    "a status update",
+    "a running log",
+    "a long story"
+  ],
+  "content_types": [
+    "html"
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "says": "page title: the recommendation, short",
+      "required": true
+    },
+    {
+      "name": "decide_by",
+      "says": "the decision deadline, e.g. a date",
+      "required": true
+    },
+    {
+      "name": "recommendation",
+      "says": "H1: the recommendation as a full sentence",
+      "required": true
+    },
+    {
+      "name": "lede",
+      "says": "one line: what the reader is asked to decide",
+      "required": true
+    },
+    {
+      "name": "answer",
+      "says": "the answer in one bold line",
+      "required": true
+    },
+    {
+      "name": "answer_why",
+      "says": "one line of why",
+      "required": true
+    },
+    {
+      "name": "setup",
+      "says": "3-5 definitions as <dt>Term</dt><dd>what it is</dd>",
+      "required": true
+    },
+    {
+      "name": "reason_1",
+      "says": "reason 1 as a finding",
+      "required": true
+    },
+    {
+      "name": "fact_1",
+      "says": "one supporting fact for reason 1",
+      "required": true
+    },
+    {
+      "name": "reason_2",
+      "says": "reason 2 as a finding",
+      "required": true
+    },
+    {
+      "name": "fact_2",
+      "says": "one supporting fact for reason 2",
+      "required": true
+    },
+    {
+      "name": "reason_3",
+      "says": "reason 3 as a finding",
+      "required": true
+    },
+    {
+      "name": "fact_3",
+      "says": "one supporting fact for reason 3",
+      "required": true
+    },
+    {
+      "name": "option_head",
+      "says": "table header cells: <th>Option</th> ... <th>Verdict</th>; numbers use <th class=\"num\">",
+      "required": true
+    },
+    {
+      "name": "option_rows",
+      "says": "one <tr> per option; the recommended row in <b>, its key number <td class=\"num a\">, verdict as a status dot plus a word",
+      "required": true
+    },
+    {
+      "name": "options_takeaway",
+      "says": "one line under the table: what the comparison shows",
+      "required": true
+    },
+    {
+      "name": "decide",
+      "says": "what exactly is being decided",
+      "required": true
+    },
+    {
+      "name": "owner",
+      "says": "who decides",
+      "required": true
+    },
+    {
+      "name": "sources",
+      "says": "where the facts come from",
+      "required": true
+    }
+  ],
+  "finish_line": [
+    {
+      "id": "title",
+      "says": "it has a title",
+      "kind": "title"
+    },
+    {
+      "id": "one_h1",
+      "says": "one H1, and it states the finding",
+      "kind": "count",
+      "selector": "h1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "filled",
+      "says": "every slot filled",
+      "kind": "no_slots"
+    },
+    {
+      "id": "kit",
+      "says": "links the tunnel kit, so it renders in every viewer",
+      "kind": "source_contains",
+      "texts": [
+        "https://artifacts.wildreason.ai/kit/v1/kit.css",
+        "https://artifacts.wildreason.ai/kit/v1/kit.js"
+      ]
+    },
+    {
+      "id": "self_contained",
+      "says": "no stylesheet or script from another host (the kit is ours)",
+      "kind": "no_external",
+      "texts": [
+        "stylesheet",
+        "script"
+      ]
+    },
+    {
+      "id": "no_emoji",
+      "says": "no emoji",
+      "kind": "no_emoji"
+    },
+    {
+      "id": "length",
+      "says": "900 visible words at most",
+      "kind": "words",
+      "max": 900
+    },
+    {
+      "id": "flow",
+      "says": "answer, setup, reasons, options, decision, in that order",
+      "kind": "in_order",
+      "texts": [
+        "Setup",
+        "Three reasons",
+        "Options compared",
+        "Decision needed"
+      ]
+    },
+    {
+      "id": "three_reasons",
+      "says": "exactly three reasons",
+      "kind": "count",
+      "selector": ".reason",
+      "min": 3,
+      "max": 3
+    },
+    {
+      "id": "ask",
+      "says": "a Decide / By / Owner block",
+      "kind": "count",
+      "selector": ".ask",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "titles_tell",
+      "says": "read top to bottom, the titles alone tell the story; the first is the answer",
+      "kind": "manual"
+    },
+    {
+      "id": "one_accent",
+      "says": "one accent, used only for what matters and meaning the same thing everywhere",
+      "kind": "manual"
+    },
+    {
+      "id": "fits",
+      "says": "works at 400px wide and in dark mode",
+      "kind": "manual"
+    }
+  ]
+}

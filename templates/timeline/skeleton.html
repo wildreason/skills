@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{title}}</title>
+<link rel="stylesheet" href="https://artifacts.wildreason.ai/kit/v1/kit.css">
+</head><body>
+<div class="wrap">
+<header class="head"><span class="eyebrow">Timeline · status at {{as_of}}</span>
+<h1>{{status_finding}}</h1><p class="lede">{{lede}}</p></header>
+<section><div class="kpis">
+<div class="kpi"><b>{{on_track}}</b><span><span class="dot p"></span> on track</span></div>
+<div class="kpi a"><b>{{at_risk}}</b><span><span class="dot h"></span> at risk</span></div>
+<div class="kpi"><b>{{not_started}}</b><span><span class="dot n"></span> not started</span></div>
+<div class="kpi"><b>{{days_left}}</b><span>{{milestone}}</span></div>
+</div></section>
+<section><h2>Plan</h2>
+<div data-vt="gantt"><script type="application/json">{"weeks":{{weeks}},"today":{{today}},"rows":{{rows}}}</script></div>
+<p class="takeaway">{{plan_takeaway}}</p></section>
+<section><h2>Log</h2>
+<div data-vt="log"><script type="application/json">{"entries":{{entries}}}</script></div>
+<p class="note">Legend: <span class="dot p"></span> on track · <span class="dot h"></span> at risk · <span class="dot f"></span> blocked · <span class="dot n"></span> not started</p>
+</section>
+</div>
+<script src="https://artifacts.wildreason.ai/kit/v1/kit.js"></script>
+</body></html>

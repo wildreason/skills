@@ -58,6 +58,32 @@ for link in "$DEST"/*; do
   unshadowed=$((unshadowed+1))
 done
 
+# RETIRED NAMES -- words this family used to ship. A rename that leaves the old
+# word on the surface has not renamed anything (tunnel-a-base), and copying the
+# new seven over the top leaves the old ones installed beside them. So remove a
+# retired name's dir and its pin, but only a real directory with a SKILL.md
+# whose name: line is that word -- anything else at that path is not ours.
+# A symlink at a retired name is removed by the alias loop above only when it
+# aims at one of ours; otherwise it is reported and left alone.
+RETIRED="tunnel-a-sheet tunnel-a-doc tunnel-a-report tunnel-a-log tunnel-a-deck tunnel-an-essay tunnel-a-folio"
+retired=0
+for old in $RETIRED; do
+  [ -d "formats/$old" ] && { echo "  FATAL $old is both retired and shipped"; exit 1; }
+  path="$DEST/$old"
+  if [ -L "$path" ]; then
+    echo "  note  $old is a symlink to $(readlink "$path") -- retired name, not ours to remove"
+    continue
+  fi
+  [ -d "$path" ] || continue
+  if grep -qx "name: $old" "$path/SKILL.md" 2>/dev/null; then
+    rm -rf "${DEST:?}/$old" "$DEST/$old.head.json"
+    echo "  retire    $old (replaced by the seven current formats)"
+    retired=$((retired+1))
+  else
+    echo "  note  $path exists but is not the retired $old skill -- left alone"
+  fi
+done
+
 for dir in formats/*/ guide/*/; do
   name=$(basename "$dir")
   pin="$DEST/${name}.head.json"
@@ -127,5 +153,6 @@ JSON
 done
 
 echo "installed $installed skills into $DEST, pinned at $SRC"
+[ "$retired" -gt 0 ] && echo "  ($retired retired format(s) removed)"
 [ "$foreign" -gt 0 ] && echo "  ($foreign pin(s) were not ours -- reported above, not silently replaced)"
 exit 0

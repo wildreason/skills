@@ -1,0 +1,174 @@
+{
+  "name": "timeline",
+  "shape": "timeline",
+  "summary": "What happens when and what is stuck: a status finding, status counts, a week-by-week plan with today marked, and a newest-first log.",
+  "intents": [
+    "status update",
+    "project plan",
+    "roadmap",
+    "schedule",
+    "release log",
+    "postmortem",
+    "incident timeline",
+    "what is at risk",
+    "weekly status"
+  ],
+  "not_for": [
+    "a single decision",
+    "money or metrics",
+    "a persuasive story"
+  ],
+  "content_types": [
+    "html"
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "says": "page title",
+      "required": true
+    },
+    {
+      "name": "as_of",
+      "says": "the status date",
+      "required": true
+    },
+    {
+      "name": "status_finding",
+      "says": "H1: the status as a finding (what is at risk, what holds)",
+      "required": true
+    },
+    {
+      "name": "lede",
+      "says": "one line: span, streams, milestones",
+      "required": true
+    },
+    {
+      "name": "on_track",
+      "says": "count of streams on track",
+      "required": true
+    },
+    {
+      "name": "at_risk",
+      "says": "count at risk",
+      "required": true
+    },
+    {
+      "name": "not_started",
+      "says": "count not started",
+      "required": true
+    },
+    {
+      "name": "days_left",
+      "says": "days to the next milestone, e.g. 12 days",
+      "required": true
+    },
+    {
+      "name": "milestone",
+      "says": "which milestone",
+      "required": true
+    },
+    {
+      "name": "weeks",
+      "says": "week labels as a JSON array; inside JSON, write </ as <\\/, e.g. [\"Week 1\",\"Week 2\"]",
+      "required": true
+    },
+    {
+      "name": "today",
+      "says": "today as a number: the fractional week index, e.g. 1.4",
+      "required": true
+    },
+    {
+      "name": "rows",
+      "says": "workstreams as a JSON array; inside JSON, write </ as <\\/: [{\"name\":\"\",\"st\":\"p|h|f|n\",\"items\":[{\"from\":0,\"to\":2,\"label\":\"\",\"kind\":\"p|a\"},{\"at\":2.5,\"label\":\"milestone\"}]}]; kind a only for at risk",
+      "required": true
+    },
+    {
+      "name": "plan_takeaway",
+      "says": "one line under the plan: what must change",
+      "required": true
+    },
+    {
+      "name": "entries",
+      "says": "log as a JSON array; inside JSON, write </ as <\\/, newest first: [[\"time\",\"what happened\",\"done|risk|note\",\"n|p|a\"]]",
+      "required": true
+    }
+  ],
+  "finish_line": [
+    {
+      "id": "title",
+      "says": "it has a title",
+      "kind": "title"
+    },
+    {
+      "id": "one_h1",
+      "says": "one H1, and it states the finding",
+      "kind": "count",
+      "selector": "h1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "filled",
+      "says": "every slot filled",
+      "kind": "no_slots"
+    },
+    {
+      "id": "kit",
+      "says": "links the tunnel kit, so it renders in every viewer",
+      "kind": "source_contains",
+      "texts": [
+        "https://artifacts.wildreason.ai/kit/v1/kit.css",
+        "https://artifacts.wildreason.ai/kit/v1/kit.js"
+      ]
+    },
+    {
+      "id": "self_contained",
+      "says": "no stylesheet or script from another host (the kit is ours)",
+      "kind": "no_external",
+      "texts": [
+        "stylesheet",
+        "script"
+      ]
+    },
+    {
+      "id": "no_emoji",
+      "says": "no emoji",
+      "kind": "no_emoji"
+    },
+    {
+      "id": "flow",
+      "says": "plan before log",
+      "kind": "in_order",
+      "texts": [
+        "Plan",
+        "Log"
+      ]
+    },
+    {
+      "id": "one_plan",
+      "says": "one plan grid",
+      "kind": "count",
+      "selector": "[data-vt=gantt]",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "legend",
+      "says": "the status legend is shown",
+      "kind": "source_contains",
+      "texts": [
+        "not started"
+      ]
+    },
+    {
+      "id": "one_red_bar",
+      "says": "only at-risk work carries the accent",
+      "kind": "manual"
+    },
+    {
+      "id": "fits",
+      "says": "works at 400px wide and in dark mode",
+      "kind": "manual"
+    }
+  ]
+}
