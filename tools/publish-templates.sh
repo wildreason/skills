@@ -10,7 +10,11 @@
 #   tools/publish-templates.sh            gate only; never uploads
 #   tools/publish-templates.sh --upload   gate, upload, read back, verify
 #
-# --upload needs TUNL_TEMPLATE_PUBLISH_TOKEN (the bearer set on tunnel-prod).
+# --upload needs the bearer set on tunnel-prod: TUNL_TEMPLATE_PUBLISH_TOKEN_FILE
+# (a path to a file holding it -- preferred, the value is never in an env) or
+# TUNL_TEMPLATE_PUBLISH_TOKEN. The bearer never reaches a command line: it is
+# written to a 0600 header file in the trap-cleaned tmp dir and curl reads it
+# with -H @file (curl >= 7.55), so `ps` never shows it.
 # TUNL_TEMPLATES_URL picks the server (default https://artifacts.wildreason.ai).
 #
 # WHAT --upload DOES, in the order that verifies anything (same lesson as
@@ -48,13 +52,28 @@ if [ "${1:-}" != "--upload" ]; then
   echo "gate only (no --upload): nothing was sent to $base"
   exit 0
 fi
-if [ -z "${TUNL_TEMPLATE_PUBLISH_TOKEN:-}" ]; then
-  echo "REFUSING TO PUBLISH: TUNL_TEMPLATE_PUBLISH_TOKEN is not set."
-  exit 1
-fi
-
+umask 077
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
+tok=""
+if [ -n "${TUNL_TEMPLATE_PUBLISH_TOKEN_FILE:-}" ]; then
+  if [ ! -r "$TUNL_TEMPLATE_PUBLISH_TOKEN_FILE" ]; then
+    echo "REFUSING TO PUBLISH: TUNL_TEMPLATE_PUBLISH_TOKEN_FILE is not a readable file."
+    exit 1
+  fi
+  IFS= read -r tok < "$TUNL_TEMPLATE_PUBLISH_TOKEN_FILE" || true
+else
+  tok="${TUNL_TEMPLATE_PUBLISH_TOKEN:-}"
+fi
+unset TUNL_TEMPLATE_PUBLISH_TOKEN
+if [ -z "$tok" ]; then
+  echo "REFUSING TO PUBLISH: no bearer (set TUNL_TEMPLATE_PUBLISH_TOKEN_FILE)."
+  exit 1
+fi
+case "$tok" in *[[:space:]]*) echo "REFUSING TO PUBLISH: the bearer holds whitespace."; exit 1;; esac
+# printf is a shell builtin: the value goes to the file, never onto an argv.
+printf 'Authorization: Bearer %s\n' "$tok" > "$tmp/auth.hdr"
+tok=""
 
 echo "== 2/3 upload -> $base/api/templates =========================="
 python3 - "$tmp/batch.json" <<'EOF'
@@ -68,7 +87,7 @@ for d, m in ct.load_all():
 EOF
 by="git:wildreason/skills@$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"
 code=$(curl -sS -o "$tmp/out.json" -w '%{http_code}' -X POST "$base/api/templates" \
-  -H "Authorization: Bearer $TUNL_TEMPLATE_PUBLISH_TOKEN" \
+  -H @"$tmp/auth.hdr" \
   -H "Content-Type: application/json" -H "X-Published-By: $by" \
   --data-binary @"$tmp/batch.json")
 if [ "$code" != "200" ]; then
