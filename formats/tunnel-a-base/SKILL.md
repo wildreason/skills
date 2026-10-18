@@ -66,6 +66,10 @@ it on load; bad JSON or an unknown kind shows a visible error note.
 
 Inside JSON, write `</` as `<\/` so the script never closes early.
 
+Every item the kit draws carries `data-vt-key`: `"#"+id` when the item's data
+has an `id`, else its index path (`"2"`, `"1.0"`). Give items an `id` when a
+review mark should follow them through a reorder; an index key follows its place.
+
 | Kind | JSON |
 |---|---|
 | `bars` | `{"data":[{"label","value","hi"}],"unit"}` -- one `hi:true` bar is the accent |
