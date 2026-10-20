@@ -102,6 +102,10 @@ Do not inline a data-URI as a workaround unless the artifact truly needs to be s
 - **Read `visibility_note` in the create reply**: `"private: signed-out readers get 404"` or
   `"public: anyone with the link can read it"`. If it says private and an outsider needs the
   link, `set_visibility` it public before you send the link, then check it signed out.
+- **An image or file you embed in a public doc must be public too.** A binary seeded or
+  promoted with no visibility is private, so an `<img>` or link to its `/raw` from a public page
+  is a broken image for anyone signed out, while it looks fine to you (you are signed in). Seed
+  embedded media with `visibility: "public"`, or check the page signed out.
 - **Every creating tool takes `visibility`** — `seed`, `seed_interactive`, `promote` and `ingest`
   (`TUNN-014`; `seed` since `ART-050`). `"private"` is set in the same write as the content, so the
   artifact is never served public first. The response states the effective `visibility`; check it.
