@@ -196,6 +196,11 @@
       "id": "number_rules",
       "says": "units always; negatives in parentheses; one rounding level; variance as amount and percent",
       "kind": "manual"
+    },
+    {
+      "id": "visibility",
+      "says": "anyone signed out who opens the link (mail, a website, an unfurl) can read it only if it was created with visibility \"public\"; the default is private and they get 404",
+      "kind": "manual"
     }
   ]
 }

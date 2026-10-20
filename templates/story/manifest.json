@@ -206,6 +206,11 @@
       "id": "fits",
       "says": "works at 400px wide and in dark mode",
       "kind": "manual"
+    },
+    {
+      "id": "visibility",
+      "says": "anyone signed out who opens the link (mail, a website, an unfurl) can read it only if it was created with visibility \"public\"; the default is private and they get 404",
+      "kind": "manual"
     }
   ]
 }
