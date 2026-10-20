@@ -24,8 +24,9 @@ One canonical URL per artifact, edited in place forever:
 - **`seed`** — create. Pass `markdown` (text/markdown/html/svg/skill/lap/diagram — the `content`
   param belongs to `ingest`/`promote`, not `seed`; using `content` on `seed` silently creates an
   empty doc). Returns the `mcp://artifact/doc/<id>` URI and the public URL. **Never re-seed an
-  existing artifact** — that mints a new URL. Optional `visibility: "private"` at creation time
-  (default `"public"`, see Visibility below).
+  existing artifact** — that mints a new URL. **Always pass `visibility`**: `"public"` when
+  anyone signed out will open the link, `"private"` otherwise. The default is `"private"`
+  (TUNN-065); see Visibility below.
 - **`edit`** — surgical CRDT replace (`old_string`→`new_string`). The cheap, fast, default choice
   for a small change — no full-body resend. Requires an *exact* match; see Gotchas.
 - **`append`** — safe-extend, never overwrites. Right tool for log-style/growing artifacts.
@@ -34,7 +35,7 @@ One canonical URL per artifact, edited in place forever:
 - **`promote`** — full-body replace without needing `base_version` (CRDT-merged), OR the
   workspace-bridge write path (`workspace`+`path`, re-reads a file from a synced workspace and
   pushes fresh bytes). Also the tool for **binary optimize** — see below. Creating with it takes
-  `visibility: "private"` too (see Visibility below).
+  `visibility` too, with the same default (see Visibility below).
 - **`read`** — full current content + version + hash + `who`-adjacent metadata.
 - **`diff`** — added/removed lines + `decisions {set, cleared}` since a version, for
   interactive/decision-carrying artifacts.
@@ -91,8 +92,20 @@ Do not inline a data-URI as a workaround unless the artifact truly needs to be s
 
 ## Visibility (private/public)
 
-- Default is **public** (link-share model) — anyone with the URL can read, no auth. This is by
-  design, not a bug; most artifacts (reports, dashboards, logs) want this.
+- Default is **private** (TUNN-065, barath card acf8e1bc): a create that names no visibility is
+  readable only by its owner and grantees, and a signed-out reader gets 404, exactly like an
+  unknown id. Before TUNN-065 shipped the default was public, and docs created then keep it.
+- **Pass `visibility: "public"` whenever anyone signed out opens the link**: mail to a person
+  outside the account, a link on a website (wildreason.com), a link unfurl or OG card (mail,
+  Slack), a served-read fixture, a link for another deployer's agents. Otherwise they get 404.
+  Pass it explicitly even if you think the default already fits; it reads the same either way.
+- **Read `visibility_note` in the create reply**: `"private: signed-out readers get 404"` or
+  `"public: anyone with the link can read it"`. If it says private and an outsider needs the
+  link, `set_visibility` it public before you send the link, then check it signed out.
+- **An image or file you embed in a public doc must be public too.** A binary seeded or
+  promoted with no visibility is private, so an `<img>` or link to its `/raw` from a public page
+  is a broken image for anyone signed out, while it looks fine to you (you are signed in). Seed
+  embedded media with `visibility: "public"`, or check the page signed out.
 - **Every creating tool takes `visibility`** — `seed`, `seed_interactive`, `promote` and `ingest`
   (`TUNN-014`; `seed` since `ART-050`). `"private"` is set in the same write as the content, so the
   artifact is never served public first. The response states the effective `visibility`; check it.
