@@ -66,6 +66,14 @@ Three tiers, pick by source size and where the bytes currently live:
    changed file — see Gotchas). Verified end to end: an untouched 8,566,411 B PNG →
    121,255 B hosted JPEG, one `ingest` call, zero context bytes.
 
+**Undo on a binary artifact (TUNN-097):** `revert` does **not** restore an image or file. After
+a new version is released to the same id, `revert` to an earlier version refuses and changes
+nothing (proven on CI, tunnel-artifacts #594). Never tell a person "you can revert this" for an
+image or file. The undo that works: download the earlier bytes at
+`/d/{id}/download?version=N` and release them again to the same id, as a new version. Never
+re-`seed`, because that mints a new URL. Check that `N` is a real version, from `log`, first.
+Until TUNN-097 ships, an unknown `?version=` may serve the current bytes instead of refusing.
+
 **Serving routes**, once an artifact holds binary content:
 - `/d/{id}/download` — raw bytes, correct `content-type`. **This is the URL to put in `<img src>`**
   or any embed. Disposition is `inline` for WebKit-renderable image types (png/jpeg/gif/webp/svg/
