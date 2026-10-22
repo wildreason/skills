@@ -99,17 +99,21 @@ function notes(host,{notes=[]}){
   }
   F.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=b.dataset.t;draw();});draw();
 }
-/* weeks: column labels; today: fractional week index; rows: [{name,st:p|h|f|n,items:[{from,to,label,kind:p|a}|{at,label}]}] */
+/* weeks: column labels; today: fractional week index; rows: [{name,st:p|h|f|n,items:[{from,to,label,kind:p|a}|{at,label}]}]
+   from/to/at are fractional week indexes (1.5 = the middle of the second column). Bars sit in their own lane and
+   wrap their label; milestones sit in a lane under the bars, label beside the diamond; today runs behind the bars. */
 function gantt(host,{weeks=[],today,rows=[]}){
-  const g=document.createElement('div');g.className='gantt';g.style.gridTemplateColumns=`150px repeat(${weeks.length},1fr)`;
-  let h='<div></div>'+weeks.map(w=>`<div class="wk">${esc(w)}</div>`).join('');
-  rows.forEach((r,i)=>{const row=i+2,rk=key(r,i);h+=`<div class="row" data-vt-key="${esc(rk)}" style="grid-row:${row}"><span class="dot ${esc(r.st||'n')}"></span>${esc(r.name)}</div>`;
-    (r.items||[]).forEach((it,j)=>{const ik=esc(it.id!=null?'#'+it.id:rk+'.'+j);if(it.at!=null){const c=Math.floor(it.at)+2;h+=`<div class="ms" data-vt-key="${ik}" title="${esc(it.label)}" style="grid-row:${row};grid-column:${c}"></div><div data-vt-key="${ik}" style="grid-row:${row};grid-column:${c};align-self:end;justify-self:center;font:500 10.5px var(--mono);transform:translateY(14px)">${esc(it.label)}</div>`;}
-      else h+=`<div class="bar ${esc(it.kind||'')}" data-vt-key="${ik}" style="grid-row:${row};grid-column:${Math.floor(it.from)+2}/${Math.ceil(it.to)+2}">${esc(it.label)}</div>`;});});
+  const n=Math.max(1,weeks.length),Q=12,cl=x=>Math.max(0,Math.min(n*Q,Math.round(x*Q)))+1,pc=x=>Math.max(0,Math.min(100,x/n*100));
+  const g=document.createElement('div');g.className='gantt';g.style.setProperty('--n',n);
+  const tl=today!=null?`<i class="today" style="left:${pc(today)}%"></i>`:'';
+  let h=`<div></div><div class="wks">${weeks.map(w=>`<div class="wk">${esc(w)}</div>`).join('')}${today!=null?`<span class="now" style="left:${pc(today)}%">today</span>`:''}</div>`;
+  rows.forEach((r,i)=>{const rk=key(r,i),its=r.items||[];let bars='',ms='';
+    its.forEach((it,j)=>{const ik=esc(it.id!=null?'#'+it.id:rk+'.'+j);
+      if(it.at!=null){const c=cl(it.at),late=it.at/n>0.6;
+        ms+=`<div class="msi${late?' late':''}" data-vt-key="${ik}" style="grid-column:${late?'1/'+c:c+'/-1'}"><span class="ms" title="${esc(it.label)}"></span><span>${esc(it.label)}</span></div>`;}
+      else{const a=cl(it.from),z=Math.max(a+1,cl(it.to));bars+=`<div class="bar ${esc(it.kind||'')}" data-vt-key="${ik}" title="${esc(it.label)}" style="grid-column:${a}/${z}">${esc(it.label)}</div>`;}});
+    h+=`<div class="row" data-vt-key="${esc(rk)}"><span class="dot ${esc(r.st||'n')}"></span><span>${esc(r.name)}</span></div><div class="trk">${tl}${bars?`<div class="lane">${bars}</div>`:''}${ms?`<div class="lane mss">${ms}</div>`:''}</div>`;});
   g.innerHTML=h;host.className=(host.className+' tw').trim();host.append(g);
-  if(today!=null){const t=document.createElement('div');t.className='today';t.innerHTML='<span>today</span>';g.append(t);
-    const place=()=>{const first=g.querySelector('.wk');if(!first)return;const w=first.getBoundingClientRect().width;t.style.left=(first.getBoundingClientRect().left-g.getBoundingClientRect().left+w*today)+'px';};
-    requestAnimationFrame(place);new ResizeObserver(place).observe(g);}
 }
 /* entries: [[time,text,chip,kind n|p|a]] newest first */
 function log(host,{entries=[]}){
