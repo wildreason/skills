@@ -71,8 +71,10 @@ a new version is released to the same id, `revert` to an earlier version refuses
 nothing (proven on CI, tunnel-artifacts #594). Never tell a person "you can revert this" for an
 image or file. The undo that works: download the earlier bytes at
 `/d/{id}/download?version=N` and release them again to the same id, as a new version. Never
-re-`seed`, because that mints a new URL. Check that `N` is a real version, from `log`, first.
-Until TUNN-097 ships, an unknown `?version=` may serve the current bytes instead of refusing.
+re-`seed`, because that mints a new URL. Take the download URL that `log` lists for that
+version, and confirm the byte count you got equals the size `log` lists. `log` gives a binary
+version no hash. Until TUNN-097 ships, an unknown `?version=` serves the current bytes instead of
+refusing, so a wrong `N` would quietly hand you today's image.
 
 **Serving routes**, once an artifact holds binary content:
 - `/d/{id}/download` — raw bytes, correct `content-type`. **This is the URL to put in `<img src>`**
