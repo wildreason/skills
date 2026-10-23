@@ -1,6 +1,6 @@
 ---
 name: tunnel-a-base
-description: THE ENTRY POINT for tunnel artifact pages, and the shared kit every tunnel-a-<format> inherits -- the copper palette, the three fonts, the page rules (finding titles, answer first, Setup, one accent, a takeaway and a source under every figure) and the chart blocks. Start here when the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one the reader's job earns (tunnel-a-notes / -brief / -timeline / -board / -numbers / -story / -rendition). It answers WHICH shape; the format skill you land on answers how to fill it. Also read it to author a new format.
+description: THE ENTRY POINT for tunnel artifact pages, and the shared kit every tunnel-a-<format> inherits -- the copper palette, the three fonts, the page rules (finding titles, answer first, Setup, one accent, a takeaway and a source under every figure) and the chart blocks. Start here when someone asks for a doc, a dashboard, a board, slides or just "a page" and the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one the reader's job earns (tunnel-a-notes / -brief / -timeline / -board / -numbers / -story / -rendition). It answers WHICH shape; the format skill you land on answers how to fill it. Also read it to author a new format.
 user-invocable: false
 ---
 
@@ -25,6 +25,18 @@ reader's job needs.
 If two fit, ask what the reader is doing: deciding (brief), exploring (board),
 tracking (timeline), checking figures (numbers), looking something up (notes),
 being persuaded by one idea (story), or reading the whole account (rendition).
+
+People rarely name a format. They say the broad thing they want; these are
+hints for where to look first, not rules -- the ask decides:
+
+| They say | Usually one of |
+|---|---|
+| a doc, a write-up, a page | brief, notes, story, rendition |
+| a dashboard, a report on figures | numbers, timeline |
+| a board, a wall, a canvas | board |
+| slides, a deck, a presentation | story (one idea, screen by screen); brief if it ends in a decision |
+
+There is no slide format yet: a deck ask gets a scrolling page, and say so.
 
 Mechanics of creating, editing and sharing artifacts (not a format) live in
 `tunnel-an-artifact`.
