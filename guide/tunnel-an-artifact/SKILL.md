@@ -6,9 +6,9 @@ description: >
   binary and image handling with server-side optimize, and the MCP-down disclosure
   discipline. Use when GRANTING or REVOKING access, changing visibility, inserting or
   optimizing media, reverting to an earlier version, closing an artifact, or diagnosing
-  an artifact that would not save. NOT for choosing how a document should look — that is the format
-  skills (sheet, doc, brief, essay, deck, log, report), which is a different decision
-  made at a different moment.
+  an artifact that would not save. NOT for choosing how a page should look — that starts at
+  tunnel-a-base, which picks one of the seven formats (notes, brief, timeline, board, numbers,
+  story, rendition); a different decision made at a different moment.
 ---
 
 # Tunnel an artifact

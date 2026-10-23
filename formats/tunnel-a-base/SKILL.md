@@ -1,6 +1,6 @@
 ---
 name: tunnel-a-base
-description: THE ENTRY POINT for tunnel artifact pages, and the shared kit every tunnel-a-<format> inherits -- the copper palette, the three fonts, the page rules (finding titles, answer first, Setup, one accent, a takeaway and a source under every figure) and the chart blocks. Start here when the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one the reader's job earns (tunnel-a-notes / -brief / -timeline / -board / -numbers / -story / -rendition). It answers WHICH shape; the format skill you land on answers how to fill it. Also read it to author a new format.
+description: THE ENTRY POINT for tunnel artifact pages, and the shared kit every tunnel-a-<format> inherits -- the copper palette, the three fonts, the page rules (finding titles, answer first, Setup, one accent, a takeaway and a source under every figure) and the chart blocks. Start here when someone asks for a doc, a dashboard, a board, slides or just "a page" and the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one the reader's job earns (tunnel-a-notes / -brief / -timeline / -board / -numbers / -story / -rendition). It answers WHICH shape; the format skill you land on answers how to fill it. Also read it to author a new format.
 user-invocable: false
 ---
 
@@ -25,6 +25,18 @@ reader's job needs.
 If two fit, ask what the reader is doing: deciding (brief), exploring (board),
 tracking (timeline), checking figures (numbers), looking something up (notes),
 being persuaded by one idea (story), or reading the whole account (rendition).
+
+People rarely name a format. They say the broad thing they want; these are
+hints for where to look first, not rules -- the ask decides:
+
+| They say | Usually one of |
+|---|---|
+| a doc, a write-up, a page | brief, notes, story, rendition |
+| a dashboard, a report on figures | numbers, timeline |
+| a board, a wall, a canvas | board |
+| slides, a deck, a presentation | story (one idea, screen by screen); brief if it ends in a decision |
+
+There is no slide format yet: a deck ask gets a scrolling page, and say so.
 
 Mechanics of creating, editing and sharing artifacts (not a format) live in
 `tunnel-an-artifact`.
@@ -207,7 +219,7 @@ p{margin:0}
 
 /* Status dots: proven / partial / failing / not yet */
 .dot{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle}
-.dot.p{background:var(--cu)}.dot.h{background:linear-gradient(90deg,var(--cu) 50%,transparent 50%);box-shadow:inset 0 0 0 2px var(--cu)}.dot.f{background:var(--ink)}.dot.n{box-shadow:inset 0 0 0 2px var(--sand)}
+.dot.p{background:var(--cu)}.dot.h{background:linear-gradient(90deg,var(--cu) 50%,transparent 50%);box-shadow:inset 0 0 0 2px var(--cu)}.dot.f{background:var(--ink)}.dot.n{box-shadow:inset 0 0 0 2px var(--mute)}
 
 /* Cards and tiles */
 .card{background:var(--line);border-radius:8px;padding:14px;display:grid;gap:6px;align-content:start;min-width:0}
@@ -245,13 +257,14 @@ a{color:var(--cu)}
 @media (max-width:760px){.grid2,.grid3{grid-template-columns:1fr}.setup{grid-template-columns:1fr}}
 
 /* notes */
-.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .tiles{columns:3 260px;column-gap:14px}
 .tile{break-inside:avoid;margin:0 0 14px;background:var(--line);border-radius:8px;padding:14px;display:grid;gap:8px}
 .tile.pin{background:var(--sand)}
 .tile h3{font-size:15.5px}
 .tile p{font-size:14.5px}
 .tile .meta{font:400 11.5px/1.3 var(--mono);color:var(--mute);display:flex;justify-content:space-between;gap:8px}
+.tile .meta>span:last-child{white-space:nowrap}
 .tile .q{font-style:italic;padding-left:10px;border-left:2px solid var(--cu)}
 .pinmark{font:500 10.5px var(--mono);color:var(--cu)}
 
@@ -265,33 +278,46 @@ a{color:var(--cu)}
 @media (max-width:760px){.reasons{grid-template-columns:1fr}}
 
 /* timeline */
-.gantt{display:grid;grid-template-columns:150px repeat(8,1fr);row-gap:8px;position:relative;min-width:640px}
-.gantt .wk{font:500 11px/1 var(--mono);color:var(--mute);text-align:center;padding-bottom:6px;border-bottom:1.5px solid var(--sand)}
-.gantt .row{font:500 13.5px/1.2 var(--body);display:flex;align-items:center;gap:8px;padding-right:8px}
-.gantt .bar{height:26px;border-radius:5px;align-self:center;background:var(--sand);font:500 11px/26px var(--mono);padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gantt .bar.p{background:var(--org);color:#fff}.gantt .bar.a{background:var(--cu);color:#fff}
-.gantt .ms{align-self:center;justify-self:center;width:14px;height:14px;background:var(--ink);transform:rotate(45deg)}
-.today{position:absolute;top:0;bottom:0;width:2px;background:var(--cu)}
-.today span{position:absolute;bottom:-18px;left:-14px;font:500 10.5px var(--mono);color:var(--cu);white-space:nowrap}
+.gantt{--Q:12;display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);min-width:720px}
+.gantt .wks{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));border-bottom:1.5px solid var(--sand)}
+.gantt .wk{font:500 11px/1 var(--mono);color:var(--mute);text-align:center;padding:16px 0 6px}
+.gantt .now{position:absolute;top:0;transform:translateX(-50%);font:500 10.5px/1 var(--mono);color:var(--cu);white-space:nowrap}
+.gantt .row{position:sticky;left:0;z-index:2;background:var(--bg);font:500 13.5px/1.25 var(--body);display:flex;align-items:center;gap:8px;padding:8px 12px 8px 0;border-bottom:1px solid var(--line)}
+.gantt .row .dot{flex:none}
+.gantt .trk{position:relative;display:grid;align-content:center;gap:4px;padding:8px 0;border-bottom:1px solid var(--line);background:linear-gradient(to right,var(--line) 1px,transparent 1px) 0 0/calc(100% / var(--n)) 100%}
+.gantt .lane{position:relative;z-index:1;display:grid;grid-template-columns:repeat(calc(var(--n) * var(--Q)),minmax(0,1fr));gap:4px 0}
+.gantt .bar{min-height:26px;border-radius:5px;background:var(--sand);font:500 11px/1.3 var(--mono);padding:6px 8px;margin-right:2px;overflow-wrap:break-word;hyphens:auto;min-width:0;display:flex;align-items:center}
+.gantt .bar.p{background:var(--org);color:#fff}
+.gantt .bar.a{background:var(--cu);color:#fff}
+.gantt .msi{display:flex;align-items:center;gap:7px;min-width:0;font:500 10.5px/1.3 var(--mono);color:var(--ink)}
+.gantt .msi .ms{flex:none;margin-left:-6px}
+.gantt .msi.late{flex-direction:row-reverse}
+.gantt .msi.late .ms{margin:0 -6px 0 0}
+.gantt .ms{display:inline-block;width:11px;height:11px;background:var(--ink);transform:rotate(45deg)}
+.gantt .today{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--cu);opacity:.85;z-index:0}
+@media (max-width:560px){.gantt{grid-template-columns:118px minmax(0,1fr)}.gantt .row{font-size:12.5px}}
 .log{list-style:none;margin:0;padding:0;display:grid;gap:0}
-.log li{display:grid;grid-template-columns:92px 1fr auto;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.log li{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
 .log .t{font:400 12px var(--mono);color:var(--mute)}
+.log .chip{white-space:normal;overflow-wrap:anywhere;max-width:22ch;justify-self:end}
+.votes .mark{white-space:nowrap}
+@media (max-width:560px){.log li{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}.log .t{grid-column:1/-1}}
 
 /* board */
 .boardwrap{position:relative;border:1.5px solid var(--line);border-radius:12px;padding:18px;background:
   radial-gradient(circle,var(--line) 1px,transparent 1.2px) 0 0/18px 18px}
-.clusters{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;position:relative;z-index:1}
+.clusters{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:28px;position:relative;z-index:1}
 .cluster{display:grid;gap:12px;align-content:start}
 .sticky{font:600 13px/1.2 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--cu);padding-bottom:6px;border-bottom:2px solid var(--cu)}
 .opt{background:var(--bg);border:1.5px solid var(--sand);border-radius:8px;padding:12px;display:grid;gap:6px;box-shadow:0 1px 0 var(--sand)}
 .opt.fav{border-color:var(--cu);border-width:2px}
-.opt.drop{opacity:.5}.opt.drop h3{text-decoration:line-through}
+.opt.drop>*{opacity:.5}.opt.drop h3{text-decoration:line-through}
 .opt h3{font-size:14.5px}.opt p{font-size:13.5px;color:var(--mute)}
-.votes{display:flex;gap:4px;align-items:center;font:500 11px var(--mono);color:var(--mute)}
+.votes{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font:500 11px var(--mono);color:var(--mute)}
 .votes i{width:9px;height:9px;border-radius:50%;background:var(--org)}
 .mark{font:500 10.5px var(--mono);color:var(--cu)}
 svg.links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
-@media (max-width:860px){.clusters{grid-template-columns:1fr 1fr}}@media (max-width:520px){.clusters{grid-template-columns:1fr}}
+@media (max-width:860px){.clusters{grid-template-columns:repeat(var(--cols2,2),minmax(0,1fr))}}@media (max-width:520px){.clusters{grid-template-columns:minmax(0,1fr)}}
 
 /* numbers */
 .spk{display:inline-block;vertical-align:middle}
