@@ -1,7 +1,7 @@
 {
   "name": "brief/commission",
   "shape": "brief",
-  "summary": "A coordinator's proposed new fellow, shown before it is made: who it is, where it runs, and one state (Proposed, Creating, Created, Not created) that the same page updates in place.",
+  "summary": "A coordinator's proposed new fellow, answer first: the ask as the headline, one state badge (Proposed, Creating, Created, Not created) the same page updates in place, then the fellow's details.",
   "intents": [
     "commission a fellow",
     "propose a new fellow",
@@ -25,17 +25,12 @@
     },
     {
       "name": "headline",
-      "says": "H1 for the state: Proposed 'Here's the fellow. Good to go?'; Creating 'Creating <name>'; Created '<name> is ready'; Not created '<name> was not created'",
-      "required": true
-    },
-    {
-      "name": "lede",
-      "says": "one line: what the fellow will do for the person, in their words",
+      "says": "H1, the ask, answer first: Proposed and Creating 'Create <name> (@<handle>) in <department> to <purpose>, on this Mac' (or 'not running yet'); Created '<name> (@<handle>) is ready in <department>'; Not created '<name> was not created'",
       "required": true
     },
     {
       "name": "state",
-      "says": "exactly one of: Proposed, Creating, Created, Not created",
+      "says": "the one current state, shown as a badge: exactly one of Proposed, Creating, Created, Not created. Never a list of past states",
       "required": true
     },
     {
@@ -45,7 +40,7 @@
     },
     {
       "name": "state_line",
-      "says": "Proposed: 'Reply yes go in <room> to create it.'; Creating: 'Making it now.'; Created: a link to the fellow, <a href=\"https://wildreason.ai/agents/<handle>\">Open <name></a>; Not created: why, in one line (you said no, or what failed)",
+      "says": "one line after the badge. Proposed: 'Good to go? Reply yes go in <room>.'; Creating: 'Making it now.'; Created: <a href=\"https://wildreason.ai/agents/<handle>\">Open <name></a>; Not created: the reason in one line (you said no, or what failed)",
       "required": true
     },
     {
@@ -102,7 +97,7 @@
     },
     {
       "id": "one_h1",
-      "says": "one H1, and it says the state in words",
+      "says": "one H1, and it is the ask (or, once answered, the outcome), never a greeting",
       "kind": "count",
       "selector": "h1",
       "min": 1,
@@ -144,17 +139,17 @@
     },
     {
       "id": "flow",
-      "says": "state, then the fellow, then the go",
+      "says": "the ask first, then the fellow, then the go; no field table above the ask",
       "kind": "in_order",
       "texts": [
-        "State",
+        "New fellow",
         "The fellow",
         "Your go"
       ]
     },
     {
       "id": "one_state",
-      "says": "exactly one state block",
+      "says": "exactly one state badge",
       "kind": "count",
       "selector": ".state",
       "min": 1,
@@ -171,6 +166,16 @@
     {
       "id": "state_words",
       "says": "the state is one of Proposed, Creating, Created, Not created, and its dot matches (n, h, p, f); copper means Created and nothing else",
+      "kind": "manual"
+    },
+    {
+      "id": "no_history",
+      "says": "only the current state shows; past states are never listed (a history makes it a timeline)",
+      "kind": "manual"
+    },
+    {
+      "id": "reason",
+      "says": "Not created carries a one-line reason after the badge",
       "kind": "manual"
     },
     {
