@@ -1,0 +1,196 @@
+{
+  "name": "brief/commission",
+  "shape": "brief",
+  "summary": "A coordinator's proposed new fellow, answer first: the ask as the headline, one state badge (Proposed, Creating, Created, Not created) the same page updates in place, then the fellow's details.",
+  "intents": [
+    "commission a fellow",
+    "propose a new fellow",
+    "new agent for approval",
+    "here's the fellow, good to go",
+    "fellow created"
+  ],
+  "not_for": [
+    "a decision between several options",
+    "a status of many pieces of work",
+    "editing an existing fellow"
+  ],
+  "content_types": [
+    "html"
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "says": "page title: 'New fellow: <name>'",
+      "required": true
+    },
+    {
+      "name": "headline",
+      "says": "H1, the ask, answer first: Proposed and Creating 'Create <name> (@<handle>) in <department> to <purpose>, on this Mac' (or 'not running yet'); Created '<name> (@<handle>) is ready in <department>'; Not created '<name> was not created'",
+      "required": true
+    },
+    {
+      "name": "state",
+      "says": "the one current state, shown as a badge: exactly one of Proposed, Creating, Created, Not created. Never a list of past states",
+      "required": true
+    },
+    {
+      "name": "state_dot",
+      "says": "the kit dot for the state: n for Proposed, h for Creating, p for Created, f for Not created",
+      "required": true
+    },
+    {
+      "name": "state_line",
+      "says": "one line after the badge. Proposed: 'Good to go? Reply yes go in <room>.' (only while two proposals are open: 'yes go <name>'); Creating: 'Making it now.'; Created: <a href=\"https://wildreason.ai/agents/<handle>\">Open <name></a>; Not created: the reason in one line (you said no, or what failed)",
+      "required": true
+    },
+    {
+      "name": "name",
+      "says": "the fellow's display name",
+      "required": true
+    },
+    {
+      "name": "handle",
+      "says": "the handle it will have",
+      "required": true
+    },
+    {
+      "name": "department",
+      "says": "the department it joins (one the coordinator is a member of)",
+      "required": true
+    },
+    {
+      "name": "purpose",
+      "says": "what it is for, one or two sentences",
+      "required": true
+    },
+    {
+      "name": "runs_on",
+      "says": "where it runs: 'This Mac' or 'Not running yet' (never the cloud)",
+      "required": true
+    },
+    {
+      "name": "ask",
+      "says": "Proposed: 'yes go' to create it, or no; after: what the person answered and when",
+      "required": true
+    },
+    {
+      "name": "room",
+      "says": "the room the answer is given in, e.g. #office",
+      "required": true
+    },
+    {
+      "name": "proposed_by",
+      "says": "the coordinator's handle",
+      "required": true
+    },
+    {
+      "name": "updated",
+      "says": "when this state was written, UTC, from the clock",
+      "required": true
+    }
+  ],
+  "finish_line": [
+    {
+      "id": "title",
+      "says": "it has a title",
+      "kind": "title"
+    },
+    {
+      "id": "one_h1",
+      "says": "one H1, and it is the ask (or, once answered, the outcome), never a greeting",
+      "kind": "count",
+      "selector": "h1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "filled",
+      "says": "every slot filled",
+      "kind": "no_slots"
+    },
+    {
+      "id": "kit",
+      "says": "links the tunnel kit, so it renders in every viewer",
+      "kind": "source_contains",
+      "texts": [
+        "https://artifacts.wildreason.ai/kit/v1/kit.css",
+        "https://artifacts.wildreason.ai/kit/v1/kit.js"
+      ]
+    },
+    {
+      "id": "self_contained",
+      "says": "no stylesheet or script from another host (the kit is ours)",
+      "kind": "no_external",
+      "texts": [
+        "stylesheet",
+        "script"
+      ]
+    },
+    {
+      "id": "no_emoji",
+      "says": "no emoji",
+      "kind": "no_emoji"
+    },
+    {
+      "id": "length",
+      "says": "250 visible words at most: the person reads it beside the room",
+      "kind": "words",
+      "max": 250
+    },
+    {
+      "id": "flow",
+      "says": "the fellow, then the go (in_order reads headings only; the ask-first H1 is pinned by one_h1)",
+      "kind": "in_order",
+      "texts": [
+        "The fellow",
+        "Your go"
+      ]
+    },
+    {
+      "id": "one_state",
+      "says": "exactly one state badge",
+      "kind": "count",
+      "selector": ".state",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "ask",
+      "says": "an Answer / In / Proposed by block",
+      "kind": "count",
+      "selector": ".ask",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "state_words",
+      "says": "the state is one of Proposed, Creating, Created, Not created, and its dot matches (n, h, p, f); copper means Created and nothing else",
+      "kind": "manual"
+    },
+    {
+      "id": "no_history",
+      "says": "only the current state shows; past states are never listed (a history makes it a timeline)",
+      "kind": "manual"
+    },
+    {
+      "id": "reason",
+      "says": "Not created carries a one-line reason after the badge",
+      "kind": "manual"
+    },
+    {
+      "id": "in_place",
+      "says": "the coordinator edits this artifact through each state; it never seeds a second one for the same fellow",
+      "kind": "manual"
+    },
+    {
+      "id": "fits",
+      "says": "works at 400px wide and in dark mode",
+      "kind": "manual"
+    },
+    {
+      "id": "visibility",
+      "says": "private (the default): the person and the coordinator only",
+      "kind": "manual"
+    }
+  ]
+}
