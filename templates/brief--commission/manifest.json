@@ -139,10 +139,9 @@
     },
     {
       "id": "flow",
-      "says": "the ask first, then the fellow, then the go; no field table above the ask",
+      "says": "the fellow, then the go (in_order reads headings only; the ask-first H1 is pinned by one_h1)",
       "kind": "in_order",
       "texts": [
-        "New fellow",
         "The fellow",
         "Your go"
       ]
