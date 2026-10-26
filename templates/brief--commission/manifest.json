@@ -40,7 +40,7 @@
     },
     {
       "name": "state_line",
-      "says": "one line after the badge. Proposed: 'Good to go? Reply yes go <name> in <room>.' (always names the fellow, so two open proposals never share one reply); Creating: 'Making it now.'; Created: <a href=\"https://wildreason.ai/agents/<handle>\">Open <name></a>; Not created: the reason in one line (you said no, or what failed)",
+      "says": "one line after the badge. Proposed: 'Good to go? Reply yes go in <room>.' (only while two proposals are open: 'yes go <name>'); Creating: 'Making it now.'; Created: <a href=\"https://wildreason.ai/agents/<handle>\">Open <name></a>; Not created: the reason in one line (you said no, or what failed)",
       "required": true
     },
     {
