@@ -14,7 +14,7 @@ what a template cannot say. This holds every skill to that:
   3. INVARIANT -- tunnel-a-base and every guide skill name
      templates({action:"guide" ...}).
   4. INVARIANT -- every guide topic a skill names exists in tunnel-guide/: each
-     topic:"X", each backticked `X/Y` reference whose X is a topic, and each
+     topic:"X" (a placeholder like topic:"<topic>" is skipped), each backticked `X/Y` reference whose X is a topic, and each
      topic in the first column of a guide skill's table.
   5. INVARIANT -- every topic in tunnel-guide/ appears in that table, so a new
      topic cannot ship without the manual pointing at it.
@@ -83,6 +83,8 @@ def main():
 
         # 4. every topic named exists
         for t in TOPIC_ARG.findall(b):
+            if t.startswith("<") and t.endswith(">"):
+                continue                       # a placeholder, e.g. topic:"<topic>"
             if t not in topics:
                 fails.append(f'{rel}: names topic:"{t}", but tunnel-guide/{t}.md does not exist')
         for a, c in REF.findall(b):

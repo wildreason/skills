@@ -54,6 +54,10 @@ echo "case 5: a skill names a topic tunnel does not serve"
 fresh; edit formats/tunnel-a-brief/SKILL.md 't.replace("topic:\"pages\"", "topic:\"page-rules\"")'
 expect 1 'tunnel-a-brief/SKILL.md: names topic:"page-rules"' "an unknown topic:\"...\" fails"
 
+echo "case 5b: a placeholder topic is not a topic"
+fresh; grep -q 'topic:"<topic>"' "$tmp/repo/guide/tunnel-an-artifact/SKILL.md" && expect 0 "^PASS" "topic:\"<topic>\" passes" \
+  || { echo "  FAIL  the manual no longer holds the placeholder this case needs"; fails=$((fails+1)); }
+
 echo "case 6: base names a reference tunnel does not serve"
 fresh; edit formats/tunnel-a-base/SKILL.md 't.replace("`pages/kit-blocks`", "`pages/blocks`")'
 expect 1 "names \`pages/blocks\`, but tunnel-guide/pages/blocks.md does not exist" "an unknown reference fails"
