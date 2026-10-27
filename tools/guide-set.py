@@ -110,9 +110,13 @@ def gate(topics, fails):
 
 
 def go_json(v):
-    """json.Marshal's bytes: compact, and <, >, & escaped as Go escapes them."""
-    s = json.dumps(v, separators=(",", ":"), ensure_ascii=True)
-    return s.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+    """json.Marshal's bytes: compact, non-ASCII as raw UTF-8, and <, >, &,
+    U+2028 and U+2029 escaped as Go escapes them. The gate refuses non-ASCII
+    today; this stays exact if that rule is ever relaxed (fennec, TUNN-100)."""
+    s = json.dumps(v, separators=(",", ":"), ensure_ascii=False)
+    for c, e in (("<", "\\u003c"), (">", "\\u003e"), ("&", "\\u0026"), ("\u2028", "\\u2028"), ("\u2029", "\\u2029")):
+        s = s.replace(c, e)
+    return s
 
 
 def digest(t):
@@ -120,7 +124,7 @@ def digest(t):
     o = {k: t[k] for k in ("id", "level", "title", "body")}
     if t.get("refs"):
         o["refs"] = t["refs"]
-    return hashlib.sha256(go_json(o).encode()).hexdigest()
+    return hashlib.sha256(go_json(o).encode("utf-8")).hexdigest()
 
 
 def main(argv):
