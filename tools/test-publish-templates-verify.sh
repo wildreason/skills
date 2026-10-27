@@ -1,26 +1,41 @@
 #!/usr/bin/env bash
 # test-publish-templates-verify.sh -- TUNN-100-060, the templates leg: the
 # read-only check `tools/publish-templates.sh --verify` passes only when tunnel
-# serves exactly this commit's templates, and fails when the server's copy is
-# behind (an older manifest) or missing one.
+# serves exactly the templates of a merged commit, and fails when the server's
+# copy is behind, missing one, or holds one the commit dropped. It also refuses
+# a source that is not a merged commit: a dirty tree, or a HEAD not on
+# origin/main, even when the server serves exactly those bytes.
 #
-# It runs against a fake tunnel on loopback, never against prod. The fake
-# records every request, so the test also proves --verify sends no bearer and
-# makes no write.
+# It copies this checkout into a throwaway git repo with its own bare origin,
+# and runs against a fake tunnel on loopback -- never prod. The fake records
+# every request, so the test also proves --verify sends no bearer and no write.
 #
 #   tools/test-publish-templates-verify.sh     last line: TEST: PASS|FAIL
 set -uo pipefail
 export PYTHONDONTWRITEBYTECODE=1
-cd "$(dirname "$0")/.."
+here="$(cd "$(dirname "$0")/.." && pwd)"
 
 tmp=$(mktemp -d)
 srv=""
 trap '[ -n "$srv" ] && kill "$srv" 2>/dev/null; rm -rf "$tmp"' EXIT
 fails=0
 check() { if [ "$1" = 0 ]; then echo "  ok    $2"; else echo "  FAIL  $2"; fails=$((fails+1)); fi; }
+yes_if() { if "$@"; then echo 0; else echo 1; fi; }
+no_if()  { if "$@"; then echo 1; else echo 0; fi; }
+g() { git -C "$tmp/repo" -c user.name=test -c user.email=test@invalid -c commit.gpgsign=false "$@"; }
 
-# What the fake serves: this commit's manifests, as tunnel's GET returns them.
-python3 - "$tmp/served" <<'EOF'
+# A throwaway repo whose origin/main is its HEAD: the merged-commit case.
+mkdir "$tmp/repo"
+tar -C "$here" --exclude=.git -cf - . | tar -C "$tmp/repo" -xf -
+git init -q --bare "$tmp/origin.git"
+g init -q -b main && g add -A && g commit -qm base
+g remote add origin "$tmp/origin.git" && g push -q origin main
+
+# What the fake serves: the repo's manifests as they sit now, as tunnel's GET
+# returns them.
+serve_repo() {
+  rm -rf "$tmp/served"
+  (cd "$tmp/repo" && python3 - "$tmp/served" <<'EOF'
 import json, pathlib, sys
 sys.path.insert(0, "tools")
 from importlib import import_module
@@ -30,6 +45,8 @@ for _, m in ct.load_all():
     f = out / (m["name"] + ".json"); f.parent.mkdir(parents=True, exist_ok=True)
     f.write_text(json.dumps({"id": m["name"] + "@1", "version": 1, "manifest": m}))
 EOF
+)
+}
 
 cat > "$tmp/fake.py" <<'EOF'
 import http.server, json, pathlib, sys
@@ -38,22 +55,25 @@ class H(http.server.BaseHTTPRequestHandler):
     def note(self):
         with open(log, "a") as f:
             f.write(json.dumps({"m": self.command, "p": self.path, "auth": "Authorization" in self.headers}) + "\n")
+    def send(self, code, b):
+        self.send_response(code); self.send_header("Content-Type", "application/json"); self.end_headers(); self.wfile.write(b)
     def do_GET(self):
         self.note()
-        name = self.path.removeprefix("/api/templates/")
-        f = served / (name + ".json")
-        if self.path.startswith("/api/templates/") and f.exists():
-            b = f.read_bytes(); self.send_response(200)
-        else:
-            b = b'{"error":"template_not_found"}'; self.send_response(404)
-        self.send_header("Content-Type", "application/json"); self.end_headers(); self.wfile.write(b)
+        if self.path == "/api/templates":
+            ids = [json.loads(f.read_text())["id"] for f in sorted(served.rglob("*.json"))]
+            return self.send(200, json.dumps({"templates": [{"id": i, "sha256": "x", "published_at": "t"} for i in ids]}).encode())
+        f = served / (self.path.removeprefix("/api/templates/") + ".json")
+        if self.path.startswith("/api/templates/") and f.is_file():
+            return self.send(200, f.read_bytes())
+        self.send(404, b'{"error":"template_not_found"}')
     def do_POST(self):
-        self.note(); self.send_response(500); self.end_headers()
+        self.note(); self.send(500, b"{}")
     def log_message(self, *a): pass
 s = http.server.HTTPServer(("127.0.0.1", 0), H)
 pathlib.Path(portfile).write_text(str(s.server_address[1]))
 s.serve_forever()
 EOF
+serve_repo
 : > "$tmp/req.log"
 python3 -I "$tmp/fake.py" "$tmp/served" "$tmp/req.log" "$tmp/port" &
 srv=$!
@@ -61,36 +81,67 @@ for _ in $(seq 50); do [ -s "$tmp/port" ] && break; sleep 0.1; done
 [ -s "$tmp/port" ] || { echo "TEST: FAIL the fake tunnel did not start"; exit 1; }
 base="http://127.0.0.1:$(cat "$tmp/port")"
 
-run() { TUNL_TEMPLATES_URL="$base" TUNL_TEMPLATE_PUBLISH_TOKEN="" TUNL_TEMPLATE_PUBLISH_TOKEN_FILE="" \
-  bash tools/publish-templates.sh --verify > "$tmp/out" 2>&1; echo $?; }
+run() { (cd "$tmp/repo" && TUNL_TEMPLATES_URL="$base" TUNL_TEMPLATE_PUBLISH_TOKEN="" TUNL_TEMPLATE_PUBLISH_TOKEN_FILE="" \
+  bash tools/publish-templates.sh --verify > "$tmp/out" 2>&1); echo $?; }
+says() { grep -q -- "$1" "$tmp/out"; }
 
 victim=$(cd "$tmp/served" && ls *.json | head -1); victim=${victim%.json}
-
-echo "case 1: the server holds this commit's templates"
-rc=$(run); check $([ "$rc" = 0 ] && echo 0 || echo 1) "--verify exits 0 (got $rc)"
-grep -q "^PASS every template" "$tmp/out"; check $? "it prints PASS"
-
-echo "case 2: the server is behind on $victim (an older manifest)"
-python3 - "$tmp/served/$victim.json" <<'EOF'
+src=$(g rev-parse --short=12 HEAD)
+older() {  # rewrite one manifest's description, in the served copy or the repo
+  python3 - "$1" <<'EOF'
 import json, sys
 p = sys.argv[1]; d = json.load(open(p))
-d["manifest"]["description"] = "an older version of this template"
+(d["manifest"] if "manifest" in d else d)["description"] = "an older version of this template"
 json.dump(d, open(p, "w"))
 EOF
-rc=$(run); check $([ "$rc" = 1 ] && echo 0 || echo 1) "--verify exits 1 (got $rc)"
-grep -q "FAIL $victim -- served manifest differs" "$tmp/out"; check $? "it names $victim as differing"
-grep -q "^PASS every template" "$tmp/out"; check $([ $? != 0 ] && echo 0 || echo 1) "it prints no PASS"
+}
+
+echo "case 1: the server holds the merged commit's templates"
+rc=$(run); check $(yes_if [ "$rc" = 0 ]) "--verify exits 0 (got $rc)"
+check $(yes_if says "^PASS every template in templates/ at $src") "it prints PASS naming source $src"
+
+echo "case 2: the server is behind on $victim (an older manifest)"
+older "$tmp/served/$victim.json"
+rc=$(run); check $(yes_if [ "$rc" = 1 ]) "--verify exits 1 (got $rc)"
+check $(yes_if says "FAIL $victim -- served manifest differs") "it names $victim as differing"
+check $(no_if says "^PASS every template") "it prints no PASS"
 
 echo "case 3: the server does not hold $victim"
-rm "$tmp/served/$victim.json"
-rc=$(run); check $([ "$rc" = 1 ] && echo 0 || echo 1) "--verify exits 1 (got $rc)"
-grep -q "FAIL $victim -- not served" "$tmp/out"; check $? "it names $victim as not served"
+serve_repo; rm "$tmp/served/$victim.json"
+rc=$(run); check $(yes_if [ "$rc" = 1 ]) "--verify exits 1 (got $rc)"
+check $(yes_if says "FAIL $victim -- not served") "it names $victim as not served"
+check $(no_if says "^PASS every template") "it prints no PASS"
+
+echo "case 4: the server still holds ghost, a template the commit dropped"
+serve_repo; cp "$tmp/served/$victim.json" "$tmp/served/ghost.json"
+python3 -c 'import json,sys; p=sys.argv[1]; d=json.load(open(p)); d["id"]="ghost@3"; d["manifest"]["name"]="ghost"; json.dump(d,open(p,"w"))' "$tmp/served/ghost.json"
+rc=$(run); check $(yes_if [ "$rc" = 1 ]) "--verify exits 1 (got $rc)"
+check $(yes_if says "FAIL ghost -- served, but not in templates/") "it names ghost as an extra"
+check $(no_if says "^PASS every template") "it prints no PASS"
+
+mf=$(cd "$tmp/repo" && ls templates/*/manifest.json | head -1)
+echo "case 5: a dirty tree ($mf edited, not committed), served exactly"
+older "$tmp/repo/$mf"; serve_repo
+rc=$(run); check $(yes_if [ "$rc" = 1 ]) "--verify exits 1 (got $rc)"
+check $(yes_if says "REFUSING: templates/ or the template tools have uncommitted changes") "it refuses the dirty tree"
+check $(no_if says "^PASS every template") "it prints no PASS"
+
+echo "case 6: HEAD committed but not on origin/main, served exactly"
+g commit -qam "unmerged edit"
+rc=$(run); check $(yes_if [ "$rc" = 1 ]) "--verify exits 1 (got $rc)"
+check $(yes_if says "REFUSING: HEAD .* is not on origin/main") "it refuses the unmerged HEAD"
+check $(no_if says "^PASS every template") "it prints no PASS"
+
+echo "case 7: the same commit once merged, served exactly"
+g push -q origin main
+rc=$(run); check $(yes_if [ "$rc" = 0 ]) "--verify exits 0 (got $rc)"
+check $(yes_if says "^PASS every template in templates/ at $(g rev-parse --short=12 HEAD)") "it prints PASS naming the new source"
 
 echo "every case: read only"
 n=$(grep -c . "$tmp/req.log")
-check $([ "$n" -gt 0 ] && echo 0 || echo 1) "the fake saw the reads ($n requests)"
-grep -q '"m": "POST"' "$tmp/req.log"; check $([ $? != 0 ] && echo 0 || echo 1) "no POST was sent"
-grep -q '"auth": true' "$tmp/req.log"; check $([ $? != 0 ] && echo 0 || echo 1) "no request carried an Authorization header"
+check $(yes_if [ "$n" -gt 0 ]) "the fake saw the reads ($n requests)"
+check $(no_if grep -q '"m": "POST"' "$tmp/req.log") "no POST was sent"
+check $(no_if grep -q '"auth": true' "$tmp/req.log") "no request carried an Authorization header"
 
 if [ "$fails" -ne 0 ]; then echo "TEST: FAIL $fails check(s)"; exit 1; fi
 echo "TEST: PASS"

@@ -58,6 +58,26 @@ if [ -z "$mode" ]; then
   echo "gate only (no --upload or --verify): nothing was sent to $base"
   exit 0
 fi
+# The source must be a commit, not a working tree: what is uploaded or compared
+# is what HEAD holds, and HEAD is on origin/main so anyone can resolve it. Tunnel
+# stores X-Published-By but does not serve it back, so --verify proves "served ==
+# the templates at merged commit <src>", not which commit did the upload.
+paths="templates tools/publish-templates.sh tools/check-templates.py"
+git rev-parse -q --git-dir >/dev/null 2>&1 || { echo "REFUSING: not a git checkout; the source commit cannot be named."; exit 1; }
+dirty=$(git status --porcelain -- $paths)
+if [ -n "$dirty" ]; then
+  echo "REFUSING: templates/ or the template tools have uncommitted changes; no commit describes them:"
+  echo "$dirty" | head -5
+  exit 1
+fi
+git fetch -q origin main || { echo "REFUSING: cannot fetch origin/main to check HEAD is on it."; exit 1; }
+if ! git merge-base --is-ancestor HEAD origin/main; then
+  echo "REFUSING: HEAD $(git rev-parse --short=12 HEAD) is not on origin/main; only a merged commit is a source."
+  exit 1
+fi
+src=$(git rev-parse --short=12 HEAD)
+echo "source   git:wildreason/skills@$src"
+
 umask 077
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
@@ -95,7 +115,7 @@ printf 'Authorization: Bearer %s\n' "$tok" > "$tmp/auth.hdr"
 tok=""
 
 echo "== 2/3 upload -> $base/api/templates =========================="
-by="git:wildreason/skills@$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"
+by="git:wildreason/skills@$src"
 code=$(curl -sS -o "$tmp/out.json" -w '%{http_code}' -X POST "$base/api/templates" \
   -H @"$tmp/auth.hdr" \
   -H "Content-Type: application/json" -H "X-Published-By: $by" \
@@ -144,10 +164,30 @@ EOF
   fi
 done
 
+# An extra: a template tunnel still serves that this commit no longer holds.
+if ! curl -sSf -o "$tmp/list.json" "$base/api/templates"; then
+  echo "   FAIL GET /api/templates did not answer; extras not checked"
+  fail=$((fail+1))
+else
+  extra=$(python3 - "$tmp/list.json" "$tmp" <<'EOF'
+import json, pathlib, re, sys
+want = {json.loads(f.read_text())["name"] for f in pathlib.Path(sys.argv[2]).glob("*.want.json")}
+for t in json.load(open(sys.argv[1])).get("templates", []):
+    name = re.sub(r"@[0-9]+$", "", t.get("id", ""))
+    if name not in want:
+        print(name)
+EOF
+)
+  for name in $extra; do
+    echo "   FAIL $name -- served, but not in templates/ at $src"
+    fail=$((fail+1))
+  done
+fi
+
 if [ "$fail" -ne 0 ]; then
   echo "---"
   echo "$fail template(s) did NOT round-trip. Tunnel does not serve what this repo holds."
   exit 1
 fi
 echo "---"
-echo "PASS every template in templates/ is what $base serves"
+echo "PASS every template in templates/ at $src is what $base serves, and it serves no other"
