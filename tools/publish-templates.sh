@@ -8,6 +8,10 @@
 # templates/<name>/ is manifest.json plus skeleton.html or skeleton.md.
 #
 #   tools/publish-templates.sh            gate only; never uploads
+#   tools/publish-templates.sh --verify   gate, then read the served templates back
+#                                         and compare; no bearer, no write. Exit 1
+#                                         if tunnel serves anything but this
+#                                         commit's templates (e.g. an older one)
 #   tools/publish-templates.sh --upload   gate, upload, read back, verify
 #
 # --upload needs the bearer set on tunnel-prod: TUNL_TEMPLATE_PUBLISH_TOKEN_FILE
@@ -47,14 +51,29 @@ if ! python3 tools/check-kit.py; then
   exit 1
 fi
 
-if [ "${1:-}" != "--upload" ]; then
+mode="${1:-}"
+case "$mode" in ""|--verify|--upload) ;; *) echo "usage: $0 [--verify|--upload]"; exit 2;; esac
+if [ -z "$mode" ]; then
   echo "---"
-  echo "gate only (no --upload): nothing was sent to $base"
+  echo "gate only (no --upload or --verify): nothing was sent to $base"
   exit 0
 fi
 umask 077
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
+python3 - "$tmp/batch.json" <<'EOF'
+import json, pathlib, sys
+sys.path.insert(0, "tools")
+from importlib import import_module
+ct = import_module("check-templates")
+pathlib.Path(sys.argv[1]).write_text(json.dumps([m for _, m in ct.load_all()]))
+for d, m in ct.load_all():
+    pathlib.Path(sys.argv[1]).with_name(d.name + ".want.json").write_text(json.dumps(m))
+EOF
+
+if [ "$mode" = "--verify" ]; then
+  echo "== 2/3 upload: skipped (--verify) ============================"
+else
 tok=""
 if [ -n "${TUNL_TEMPLATE_PUBLISH_TOKEN_FILE:-}" ]; then
   if [ ! -r "$TUNL_TEMPLATE_PUBLISH_TOKEN_FILE" ]; then
@@ -76,15 +95,6 @@ printf 'Authorization: Bearer %s\n' "$tok" > "$tmp/auth.hdr"
 tok=""
 
 echo "== 2/3 upload -> $base/api/templates =========================="
-python3 - "$tmp/batch.json" <<'EOF'
-import json, pathlib, sys
-sys.path.insert(0, "tools")
-from importlib import import_module
-ct = import_module("check-templates")
-pathlib.Path(sys.argv[1]).write_text(json.dumps([m for _, m in ct.load_all()]))
-for d, m in ct.load_all():
-    pathlib.Path(sys.argv[1]).with_name(d.name + ".want.json").write_text(json.dumps(m))
-EOF
 by="git:wildreason/skills@$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"
 code=$(curl -sS -o "$tmp/out.json" -w '%{http_code}' -X POST "$base/api/templates" \
   -H @"$tmp/auth.hdr" \
@@ -100,6 +110,7 @@ import json, sys
 for r in json.load(open(sys.argv[1]))["published"]:
     print(f"   {r['id']:<16} {'NEW VERSION' if r['changed'] else 'unchanged'}")
 EOF
+fi
 
 echo "== 3/3 verify repo == served ================================"
 fail=0
