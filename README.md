@@ -21,10 +21,11 @@ Seven words, picked by the reader's job, not the topic.
 The "Not for" column is the fast reject. A format that tells you when to walk
 away is quicker to choose than one that only sells itself.
 
-`tunnel-a-base` is the entry point and the shared kit: the copper palette, the
-fonts, the page rules (finding titles, answer first, Setup, one accent, a source
-and a takeaway under every figure) and the chart blocks. Every format inherits
-it and declares only its shape.
+`tunnel-a-base` is the entry point: it picks the shape from the reader's job and
+points at what tunnel serves. Every skill is a pointer (TUNN-100-070): the page
+rules, the blocks and the kit are `templates({action:"guide", topic:"pages"})`,
+the skeleton and finish line are `templates({action:"get", id})`, and a format
+skill adds only what its template cannot say.
 
 `guide/tunnel-an-artifact` is the operating manual — sharing, access, versioning,
 closing, media. It is **not** a format and is deliberately outside `formats/`, so
@@ -111,15 +112,16 @@ the templates but never uploads them. Uploading is a write to prod.
 
 ## Gates
 
-All four run on the repo and label every rule as **INVARIANT** or **PROXY**,
+All five run on the repo and label every rule as **INVARIANT** or **PROXY**,
 because an unlabelled green gets read a year later as proof of something it
 never checked.
 
 ```
-tools/check-tokens.sh    no colour outside the token block; no skill shadows a base token name
+tools/check-tokens.sh    no colour outside kit/v1/kit.css; no skill shadows a kit token name
 tools/check-names.py     no dangling names; exactly seven formats; the guide stays out of the pick lane
 tools/check-templates.py  each template parses as tunnel would parse it (PROXY: tunnel re-checks on upload)
-tools/check-kit.py       tunnel-a-base's CSS block is kit/v1/kit.css; neither can break its inlined tag
+tools/check-kit.py       neither kit file can break its inlined tag; --served compares tunnel's bytes
+tools/check-pointers.py  every skill is a pointer: short, names its tunnel call, names real guide topics
 ```
 
 **Scope limit, and it is structural.** These read *this repo*. The set of skills
@@ -129,7 +131,7 @@ run means "none of ours collide" — never "no collisions exist".
 ## The kit
 
 ```
-kit/v1/kit.css   the copper look; also the fenced block at the end of tunnel-a-base
+kit/v1/kit.css   the copper look, and the token set the colour gates allow
 kit/v1/kit.js    chart helpers and page blocks (data-vt="bars|waterfall|...")
 ```
 
@@ -138,8 +140,8 @@ Tunnel embeds these two files, serves them at
 HTML body, so a page renders where outside stylesheets are blocked. Every
 template links the kit by those exact URLs. **v1 never changes once published**;
 a new look is `kit/v2/`, and tunnel's copy changes in the same release.
-`tools/check-kit.py` holds the base block equal to `kit/v1/kit.css`;
-`--served` also compares tunnel's served bytes (a read-only GET).
+`tools/check-kit.py --served` compares tunnel's served bytes with these (a
+read-only GET).
 
 ## Layout
 
@@ -151,11 +153,11 @@ kit/         the kit tunnel serves and inlines (kit.css, kit.js), one dir per ve
 tools/       the gates and the publish scripts
 ```
 
-**Every skill is exactly one `SKILL.md`.** There are no companion files: the
-kit's CSS lives as a fenced block inside `tunnel-a-base`. That is deliberate --
-openlap's skill store cannot accept companion files (`OLP-430`), so a skill that
-needs one could never be distributed. `kit/` is not a skill; it is what tunnel
-serves.
+**Every skill is exactly one `SKILL.md`.** There are no companion files, because
+openlap's skill store cannot accept them (`OLP-430`). The kit used to travel as a
+fenced block inside `tunnel-a-base` for that reason; since tunnel serves and
+inlines it, no skill carries it (TUNN-100-070). `kit/` is not a skill; it is
+what tunnel serves.
 
 `install.sh` also removes the retired formats (`sheet`, `doc`, `report`, `log`,
 `deck`, `essay`, `folio`) where it finds them, so the old words leave the

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # check-tokens.sh -- ART-073 gate.
 #
-# Every colour literal in a format skill must come from formats/tunnel-a-base/tokens.css.
+# Every colour literal in a format skill must come from kit/v1/kit.css.
 # Green is banned as a UI signal by base; a survivor must be declared, not tolerated.
 #
 # RULE KINDS -- read this before trusting a green run:
@@ -24,18 +24,18 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
-TOKENS="formats/tunnel-a-base/SKILL.md"
+TOKENS="kit/v1/kit.css"
 EXEMPT="tools/token-exemptions.txt"
 [ -f "$TOKENS" ] || { echo "FATAL: $TOKENS missing -- cannot compute the allowlist"; exit 2; }
-# OLP-430: companions cannot reach the skill store, so tokens.css was ELIMINATED
-# rather than synchronised. The fenced block inside tunnel-a-base/SKILL.md IS the
-# token set, and is therefore also the allowlist the gate verifies against.
+# TUNN-100-070: the kit is the token set. Tunnel serves it at /kit/v1/ and inlines
+# it into every HTML body, so no skill carries a copy any more (OLP-430 put one in
+# tunnel-a-base; that copy is gone). kit/v1/kit.css is the allowlist.
 
 allow=$(grep -ohE '#[0-9a-fA-F]{3,8}' "$TOKENS" | tr 'A-F' 'a-f' | sort -u)
 
 fail=0
 total=0
-for f in $(find formats guide -name SKILL.md -o -name '*.html' -o -name '*.css' | grep -v "$TOKENS" | sort); do
+for f in $(find formats guide -name SKILL.md -o -name '*.html' -o -name '*.css' | sort); do
   hits=""
   while read -r hex; do
     [ -z "$hex" ] && continue
