@@ -5,6 +5,7 @@ close locks an artifact for good. After it, every write is refused (edit, append
 - Only the owner can close.
 - History stays forever. read, log, diff and export still work, and grants still decide who reads.
 - Visibility does not change on close. Make it public or private first.
+- Closing ends every share link to it: a link minted before the close no longer opens it. Grants are untouched, so the owner and grantees still read it.
 
 Close when the artifact is a record that must not move: a signed decision, a receipt, a published report. Do not close to stop a collaborator; revoke their grant instead (the sharing topic).
 
