@@ -2,7 +2,7 @@ title: The workspace bridge for large files
 ---
 The bridge moves a file to tunnel without its bytes passing through your context. The server reads the file from disk on its own side.
 
-1. Make or reuse a synced workspace: workspace_init with a name.
+1. Make or reuse a synced workspace: workspace_init with a name. A first workspace needs the deployer to run sky workspace init. If you have no sky tools, ask the user to set the workspace up; do not fall back to base64 for a large file.
 2. Copy the file into that workspace on your machine.
 3. Sync it: workspace_sync.
 4. Call ingest with workspace, path (relative to the workspace) and usually optimize "web". To replace an existing artifact's bytes, call promote with uri, workspace and path.

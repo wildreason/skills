@@ -3,7 +3,8 @@ title: Which write call to use
 An artifact has one URL for life. Every change after the first lands as a new version at that same URL.
 
 Create:
-- seed makes a text, markdown, HTML or SVG artifact. Pass the body as markdown. Pass visibility every time.
+- seed makes a text, markdown, HTML or SVG artifact. Pass the body as markdown, or as HTML when you fill a template (the pages topic). Pass visibility every time.
+- Never seed again to change an artifact: a new seed is a new URL, and every link and grant stays on the old one. Change it with the calls below.
 - promote and ingest make an artifact from a file or from base64 bytes, and are the route for images (see the media topic).
 
 Change, smallest first:

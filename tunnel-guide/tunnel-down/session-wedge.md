@@ -9,7 +9,7 @@ Tell the two apart:
 - Server down: /version or /health fail from more than one place, or every session fails the same way. Then tell the user it is an outage. Do not retry in a loop.
 
 After one reconnect:
-- It works: carry on. Say nothing unless the user was waiting.
+- It works: call set_identity again before you write. A reconnect is a new session and loses the binding, so writes are refused with identity_lapsed until you do; reads still work. Then carry on, and say nothing unless the user was waiting.
 - It still fails: stop and tell the user what failed, that you reconnected once, and ask how to go on.
 
 A private stand-in elsewhere is acceptable only after the reconnect has failed and the user has agreed to it, and it must be named as a stand-in, not passed off as the artifact.
