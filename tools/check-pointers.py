@@ -26,7 +26,7 @@ import pathlib
 import re
 import sys
 
-MAX_WORDS = 300
+MAX_WORDS = 3000
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 GUIDE = ROOT / "tunnel-guide"
