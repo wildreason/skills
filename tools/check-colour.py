@@ -59,7 +59,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-TOKENS = ROOT / "formats/tunnel-a-base/SKILL.md"
+TOKENS = ROOT / "kit/v1/kit.css"  # the kit is the token set (TUNN-100-070)
 EXEMPT = ROOT / "tools/token-exemptions.txt"
 
 # Colour words this family has shipped wrongly. Open list -> rules 2 and 3 are PROXIES.
@@ -102,7 +102,7 @@ def files():
 
 def main():
     if not TOKENS.exists():
-        print("FATAL: tunnel-a-base/SKILL.md missing -- cannot compute the token set")
+        print("FATAL: kit/v1/kit.css missing -- cannot compute the token set")
         return 2
 
     token_triples = set()

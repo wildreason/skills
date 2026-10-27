@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """ART-073 shadow rule. Called by check-tokens.sh; not meant to be run alone.
 
-A format skill may INLINE tunnel-a-base/tokens.css verbatim -- base instructs
-authors to do exactly that. What it may not do is redefine a base token NAME to
-a DIFFERENT value, because the artifact then silently disagrees with the family
+A format skill may INLINE kit/v1/kit.css declarations verbatim. What it may
+not do is redefine a base token NAME to a DIFFERENT value, because the artifact then silently disagrees with the family
 under names that look official.
 
 Rule: a `--name:value` declaration is allowed iff that exact pair appears in
-tokens.css (any of its light / dark / data-theme blocks). Otherwise it is a shadow.
+kit/v1/kit.css (any of its light / dark / data-theme blocks). Otherwise it is a shadow.
 
 INVARIANT, scoped to this repo. Says nothing about skills installed from elsewhere.
 """
@@ -18,9 +17,9 @@ import sys
 DECL = re.compile(r'--([a-z0-9-]+)\s*:\s*([^;}\n]+)')
 
 root = pathlib.Path(__file__).resolve().parent.parent
-tokens = root / "formats/tunnel-a-base/SKILL.md"   # the token block lives inside it
+tokens = root / "kit/v1/kit.css"   # the kit is the token set (TUNN-100-070)
 if not tokens.exists():
-    print("FATAL: tunnel-a-base/SKILL.md missing -- cannot compute base names")
+    print("FATAL: kit/v1/kit.css missing -- cannot compute base names")
     sys.exit(2)
 
 base_pairs, base_names = set(), set()
