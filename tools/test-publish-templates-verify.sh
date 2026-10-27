@@ -19,7 +19,7 @@ tmp=$(mktemp -d)
 srv=""
 trap '[ -n "$srv" ] && kill "$srv" 2>/dev/null; rm -rf "$tmp"' EXIT
 fails=0
-check() { if [ "$1" = 0 ]; then echo "  ok    $2"; else echo "  FAIL  $2"; fails=$((fails+1)); fi; }
+check() { if [ "$1" = 0 ]; then echo "  ok    $2"; else echo "  FAIL  $2"; fails=$((fails+1)); [ -s "$tmp/out" ] && sed "s/^/        | /" "$tmp/out" | tail -6; fi; }
 yes_if() { if "$@"; then echo 0; else echo 1; fi; }
 no_if()  { if "$@"; then echo 1; else echo 0; fi; }
 g() { git -C "$tmp/repo" -c user.name=test -c user.email=test@invalid -c commit.gpgsign=false "$@"; }
@@ -93,7 +93,7 @@ older() {  # rewrite one manifest's description, in the served copy or the repo
   python3 - "$1" <<'EOF'
 import json, sys
 p = sys.argv[1]; d = json.load(open(p))
-(d["manifest"] if "manifest" in d else d)["description"] = "an older version of this template"
+(d["manifest"] if "manifest" in d else d)["summary"] = "An older version of this template."
 json.dump(d, open(p, "w"))
 EOF
 }
