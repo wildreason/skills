@@ -26,7 +26,9 @@ g() { git -C "$tmp/repo" -c user.name=test -c user.email=test@invalid -c commit.
 
 # A throwaway repo whose origin/main is its HEAD: the merged-commit case.
 mkdir "$tmp/repo"
-tar -C "$here" --exclude=.git -cf - . | tar -C "$tmp/repo" -xf -
+# --no-same-owner: the copy belongs to whoever runs the test (root on a bench),
+# so git needs no safe.directory exception and the script runs git as-is.
+tar -C "$here" --exclude=.git -cf - . | tar -C "$tmp/repo" --no-same-owner -xf -
 git init -q --bare "$tmp/origin.git"
 g init -q -b main && g add -A && g commit -qm base
 g remote add origin "$tmp/origin.git" && g push -q origin main
