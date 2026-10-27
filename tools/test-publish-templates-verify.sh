@@ -27,7 +27,8 @@ from importlib import import_module
 ct = import_module("check-templates")
 out = pathlib.Path(sys.argv[1]); out.mkdir()
 for _, m in ct.load_all():
-    (out / (m["name"] + ".json")).write_text(json.dumps({"id": m["name"] + "@1", "version": 1, "manifest": m}))
+    f = out / (m["name"] + ".json"); f.parent.mkdir(parents=True, exist_ok=True)
+    f.write_text(json.dumps({"id": m["name"] + "@1", "version": 1, "manifest": m}))
 EOF
 
 cat > "$tmp/fake.py" <<'EOF'
@@ -63,7 +64,7 @@ base="http://127.0.0.1:$(cat "$tmp/port")"
 run() { TUNL_TEMPLATES_URL="$base" TUNL_TEMPLATE_PUBLISH_TOKEN="" TUNL_TEMPLATE_PUBLISH_TOKEN_FILE="" \
   bash tools/publish-templates.sh --verify > "$tmp/out" 2>&1; echo $?; }
 
-victim=$(ls "$tmp/served" | head -1); victim=${victim%.json}
+victim=$(cd "$tmp/served" && ls *.json | head -1); victim=${victim%.json}
 
 echo "case 1: the server holds this commit's templates"
 rc=$(run); check $([ "$rc" = 0 ] && echo 0 || echo 1) "--verify exits 0 (got $rc)"
@@ -78,7 +79,7 @@ json.dump(d, open(p, "w"))
 EOF
 rc=$(run); check $([ "$rc" = 1 ] && echo 0 || echo 1) "--verify exits 1 (got $rc)"
 grep -q "FAIL $victim -- served manifest differs" "$tmp/out"; check $? "it names $victim as differing"
-grep -q "^PASS" "$tmp/out"; check $([ $? != 0 ] && echo 0 || echo 1) "it prints no PASS"
+grep -q "^PASS every template" "$tmp/out"; check $([ $? != 0 ] && echo 0 || echo 1) "it prints no PASS"
 
 echo "case 3: the server does not hold $victim"
 rm "$tmp/served/$victim.json"
