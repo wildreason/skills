@@ -30,6 +30,13 @@ it and declares only its shape.
 closing, media. It is **not** a format and is deliberately outside `formats/`, so
 it never competes when you are choosing how a document should look.
 
+`tunnel-guide/` is the same manual as tunnel serves it to any agent with no skill
+installed: eight topics (at most 400 words each) and the references they name (at
+most 1,500), read with `templates({action:"guide"})`. It is not a skill and is
+outside `guide/` on purpose, because `install.sh` copies every `guide/*/` folder.
+`tools/publish-guide.sh` gates it; `--upload` publishes it with the template bearer
+and `--verify` checks, topic by topic, that tunnel serves what this repo holds.
+
 ## The vocabulary is capped
 
 **Seven formats. That is the number.** `tools/check-names.py` fails the build if
