@@ -2,7 +2,12 @@ title: How to draw a frame
 ---
 A freeform template gives you a job and a finish line, not a skeleton. The layout is yours. This is how to draw it so it does not come out like every other page.
 
-The bar is a storyboard where every frame carries its own picture. The kit v2 storyboard (three ways to show a replay on a status page) is that bar. Its "The screen" frames are inline SVG mockups of the actual screen. One frame is a live animation. One is a working prototype in a few lines of JS. One is a chart of that option's own numbers. No two frames are the same block with different words in it.
+The bar is barath's storyboard "how a PR gets into main". Every frame carries its own picture: a PR with a clock on it, the stack of cars against main, the receipt, checker and MET-CI chain, the red car that holds the culprit, the VERSION bump. No two frames are the same block with different words in it, and yet they read as one page.
+
+A worked example with kit v2 is the storyboard fixture "three ways to show a replay": inline SVG mockups of the actual screen, one live animation, a working prototype in a few lines of JS, and a chart of that option's own numbers.
+
+One drawn vocabulary per page
+What makes the bar work is that its pictures share a few marks. Pick three or four and use them in every frame: in the bar, solid dark is a green car, light orange is the culprit, and dashed is still testing. Explain them once, in a short "how to read the pictures" key near the top. Then each frame's picture can differ while the page still reads as one system. Without that rule, "every frame its own picture" turns into clip art.
 
 What a frame is
 A frame is one thing the reader should see, with a title that says what it shows and one or two lines under it. On a board it is an article.frame inside a lane. On a story it is a step. In a rendition it is a figure in a chapter, and in numbers it is a chart with its finding. The shape tells you what the page is for. It does not tell you how many frames there are or what goes in them.
@@ -15,7 +20,7 @@ For each frame, ask what the reader would see if this were real, then draw that:
 - A number that matters: a kit chart (bars, line, variance, waterfall) of that frame's own data, with a unit, a source line and a takeaway.
 - A sequence: numbered steps you draw yourself, not three identical cards.
 - A quote or a voice: the words, who said them and when.
-If two frames would get the same picture, merge them or find what really differs.
+Draw with the page's own nouns (car 3, main, MET-CI), never placeholders like Item A or Step 1. If two frames would get the same picture, merge them or find what really differs.
 
 What to keep from the kit
 Link kit v2 with its two exact tags, and nothing else from another host:
@@ -31,6 +36,6 @@ The page rules still hold
 - No emoji, no stock blocks, no external fonts, images or scripts.
 
 Check it
-Run templates check on the uri. The mechanical tests are the floor: a title, one H1, the kit, nothing external, no emoji. The manual tests are the bar, and a person reads them: every frame or figure carries its own picture, not a stock block; it works at 400px and in dark mode.
+Run templates check on the uri. The mechanical tests are the floor: a title, one H1, the kit, nothing external, no emoji. The manual tests are the bar, and a person reads them: every frame or figure carries its own picture, not a stock block, drawn in the page's one vocabulary; it works at 400px and in dark mode.
 
 Before you call it done, look at the page and ask: if I swapped this page's words onto another page of the same shape, would anyone notice? If not, the frames are not drawn yet.
