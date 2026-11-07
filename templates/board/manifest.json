@@ -20,43 +20,7 @@
   "content_types": [
     "html"
   ],
-  "slots": [
-    {
-      "name": "title",
-      "says": "page title",
-      "required": true
-    },
-    {
-      "name": "variant",
-      "says": "options, path map, storyboard or affinity map",
-      "required": true
-    },
-    {
-      "name": "headline",
-      "says": "H1: the question the wall answers, as a finding",
-      "required": true
-    },
-    {
-      "name": "lede",
-      "says": "one line on how to read the wall",
-      "required": true
-    },
-    {
-      "name": "clusters",
-      "says": "clusters as a JSON array; inside JSON, write </ as <\\/: [{\"name\":\"\",\"items\":[{\"id\":\"a1\",\"title\":\"\",\"body\":\"one line\",\"votes\":3,\"fav\":true,\"drop\":false}]}]; at most 4 clusters",
-      "required": true
-    },
-    {
-      "name": "links",
-      "says": "paths as a JSON array; inside JSON, write </ as <\\/ of [fromId,toId] pairs, or []",
-      "required": true
-    },
-    {
-      "name": "favourite_path",
-      "says": "one takeaway naming the favourite path",
-      "required": true
-    }
-  ],
+  "slots": [],
   "finish_line": [
     {
       "id": "title",
@@ -72,18 +36,9 @@
       "max": 1
     },
     {
-      "id": "filled",
-      "says": "every slot filled",
-      "kind": "no_slots"
-    },
-    {
       "id": "kit",
-      "says": "links the tunnel kit, so it renders in every viewer",
-      "kind": "source_contains",
-      "texts": [
-        "https://artifacts.wildreason.ai/kit/v1/kit.css",
-        "https://artifacts.wildreason.ai/kit/v1/kit.js"
-      ]
+      "says": "links a kit tunnel holds (kit v2: kit.css and kit.js), so it renders in every viewer",
+      "kind": "kit"
     },
     {
       "id": "self_contained",
@@ -100,12 +55,14 @@
       "kind": "no_emoji"
     },
     {
-      "id": "wall",
-      "says": "the board block is there",
-      "kind": "count",
-      "selector": "[data-vt=board]",
-      "min": 1,
-      "max": 1
+      "id": "own_picture",
+      "says": "every frame or figure carries its own picture, not a stock block (pages/draw-a-frame)",
+      "kind": "manual"
+    },
+    {
+      "id": "takeaways",
+      "says": "a takeaway under every figure",
+      "kind": "manual"
     },
     {
       "id": "no_decision",

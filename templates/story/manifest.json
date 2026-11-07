@@ -25,93 +25,7 @@
   "content_types": [
     "html"
   ],
-  "slots": [
-    {
-      "name": "title",
-      "says": "page title",
-      "required": true
-    },
-    {
-      "name": "one_liner",
-      "says": "H1: a visceral one-liner",
-      "required": true
-    },
-    {
-      "name": "scene",
-      "says": "the scene in two sentences, with named characters",
-      "required": true
-    },
-    {
-      "name": "setup",
-      "says": "every character, thing and number as <dt>Name</dt><dd>what it is</dd>",
-      "required": true
-    },
-    {
-      "name": "time_1",
-      "says": "timestamp of step 1",
-      "required": true
-    },
-    {
-      "name": "step_1",
-      "says": "what happens first",
-      "required": true
-    },
-    {
-      "name": "time_2",
-      "says": "timestamp of step 2",
-      "required": true
-    },
-    {
-      "name": "step_2",
-      "says": "what happens next",
-      "required": true
-    },
-    {
-      "name": "time_3",
-      "says": "timestamp of the consequence",
-      "required": true
-    },
-    {
-      "name": "consequence",
-      "says": "the consequence; put the punch in <b>",
-      "required": true
-    },
-    {
-      "name": "evidence_finding",
-      "says": "the evidence as a finding",
-      "required": true
-    },
-    {
-      "name": "chart_kind",
-      "says": "bars, waterfall, variance or line",
-      "required": true
-    },
-    {
-      "name": "chart",
-      "says": "chart data as JSON: bars {\"data\":[{\"label\",\"value\",\"hi\"}],\"unit\"}; waterfall {\"data\":[{\"label\",\"value\",\"total\"}],\"costs\"}; variance {\"data\":[{\"label\",\"actual\",\"plan\"}],\"costs\"}; line {\"labels\":[],\"series\":[{\"name\",\"values\",\"hi\",\"dashed\"}],\"threshold\":{\"value\",\"label\"}}",
-      "required": true
-    },
-    {
-      "name": "evidence_source",
-      "says": "source, or say it is illustrative",
-      "required": true
-    },
-    {
-      "name": "evidence_takeaway",
-      "says": "one line",
-      "required": true
-    },
-    {
-      "name": "ladder",
-      "says": "5 rising steps: <li class=\"rung\"><span class=\"n\">1</span><b>step</b><p>what happens</p><em>what it costs</em></li>",
-      "required": true
-    },
-    {
-      "name": "claims",
-      "says": "rows: <tr><td>claim</td><td><span class=\"dot p|h|f|n\"></span> status</td><td>evidence</td></tr>",
-      "required": true
-    }
-  ],
+  "slots": [],
   "finish_line": [
     {
       "id": "title",
@@ -127,18 +41,9 @@
       "max": 1
     },
     {
-      "id": "filled",
-      "says": "every slot filled",
-      "kind": "no_slots"
-    },
-    {
       "id": "kit",
-      "says": "links the tunnel kit, so it renders in every viewer",
-      "kind": "source_contains",
-      "texts": [
-        "https://artifacts.wildreason.ai/kit/v1/kit.css",
-        "https://artifacts.wildreason.ai/kit/v1/kit.js"
-      ]
+      "says": "links a kit tunnel holds (kit v2: kit.css and kit.js), so it renders in every viewer",
+      "kind": "kit"
     },
     {
       "id": "self_contained",
@@ -155,37 +60,20 @@
       "kind": "no_emoji"
     },
     {
+      "id": "own_picture",
+      "says": "every frame or figure carries its own picture, not a stock block (pages/draw-a-frame)",
+      "kind": "manual"
+    },
+    {
+      "id": "takeaways",
+      "says": "a takeaway under every figure",
+      "kind": "manual"
+    },
+    {
       "id": "length",
       "says": "1500 visible words at most",
       "kind": "words",
       "max": 1500
-    },
-    {
-      "id": "flow",
-      "says": "setup, catch, ladder, what we know, in that order",
-      "kind": "in_order",
-      "texts": [
-        "Setup",
-        "The catch",
-        "How far the fall goes",
-        "What we know so far"
-      ]
-    },
-    {
-      "id": "three_steps",
-      "says": "three story steps",
-      "kind": "count",
-      "selector": "li.step",
-      "min": 3,
-      "max": 3
-    },
-    {
-      "id": "ladder",
-      "says": "a five-step ladder",
-      "kind": "count",
-      "selector": "li.rung",
-      "min": 5,
-      "max": 5
     },
     {
       "id": "setup_complete",

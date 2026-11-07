@@ -69,12 +69,8 @@
     },
     {
       "id": "kit",
-      "says": "links the tunnel kit, so it renders in every viewer",
-      "kind": "source_contains",
-      "texts": [
-        "https://artifacts.wildreason.ai/kit/v1/kit.css",
-        "https://artifacts.wildreason.ai/kit/v1/kit.js"
-      ]
+      "says": "links a kit tunnel holds (kit v2: kit.css and kit.js), so it renders in every viewer",
+      "kind": "kit"
     },
     {
       "id": "self_contained",
