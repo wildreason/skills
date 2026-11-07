@@ -1,9 +1,9 @@
 title: Type, colour, charts and numbers
 ---
-Type: Bricolage Grotesque for display text and big numbers, IBM Plex Sans for body, IBM Plex Mono for labels, data, eyebrows and sources. The kit loads them; add no other font.
+Type: the kit sets system fonts and loads no web font: the system sans for display text, big numbers and body, the system monospace for labels, data, eyebrows and sources. For a serif heading use Fraunces from tunnel (pages/draw-a-frame); add no other font.
 
 Colour:
-- One accent, var(--cu) (copper), marks the one bar, line, number or card that carries the message, and the unfavourable variance. If everything is highlighted, nothing is.
+- One accent, var(--cu) (blue by default; a page may set its own), marks the one bar, line, number or card that carries the message, and the unfavourable variance. If everything is highlighted, nothing is.
 - var(--org) is the secondary: in progress, plan, forecast.
 - No red and green pairs. Never rely on colour alone; add a sign or a word.
 - Use only the kit's colour tokens. The template check refuses colours outside them.
@@ -22,6 +22,6 @@ Numbers:
 - Give a variance as both amount and percent.
 - Mark estimates, simulations and illustrative numbers next to the number. Never round a partial result up.
 
-Status dots: .dot.p proven, .dot.h partial, .dot.f failing, .dot.n not yet. Always show the legend for them.
+Status is a word, never a dot: .dot draws nothing in kit v2. Write On track, At risk, Blocked or Not started, so it never rests on colour alone.
 
 Before publishing: the shape fits the reader's job, the headings alone tell the story, Setup defines everything used later, there is one accent, every figure has a unit, a source and a takeaway, and the page reads at 400px wide and in dark mode.

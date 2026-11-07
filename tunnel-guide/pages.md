@@ -11,8 +11,8 @@ Pick the shape from what the reader will do with the page, not from its topic:
 - rendition: read a fuller account, chapter by chapter.
 
 Then:
-1. templates find with your intent gives the best three; templates get gives one template's skeleton, slots and finish line.
-2. Fill the slots with the reader's own material and keep the structure. Seed it as HTML with template set to its id.
+1. templates find with your intent gives the best three; templates get gives one template's finish line, and its skeleton and slots when it has them.
+2. A skeleton (brief, notes) is a starting point: fill it with the reader's own material and change the structure where the material needs it. A freeform template has no skeleton: draw the page (pages/draw-a-frame). Seed it as HTML with template set to its id.
 3. Run templates check on the uri before you call it done.
 
 The page rules, one line each:
