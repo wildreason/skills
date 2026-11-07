@@ -1,5 +1,5 @@
 title: Making a page someone will read
-refs: pages/kit-blocks, pages/charts-and-numbers
+refs: pages/kit-blocks, pages/charts-and-numbers, pages/draw-a-frame
 ---
 Pick the shape from what the reader will do with the page, not from its topic:
 - notes: capture many small things and find the important ones again.
@@ -26,3 +26,5 @@ The page rules, one line each:
 - It reads at 400px wide and in dark mode.
 
 Keep the two kit tags the template links, and add no other stylesheet, script or font; the check refuses anything external. The blocks the kit draws are in pages/kit-blocks; type, colour and chart rules are in pages/charts-and-numbers.
+
+When the template is freeform (no skeleton), read pages/draw-a-frame before you draw: every frame carries its own picture.

@@ -29,7 +29,7 @@ TEST_FIELDS = {"id", "says", "kind", "selector", "text", "texts", "level", "min"
 KINDS = {"title": True, "count": True, "heading": True, "in_order": True,
          "no_slots": True, "no_external": True, "no_emoji": True, "words": True,
          "max_bytes": True, "banned_words": True, "source_contains": True,
-         "table_totals": True, "manual": False}
+         "table_totals": True, "kit": True, "manual": False}
 MAX_SKELETON = 3 * 1024
 NAME_RE = re.compile(r"^[a-z0-9-]+(/[a-z0-9-]+)?$")
 SLOT_RE = re.compile(r"\{\{([A-Za-z0-9_.-]+)\}\}")
@@ -70,8 +70,9 @@ def problems(m):
         if ct not in ("html", "markdown"):
             bad(f"content_types: html or markdown, not {ct!r}")
     sk = m.get("skeleton", "")
-    if not sk.strip():
-        bad("skeleton is required")
+    # A freeform template carries no skeleton and no slots (tunnel's Validate).
+    if not sk.strip() and m.get("slots"):
+        bad("skeleton is required when there are slots; a freeform template carries neither")
     if len(sk.encode()) > MAX_SKELETON:
         bad(f"skeleton is {len(sk.encode())} bytes; the limit is {MAX_SKELETON}")
     if len(LEFT_RE.findall(sk)) != len(SLOT_RE.findall(sk)):
@@ -122,6 +123,8 @@ def problems(m):
             bad(f"test {tid!r}: no_external names stylesheet and/or script")
         if kind == "max_bytes" and (mx is None or mx < 1):
             bad(f"test {tid!r}: max_bytes needs max")
+        if kind == "kit" and (texts or t.get("selector") or mn is not None or mx is not None):
+            bad(f"test {tid!r}: kit takes no arguments: it passes on any version tunnel holds")
         if kind in ("banned_words", "source_contains") and not texts:
             bad(f"test {tid!r}: {kind} needs texts")
         if mn is not None and mx is not None and mn > mx:
