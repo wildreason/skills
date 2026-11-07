@@ -33,6 +33,7 @@ The page rules still hold
 - One accent colour, on the one thing that carries the message.
 - Every figure has a takeaway, and its source line marks sample or estimated numbers.
 - It reads at 400px wide and in dark mode. Frames stack on a phone.
+- When the page owns its scroll (a scroll story, a full-window canvas), put `<meta name="tunnel-frame" content="viewport">` in its head: the frame becomes the window's height instead of the page's. Size the scroller as `max(600px,100dvh)` so it still reads where the frame sets the height.
 - No emoji, no stock blocks, no external fonts, images or scripts.
 
 Check it
