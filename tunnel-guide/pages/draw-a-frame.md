@@ -28,13 +28,22 @@ Link kit v2 with its two exact tags, and nothing else from another host:
 <script src="https://artifacts.wildreason.ai/kit/v2/kit.js"></script>
 The kit gives you type, colour tokens, dark mode, the charts, the canvas (main.canvas, section.lane, div.frames, article.frame, .frame.wide), and review marks that hold through pan and zoom. Your own style and script tags go in the page, using the kit's tokens (var(--ink), var(--mute), var(--sand), var(--cu) for the one accent, var(--bg)) so dark mode follows. A page's own :root token wins over the kit, so you can retune the accent.
 
+A serif from tunnel
+The kit sets no web font. If the page wants a serif for its headings, use Fraunces from tunnel, never a font from another host. The reader loads only inline styles, so put this in the page's own style tag (a linked stylesheet never arrives there):
+<style>
+@font-face{font-family:'Fraunces';font-style:normal;font-display:swap;font-weight:100 900;src:url(https://artifacts.wildreason.ai/kit/fonts/fraunces-latin-opsz.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Fraunces';font-style:normal;font-display:swap;font-weight:100 900;src:url(https://artifacts.wildreason.ai/kit/fonts/fraunces-latin-ext-opsz.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{--serif:'Fraunces',Georgia,serif}
+</style>
+Then set font-family:var(--serif) with font-weight 500 or 700. It covers Latin and Latin Extended.
+
 The page rules still hold
 - The H1 states the finding. Each frame title says what that frame shows.
 - One accent colour, on the one thing that carries the message.
 - Every figure has a takeaway, and its source line marks sample or estimated numbers.
 - It reads at 400px wide and in dark mode. Frames stack on a phone.
 - When the page owns its scroll (a scroll story, a full-window canvas), put `<meta name="tunnel-frame" content="viewport">` in its head: the frame becomes the window's height instead of the page's. Size the scroller as `max(600px,100dvh)` so it still reads where the frame sets the height.
-- No emoji, no stock blocks, no external fonts, images or scripts.
+- No emoji, no stock blocks, no images or scripts from another host, and no font but the kit's own and Fraunces from tunnel.
 
 Check it
 Run templates check on the uri. The mechanical tests are the floor: a title, one H1, the kit, nothing external, no emoji. The manual tests are the bar, and a person reads them: every frame or figure carries its own picture, not a stock block, drawn in the page's one vocabulary; it works at 400px and in dark mode.
