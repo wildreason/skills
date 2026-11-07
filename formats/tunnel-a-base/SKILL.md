@@ -1,6 +1,6 @@
 ---
 name: tunnel-a-base
-description: THE ENTRY POINT for tunnel artifact pages, and the shared kit every tunnel-a-<format> inherits -- kit v2 (system type, one blue accent), the page rules (finding titles, answer first, Setup, one accent, a takeaway and a source under every figure) and the chart blocks. Start here when the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one the reader's job earns (tunnel-a-notes / -brief / -timeline / -board / -numbers / -story / -rendition). It answers WHICH shape; the format skill you land on answers how to fill it. Also read it to author a new format.
+description: THE ENTRY POINT for tunnel artifact pages, and the shared kit every tunnel-a-<format> inherits -- kit v2 (system type, one accent, blue by default), the page rules (finding titles, answer first, Setup, one accent, a takeaway and a source under every figure) and the chart blocks. Start here when the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one the reader's job earns (tunnel-a-notes / -brief / -timeline / -board / -numbers / -story / -rendition). It answers WHICH shape; the format skill you land on answers how to fill it. Also read it to author a new format.
 user-invocable: false
 ---
 

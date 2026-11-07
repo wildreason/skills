@@ -3,7 +3,7 @@ title: Type, colour, charts and numbers
 Type: the kit sets system fonts and loads no web font: the system sans for display text, big numbers and body, the system monospace for labels, data, eyebrows and sources. For a serif heading use Fraunces from tunnel (pages/draw-a-frame); add no other font.
 
 Colour:
-- One accent, var(--cu) (blue), marks the one bar, line, number or card that carries the message, and the unfavourable variance. If everything is highlighted, nothing is.
+- One accent, var(--cu) (blue by default; a page may set its own), marks the one bar, line, number or card that carries the message, and the unfavourable variance. If everything is highlighted, nothing is.
 - var(--org) is the secondary: in progress, plan, forecast.
 - No red and green pairs. Never rely on colour alone; add a sign or a word.
 - Use only the kit's colour tokens. The template check refuses colours outside them.
