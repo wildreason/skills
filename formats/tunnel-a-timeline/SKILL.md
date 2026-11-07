@@ -8,9 +8,10 @@ description: The status format for tunnel artifacts -- what happens when and wha
 **Job:** show what happens when, and what is stuck.
 
 Tunnel serves the template: `templates({action:"get", id:"timeline"})` returns the
-skeleton, what goes in each slot and the finish line. Seed it as HTML with
-`template` set to that id, then run `templates({action:"check", uri})` before
-you call it done. The page rules are `templates({action:"guide", topic:"pages"})`.
+finish line and no skeleton: draw it; meet the finish line. Read the page rules
+first, `templates({action:"guide", topic:"pages"})`, then seed it as HTML with
+`template` set to that id and run `templates({action:"check", uri})` before you
+call it done.
 
 What the template cannot say:
 
