@@ -1,6 +1,6 @@
 ---
 name: tunnel-a-base
-description: THE ENTRY POINT for tunnel artifact pages, and the shared kit every tunnel-a-<format> inherits -- the copper palette, the three fonts, the page rules (finding titles, answer first, Setup, one accent, a takeaway and a source under every figure) and the chart blocks. Start here when the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one the reader's job earns (tunnel-a-notes / -brief / -timeline / -board / -numbers / -story / -rendition). It answers WHICH shape; the format skill you land on answers how to fill it. Also read it to author a new format.
+description: THE ENTRY POINT for tunnel artifact pages, and the shared kit every tunnel-a-<format> inherits -- kit v2 (system type, one blue accent), the page rules (finding titles, answer first, Setup, one accent, a takeaway and a source under every figure) and the chart blocks. Start here when the SHAPE is not yet decided: this skill names the seven shapes and routes you to the one the reader's job earns (tunnel-a-notes / -brief / -timeline / -board / -numbers / -story / -rendition). It answers WHICH shape; the format skill you land on answers how to fill it. Also read it to author a new format.
 user-invocable: false
 ---
 
@@ -29,8 +29,10 @@ checking figures, looking something up, being persuaded, or reading it all.
 1. `templates({action:"guide", topic:"pages"})`: the page rules. Its references
    `pages/kit-blocks` and `pages/charts-and-numbers` hold the blocks and the
    type, colour and chart rules.
-2. `templates({action:"get", id:"<shape>"})`: the skeleton, its slots and the
-   finish line. The shape's own skill adds only what a template cannot say.
+2. `templates({action:"get", id:"<shape>"})`: the finish line. Brief and notes
+   add a skeleton, a starting point rather than the rule; the other five are
+   freeform, so read `pages/draw-a-frame` and draw. The shape's own skill adds
+   only what a template cannot say.
 3. Seed it as HTML with `template` set to that id, then
    `templates({action:"check", uri})` before you call it done.
 
