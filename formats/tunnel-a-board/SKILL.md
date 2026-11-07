@@ -8,9 +8,10 @@ description: The options format for tunnel artifacts -- every option on one wall
 **Job:** put every option on one wall so they can be compared before choosing.
 
 Tunnel serves the template: `templates({action:"get", id:"board"})` returns the
-skeleton, what goes in each slot and the finish line. Seed it as HTML with
-`template` set to that id, then run `templates({action:"check", uri})` before
-you call it done. The page rules are `templates({action:"guide", topic:"pages"})`.
+finish line and no skeleton: draw it; meet the finish line. Read the page rules
+first, `templates({action:"guide", topic:"pages"})`, then seed it as HTML with
+`template` set to that id and run `templates({action:"check", uri})` before you
+call it done.
 
 What the template cannot say:
 
