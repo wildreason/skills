@@ -37,3 +37,10 @@ Four rules hold before you read anything:
 | `close` | before you freeze an artifact for good |
 | `tunnel-down` | when a tunnel call fails to connect or sign in |
 | `pages` | before you make a page someone will read (or start at tunnel-a-base) |
+| `pages/preview-origin` | when an html page goes with a live preview of yours that needs the microphone |
+
+A live preview beside an html page: pass `preview_origin` (one https origin,
+e.g. `https://host:port`) to `seed` or `write`. It is stored in the body as
+`<meta name="tunnel-preview">`, so revert restores it. The reader frames that one
+origin beside the page with the microphone. The artifact's own script never gets
+the microphone. Details: `templates({action:"guide", topic:"pages/preview-origin"})`.
