@@ -1,0 +1,149 @@
+{
+  "name": "story/explainer",
+  "shape": "story",
+  "summary": "One idea made to land as a narrated motion explainer: kit shapes on one stage, moved beat by beat by kit verbs, with the browser voice reading each beat and a caption under it.",
+  "intents": [
+    "narrated explainer",
+    "motion explainer",
+    "animated explainer",
+    "motion graphic",
+    "product motion piece",
+    "explain it with moving shapes"
+  ],
+  "not_for": [
+    "a written explainer with no motion (use story)",
+    "real 3D (the kit is 2D)",
+    "a video file"
+  ],
+  "content_types": [
+    "html"
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "says": "page title, the idea in a few words",
+      "required": true
+    },
+    {
+      "name": "headline",
+      "says": "H1, the one idea stated as a finding",
+      "required": true
+    },
+    {
+      "name": "dek",
+      "says": "one or two sentences: what the explainer shows, and that you press Play",
+      "required": true
+    },
+    {
+      "name": "engine",
+      "says": "the kit-engine script, copied verbatim from the reference artifact the tunnel-a-story skill names; never edited",
+      "required": true
+    },
+    {
+      "name": "parts",
+      "says": "var lines that make every part with kit shapes (S.path, S.label, S.dimension, S.group ...), each with k:'<name>' so a review mark can sit on it",
+      "required": true
+    },
+    {
+      "name": "beats",
+      "says": "one {say:'...', do:function(t){...}} per beat: one spoken sentence, and kit verbs only (show, hide, draw, up, move, color, pulse, morph, rise)",
+      "required": true
+    },
+    {
+      "name": "takeaway",
+      "says": "the one line the reader should keep, under the player",
+      "required": true
+    }
+  ],
+  "finish_line": [
+    {
+      "id": "title",
+      "says": "it has a title",
+      "kind": "title"
+    },
+    {
+      "id": "one_h1",
+      "says": "one H1, and it states the finding",
+      "kind": "count",
+      "selector": "h1",
+      "min": 1,
+      "max": 1
+    },
+    {
+      "id": "kit",
+      "says": "links a kit tunnel holds (kit v2: kit.css and kit.js), so it renders in every viewer",
+      "kind": "kit"
+    },
+    {
+      "id": "self_contained",
+      "says": "no stylesheet or script from another host (the kit is ours)",
+      "kind": "no_external",
+      "texts": [
+        "stylesheet",
+        "script"
+      ]
+    },
+    {
+      "id": "no_slots",
+      "says": "every slot filled, the engine pasted in",
+      "kind": "no_slots"
+    },
+    {
+      "id": "engine_and_beats",
+      "says": "carries the kit engine and a separate beats script",
+      "kind": "source_contains",
+      "texts": [
+        "id=\"kit-engine\"",
+        "id=\"kit-beats\"",
+        "window.Kit=",
+        "Kit.player("
+      ]
+    },
+    {
+      "id": "no_emoji",
+      "says": "no emoji",
+      "kind": "no_emoji"
+    },
+    {
+      "id": "length",
+      "says": "600 visible words at most: the beats carry the story",
+      "kind": "words",
+      "max": 600
+    },
+    {
+      "id": "engine_verbatim",
+      "says": "the kit-engine script is the pinned reference, unedited",
+      "kind": "manual"
+    },
+    {
+      "id": "verbs_only",
+      "says": "the beats call only kit shapes and verbs: no timers, requestAnimationFrame or animate() of their own",
+      "kind": "manual"
+    },
+    {
+      "id": "named_parts",
+      "says": "every part has a k name, one word per thing, the same name throughout",
+      "kind": "manual"
+    },
+    {
+      "id": "solid_lines",
+      "says": "no dashed strokes on parts: dashed means a region in review",
+      "kind": "manual"
+    },
+    {
+      "id": "spoken",
+      "says": "every say is one sentence the voice can read: numbers and units written as spoken",
+      "kind": "manual"
+    },
+    {
+      "id": "fits",
+      "says": "works at 400px wide, in dark mode, and with reduced motion (end states only)",
+      "kind": "manual"
+    },
+    {
+      "id": "played",
+      "says": "says whether it has been played in Safari in the app; an unplayed explainer says so",
+      "kind": "manual"
+    }
+  ]
+}

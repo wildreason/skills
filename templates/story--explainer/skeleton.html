@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{title}}</title>
+<link rel="stylesheet" href="https://artifacts.wildreason.ai/kit/v2/kit.css">
+<script src="https://artifacts.wildreason.ai/kit/v2/kit.js"></script>
+<style>
+svg.k-stage{display:block;width:100%;height:auto}.k-hide{opacity:0}
+.k-pop{transform-box:fill-box;transform-origin:50% 100%}
+#caption{min-height:56px;padding:12px 18px;font-size:19px}
+#caption .w.on{text-decoration:underline}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 0}
+.dots{display:flex;gap:6px}
+</style></head><body><main class="wrap">
+<h1>{{headline}}</h1>
+<p>{{dek}}</p>
+<div id="player">
+<svg id="stage" class="k-stage" viewBox="0 0 1600 900" role="img" aria-label="{{title}}"></svg>
+<div id="caption" aria-live="polite"></div>
+<div class="bar">
+<button id="play" type="button">Play</button>
+<button id="prev" type="button" aria-label="Previous beat">&larr;</button>
+<div class="dots" id="dots"></div>
+<button id="next" type="button" aria-label="Next beat">&rarr;</button>
+<label><input type="checkbox" id="mute"> mute</label>
+<label>voice <select id="voice"></select></label>
+<label>speed <select id="rate"><option>0.9</option><option selected>1</option><option>1.1</option></select></label>
+</div>
+</div>
+<p>{{takeaway}}</p>
+</main>
+<script id="kit-engine">
+{{engine}}
+</script>
+<script id="kit-beats">
+(function(){
+var svg=document.getElementById('stage'),S=Kit.shapes(svg),D=S.D;
+{{parts}}
+var BEATS=[
+{{beats}}
+];
+Kit.player({beats:BEATS,engine:Kit.timeline(svg),onenv:function(){},onlog:function(){}});
+})();
+</script>
+</body></html>
